@@ -1,0 +1,2854 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Anatomy — Blood Dept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600&family=Noto+Naskh+Arabic:wght@400;600&family=Tajawal:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ── Reset & base ─────────────────────────────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0}
+html{overflow-x:hidden}
+body{font-family:'Segoe UI',system-ui,sans-serif;line-height:1.5;
+     background:var(--bg);color:var(--text);transition:background .2s,color .2s;
+     overflow-x:hidden;max-width:100vw;
+     --main-fs:15px;--content-width:880px;
+     --arabic-font:'Amiri','Noto Naskh Arabic',Georgia,serif;
+     --exp-color:rgba(230,237,243,.88);
+}
+
+/* ── Font size steps (applied to main content only) ────────────────────── */
+body[data-fs="s"] {--main-fs:13px}
+body[data-fs="l"] {--main-fs:17px}
+body[data-fs="xl"]{--main-fs:19px}
+
+/* ── Theme: dark (default) ─────────────────────────────────────────────── */
+body,.theme-dark{
+  --bg:#0d1117;--surface:#161b22;--card:#1c2128;--border:#30363d;
+  --accent:#e94560;--correct:#3fb950;--wrong:#f85149;--text:#e6edf3;
+  --muted:#8b949e;--nav-h:54px;--filter-h:44px;--progress-bg:#21262d;
+  --star-active:#f0e040;--badge-bg:rgba(233,69,96,.13);--badge-border:rgba(233,69,96,.3);
+  --got-it:#3fb950;--missed:#f85149;--shadow:rgba(0,0,0,.4);
+  --written-bg:rgba(99,179,237,.07);--written-border:#4a9eca;
+  --written-accent:#63b3ed;--written-label:#90cdf4;
+}
+
+/* ── Theme: light ──────────────────────────────────────────────────────── */
+body.theme-light{
+  --bg:#f6f8fa;--surface:#ffffff;--card:#ffffff;--border:#d0d7de;
+  --accent:#0969da;--correct:#1a7f37;--wrong:#cf222e;--text:#1f2328;
+  --muted:#656d76;--progress-bg:#eaeef2;--badge-bg:rgba(9,105,218,.1);
+  --badge-border:rgba(9,105,218,.3);--got-it:#1a7f37;--missed:#cf222e;
+  --shadow:rgba(0,0,0,.1);
+  --written-bg:rgba(9,105,218,.06);--written-border:#0969da;
+  --written-accent:#0550ae;--written-label:#0969da;
+}
+
+/* ── Theme: sepia ──────────────────────────────────────────────────────── */
+body.theme-sepia{
+  --bg:#f4ecd8;--surface:#fdf6e3;--card:#fdf6e3;--border:#d4c5a0;
+  --accent:#a0522d;--correct:#3a7a3a;--wrong:#b22222;--text:#433422;
+  --muted:#8a7060;--progress-bg:#e8ddc0;--badge-bg:rgba(160,82,45,.1);
+  --badge-border:rgba(160,82,45,.3);--got-it:#3a7a3a;--missed:#b22222;
+  --shadow:rgba(100,60,20,.15);
+  --written-bg:rgba(100,60,200,.06);--written-border:#7050a0;
+  --written-accent:#5a3a8a;--written-label:#6a4a9a;
+}
+
+/* ── Theme: high-contrast ──────────────────────────────────────────────── */
+body.theme-hc{
+  --bg:#000000;--surface:#000000;--card:#000000;--border:#ffffff;
+  --accent:#ffff00;--correct:#00ff00;--wrong:#ff4444;--text:#ffffff;
+  --muted:#cccccc;--progress-bg:#333;--badge-bg:rgba(255,255,0,.15);
+  --badge-border:rgba(255,255,0,.6);--got-it:#00ff00;--missed:#ff4444;
+  --shadow:none;font-size:17px;
+  --written-bg:rgba(100,180,255,.08);--written-border:#60b0ff;
+  --written-accent:#80c8ff;--written-label:#60b0ff;
+}
+
+/* ── Fixed header wrapper ──────────────────────────────────────────────── */
+#fixed-header{position:fixed;top:0;left:0;right:0;z-index:200}
+
+/* ── Nav ───────────────────────────────────────────────────────────────── */
+#top-nav{
+  min-height:var(--nav-h);
+  background:rgba(13,17,23,.93);
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
+  border-bottom:1px solid rgba(48,54,61,.6);
+  box-shadow:0 2px 24px rgba(0,0,0,.45);
+  display:flex;flex-wrap:wrap;align-items:center;padding:7px 18px;gap:8px;
+}
+body.theme-light #top-nav{
+  background:rgba(246,248,250,.96);border-bottom-color:rgba(208,215,222,.9);
+  box-shadow:0 2px 14px rgba(0,0,0,.08);
+}
+body.theme-sepia  #top-nav{background:rgba(244,236,216,.96);border-bottom-color:rgba(212,197,160,.8)}
+body.theme-hc #top-nav{background:#000;border-bottom:2px solid #fff;box-shadow:none}
+
+.nav-title{
+  font-weight:700;color:var(--accent);flex-shrink:0;font-size:.9rem;
+  letter-spacing:-.01em;padding-right:12px;
+  border-right:1px solid rgba(255,255,255,.1);margin-right:2px;
+}
+body.theme-light .nav-title{border-right-color:rgba(0,0,0,.12)}
+body.theme-sepia  .nav-title{border-right-color:rgba(0,0,0,.15)}
+body.theme-hc .nav-title{border-right-color:#fff}
+
+.nav-sections{
+  display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;
+  white-space:nowrap;padding:2px 0;min-width:0;scrollbar-width:none;
+}
+.nav-sections::-webkit-scrollbar{display:none}
+
+.nav-btn{
+  padding:4px 11px;border-radius:20px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);
+  color:var(--muted);font-size:.73rem;cursor:pointer;flex-shrink:0;
+  transition:all .18s;text-decoration:none;
+  display:inline-flex;align-items:center;gap:5px;white-space:nowrap;
+}
+.nav-btn:hover{background:rgba(233,69,96,.13);border-color:rgba(233,69,96,.4);color:var(--accent)}
+body.theme-light .nav-btn{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.09)}
+body.theme-light .nav-btn:hover{background:rgba(9,105,218,.09);border-color:rgba(9,105,218,.35);color:var(--accent)}
+body.theme-sepia  .nav-btn{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.1)}
+body.theme-hc .nav-btn{background:transparent;border-color:#555;color:#ccc}
+body.theme-hc .nav-btn:hover{border-color:#ffff00;color:#ffff00}
+
+.nav-btn .sec-prog{
+  font-size:.62rem;background:rgba(233,69,96,.18);
+  color:var(--accent);padding:1px 5px;border-radius:10px;font-weight:600;
+}
+
+.nav-controls{display:flex;align-items:center;gap:5px;flex-shrink:0;margin-left:auto}
+
+/* ── Mode button group ─────────────────────────────────────────────────── */
+.mode-btns{
+  display:flex;gap:2px;background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:3px;flex-shrink:0;
+}
+body.theme-light .mode-btns{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.1)}
+body.theme-sepia  .mode-btns{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.12)}
+body.theme-hc .mode-btns{border-color:#fff;background:transparent}
+
+.mode-btn{
+  padding:5px 11px;border:none;border-radius:7px;
+  background:transparent;color:var(--muted);
+  font-size:.75rem;cursor:pointer;transition:all .18s;white-space:nowrap;
+}
+.mode-btn:hover:not(.active){background:rgba(255,255,255,.08);color:var(--text)}
+.mode-btn.active{
+  background:var(--accent);color:#fff;font-weight:600;
+  box-shadow:0 2px 10px rgba(233,69,96,.5);
+}
+body.theme-light .mode-btn:hover:not(.active){background:rgba(0,0,0,.06)}
+body.theme-light .mode-btn.active{box-shadow:0 2px 8px rgba(9,105,218,.3)}
+body.theme-hc .mode-btn.active{box-shadow:none;outline:1px solid #ffff00}
+
+/* ── Nav icon buttons (stats / print / reset) ──────────────────────────── */
+.nav-icon-btn{
+  padding:5px 10px;border-radius:8px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);
+  color:var(--muted);font-size:.76rem;cursor:pointer;
+  transition:all .18s;white-space:nowrap;flex-shrink:0;
+}
+.nav-icon-btn:hover{background:rgba(233,69,96,.1);border-color:rgba(233,69,96,.3);color:var(--accent)}
+body.theme-light .nav-icon-btn{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.08);color:var(--muted)}
+body.theme-light .nav-icon-btn:hover{background:rgba(9,105,218,.08);border-color:rgba(9,105,218,.3);color:var(--accent)}
+body.theme-sepia  .nav-icon-btn{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.1);color:var(--muted)}
+body.theme-hc .nav-icon-btn{background:transparent;border-color:#aaa;color:#ccc}
+#reset-btn.nav-icon-btn{color:var(--wrong);border-color:rgba(248,81,73,.3)}
+#reset-btn.nav-icon-btn:hover{background:rgba(248,81,73,.12);border-color:var(--wrong);color:var(--wrong)}
+
+/* ── Theme selector ────────────────────────────────────────────────────── */
+.theme-select{
+  padding:5px 8px;border-radius:8px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);
+  color:var(--muted);font-size:.76rem;cursor:pointer;transition:all .18s;
+}
+.theme-select:hover{border-color:rgba(233,69,96,.3);color:var(--text)}
+body.theme-light .theme-select{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.08);color:var(--text)}
+body.theme-sepia  .theme-select{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.1);color:var(--text)}
+body.theme-hc .theme-select{background:#000;border-color:#fff;color:#fff}
+
+/* ── Stats panel ───────────────────────────────────────────────────────── */
+#stats-panel{
+  background:rgba(13,17,23,.96);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(48,54,61,.5);padding:12px 18px;display:none;
+}
+#stats-panel.open{display:block}
+body.theme-light #stats-panel{background:rgba(246,248,250,.98);border-bottom-color:rgba(208,215,222,.7)}
+body.theme-sepia  #stats-panel{background:rgba(244,236,216,.98);border-bottom-color:rgba(212,197,160,.6)}
+body.theme-hc #stats-panel{background:#000;border-bottom:1px solid #fff}
+.stats-grid{display:flex;gap:24px;flex-wrap:wrap;font-size:.85rem}
+.stat-item{display:flex;flex-direction:column;align-items:center}
+.stat-val{font-size:1.35rem;font-weight:700;color:var(--accent)}
+.stat-label{color:var(--muted);font-size:.7rem;margin-top:2px}
+
+/* ── Filter bar ────────────────────────────────────────────────────────── */
+#filter-bar{
+  background:rgba(10,14,20,.9);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(48,54,61,.4);
+  display:flex;gap:6px;padding:8px 18px;overflow-x:auto;white-space:nowrap;
+  scrollbar-width:none;
+}
+#filter-bar::-webkit-scrollbar{display:none}
+body.theme-light #filter-bar{background:rgba(240,244,248,.93);border-bottom-color:rgba(208,215,222,.6)}
+body.theme-sepia  #filter-bar{background:rgba(238,228,206,.93);border-bottom-color:rgba(212,197,160,.5)}
+body.theme-hc #filter-bar{background:#000;border-bottom:1px solid #fff}
+
+.filter-btn{
+  padding:5px 14px;border-radius:20px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);
+  color:var(--muted);font-size:.76rem;cursor:pointer;flex-shrink:0;
+  transition:all .18s;white-space:nowrap;
+}
+.filter-btn:hover:not(.active){
+  background:rgba(233,69,96,.08);border-color:rgba(233,69,96,.3);color:var(--text);
+}
+.filter-btn.active{
+  background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600;
+  box-shadow:0 2px 10px rgba(233,69,96,.4);
+}
+body.theme-light .filter-btn{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.08);color:var(--muted)}
+body.theme-light .filter-btn:hover:not(.active){background:rgba(9,105,218,.07);border-color:rgba(9,105,218,.25)}
+body.theme-light .filter-btn.active{box-shadow:0 2px 10px rgba(9,105,218,.25)}
+body.theme-sepia  .filter-btn{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.1);color:var(--muted)}
+body.theme-hc .filter-btn{background:transparent;border-color:#555;color:#ccc}
+body.theme-hc .filter-btn.active{background:#ffff00;color:#000;border-color:#ffff00;box-shadow:none}
+
+/* ── Main layout ───────────────────────────────────────────────────────── */
+main{max-width:var(--content-width,880px);margin:0 auto;padding:120px 16px 80px;
+     font-size:var(--main-fs,15px)}
+/* ^^ top padding + scroll-margin set precisely by JS updateMainPadding() */
+.exam-section{scroll-margin-top:120px;margin-bottom:48px}
+.section-title{font-size:1.05rem;font-weight:700;color:var(--accent);
+  border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:14px;
+  display:flex;align-items:center;gap:10px}
+.q-count{font-weight:400;font-size:.82rem;color:var(--muted)}
+.section-progress-bar{flex:1;height:6px;border-radius:3px;
+  background:var(--progress-bg);overflow:hidden;max-width:120px}
+.section-progress-fill{height:100%;background:var(--correct);
+  border-radius:3px;transition:width .3s}
+
+/* ── Question card — article flow (no boxes, typography-driven) ─────────── */
+.qcard{
+  background:transparent;border:none;border-radius:0;
+  border-bottom:1px solid rgba(48,54,61,.28);
+  padding:30px 0 26px;margin-bottom:0;
+  transition:opacity .2s;
+}
+body.theme-light .qcard{border-bottom-color:rgba(208,215,222,.45)}
+body.theme-sepia  .qcard{border-bottom-color:rgba(212,197,160,.5)}
+body.theme-hc .qcard{border-bottom:1px solid #444}
+.qcard:last-child{border-bottom:none}
+.qcard.filtered-out{display:none}
+/* Starred: left accent stripe */
+.qcard.starred-card{padding-left:14px;border-left:3px solid var(--star-active)}
+
+.qcard-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{
+  font-size:.62rem;color:var(--accent);font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;flex-shrink:0;
+  opacity:.75;
+}
+.qcard-badges{display:flex;gap:5px;flex:1;flex-wrap:wrap}
+.topic-badge,.type-badge,.img-needed-badge{padding:2px 8px;border-radius:12px;
+  font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.topic-badge{background:var(--badge-bg);border:1px solid var(--badge-border);color:var(--accent)}
+.type-badge{background:rgba(100,100,200,.1);border:1px solid rgba(100,100,200,.25);color:#9898e8}
+.img-needed-badge{background:rgba(240,180,40,.1);border:1px solid rgba(240,180,40,.25);
+  color:#c09000;cursor:help}
+.star-btn{background:none;border:none;cursor:pointer;font-size:1.05rem;
+  color:var(--muted);padding:2px 4px;line-height:1;flex-shrink:0;
+  transition:color .15s,transform .15s}
+.star-btn:hover{color:var(--star-active);transform:scale(1.2)}
+.star-btn.starred{color:var(--star-active)}
+.q-image{margin:12px 0;border-radius:6px;overflow:hidden;border:1px solid var(--border)}
+.q-image img{max-width:100%;display:block}
+/* Question text — large, readable, the anchor of each item */
+.q-text{
+  font-size:1.05em;line-height:1.75;margin-bottom:14px;direction:ltr;
+  color:var(--text);font-weight:400;
+}
+
+/* ── Options — clean, minimal ────────────────────────────────────────────── */
+.opts{list-style:none;margin-bottom:4px}
+.opt{
+  padding:7px 12px;margin:3px 0;border-radius:6px;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
+  font-size:.92em;cursor:pointer;transition:all .15s;direction:ltr;
+  color:var(--text);
+}
+body.theme-light .opt{background:rgba(0,0,0,.025);border-color:rgba(0,0,0,.06)}
+body.theme-sepia  .opt{background:rgba(0,0,0,.03);border-color:rgba(0,0,0,.08)}
+body.theme-hc .opt{background:transparent;border-color:#333}
+body.mode-test .opt:not(.answered-opt):hover{
+  border-color:var(--accent);background:rgba(233,69,96,.07)}
+.opt.opt-correct{
+  background:rgba(63,185,80,.1);border-color:rgba(63,185,80,.3);
+  color:var(--correct);font-weight:600}
+.opt.opt-wrong{
+  background:rgba(248,81,73,.1);border-color:rgba(248,81,73,.3);color:var(--wrong)}
+body.mode-study .opt.is-correct{
+  background:rgba(63,185,80,.09);border-color:rgba(63,185,80,.28);color:var(--correct)}
+
+/* ── Answer block — flows as natural continuation of question ──────────── */
+.answer-block{margin-top:18px;padding-top:14px;border-top:1px solid rgba(48,54,61,.2);
+  display:none}
+body.theme-light .answer-block{border-top-color:rgba(208,215,222,.4)}
+.answer-block.visible{display:block}
+
+/* Answer reveal — just a label, no pill/chip */
+.answer-reveal{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.85rem;font-weight:700;
+  color:var(--correct);margin-bottom:14px;
+  padding:0;background:none;border:none;letter-spacing:.02em;
+}
+
+/* Section label above explanation */
+.exp-label{
+  font-size:.6rem;color:var(--accent);letter-spacing:.12em;
+  text-transform:uppercase;margin-bottom:8px;opacity:.65;
+}
+
+/* Explanation — Amiri, full-width prose, no left border */
+.explanation-ar{
+  font-family:var(--arabic-font);
+  line-height:2.25;font-size:1.05em;
+  color:var(--exp-color);
+  direction:rtl;padding:0;border:none;
+  text-align:justify;text-align-last:right;
+}
+body.theme-light .explanation-ar{--exp-color:rgba(31,35,40,.86)}
+body.theme-sepia  .explanation-ar{--exp-color:rgba(67,52,34,.85)}
+body.theme-hc .explanation-ar{--exp-color:#fff}
+.explanation-ar p{margin-bottom:.65em}
+.explanation-ar p:last-child{margin-bottom:0}
+
+/* ── Show buttons ────────────────────────────────────────────────────────── */
+.show-exp-btn,.show-answer-btn{
+  display:none;margin-top:12px;padding:6px 16px;
+  border-radius:6px;background:transparent;
+  border:1px solid rgba(255,255,255,.12);
+  color:var(--muted);cursor:pointer;font-size:.84rem;transition:all .16s;
+}
+.show-exp-btn:hover,.show-answer-btn:hover{border-color:var(--accent);color:var(--accent)}
+body.theme-light .show-exp-btn,body.theme-light .show-answer-btn{border-color:rgba(0,0,0,.15)}
+/* Show Explanation only after the question has been answered */
+body.mode-test .qcard[data-answered] .show-exp-btn{display:inline-block}
+body.mode-test .show-answer-btn{display:inline-block}
+
+/* ── Self-assess (written) ───────────────────────────────────────────────── */
+.self-assess{margin-top:14px;display:flex;gap:8px}
+.got-it-btn{padding:5px 14px;border-radius:6px;background:transparent;
+  border:1px solid rgba(63,185,80,.4);color:var(--got-it);cursor:pointer;font-size:.82rem;
+  transition:background .15s}
+.missed-btn{padding:5px 14px;border-radius:6px;background:transparent;
+  border:1px solid rgba(248,81,73,.4);color:var(--missed);cursor:pointer;font-size:.82rem;
+  transition:background .15s}
+.got-it-btn:hover{background:rgba(63,185,80,.12)}
+.missed-btn:hover{background:rgba(248,81,73,.12)}
+
+/* ── Matching table ─────────────────────────────────────────────────────── */
+.matching-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.9rem}
+.matching-table td{padding:6px 10px;vertical-align:middle}
+.match-left{color:var(--text);width:55%}
+.match-right{width:45%}
+.match-select{width:100%;padding:5px 8px;border-radius:6px;
+  background:var(--surface);border:1px solid var(--border);color:var(--text);
+  font-size:.88rem;cursor:pointer}
+.match-row.match-correct .match-left{color:var(--correct)}
+.match-row.match-wrong   .match-left{color:var(--wrong)}
+.check-match-btn{padding:7px 15px;border-radius:6px;background:var(--surface);
+  border:1px solid var(--border);color:var(--text);cursor:pointer;font-size:.86rem}
+.check-match-btn:hover{border-color:var(--accent)}
+
+/* (reset-btn styling now in .nav-icon-btn + #reset-btn.nav-icon-btn override) */
+
+/* ── Responsive / Mobile ────────────────────────────────────────────────── */
+@media(max-width:600px){
+  /* Nav: single scrollable row — no wrapping, no page overflow */
+  #top-nav{
+    flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;
+    padding:5px 10px;gap:4px;scrollbar-width:none;min-height:var(--nav-h)}
+  #top-nav::-webkit-scrollbar{display:none}
+  .nav-title{font-size:.78rem;white-space:nowrap;flex-shrink:0}
+  .nav-sections{flex-shrink:1;min-width:0}
+  .nav-controls{flex-shrink:0;gap:4px}
+  .mode-btn{padding:4px 7px;font-size:.69rem;white-space:nowrap}
+  .nav-btn{font-size:.7rem;padding:3px 7px}
+  .nav-icon-btn{padding:4px 8px;font-size:.72rem}
+
+  /* Content */
+  .qcard{padding:22px 0 18px}
+  main{padding:12px 14px 40px}
+  .stats-grid{gap:12px}
+  .settings-row{gap:14px}
+  .setting-block{min-width:110px}
+}
+
+/* ── Written answer block — English LTR, clean readable font ─────────────── */
+.written-answer{
+  margin-bottom:0;padding:0;background:none;border:none;border-radius:0;
+  direction:ltr;
+}
+.w-part{
+  display:flex;gap:10px;align-items:baseline;margin-bottom:.85em;
+  direction:ltr;  /* numbers always on the LEFT */
+}
+.w-part:last-child{margin-bottom:0}
+.w-label{
+  font-family:'Segoe UI',system-ui,sans-serif;
+  font-size:1em;font-weight:700;color:var(--written-label);
+  flex-shrink:0;min-width:24px;
+}
+.w-text{
+  font-family:'Segoe UI',system-ui,sans-serif;
+  font-size:1.06em;line-height:1.8;
+  color:var(--text);font-weight:400;
+  text-align:left;
+}
+.w-text strong{color:var(--written-label);font-weight:700}
+/* Intro line — same readability as numbered items, just slightly smaller */
+.w-intro .w-text{font-size:.97em}
+
+/* ── Rich explanation formatting ────────────────────────────────────────── */
+.exp-h{
+  font-family:var(--arabic-font);font-size:.95em;font-weight:700;
+  color:var(--accent);margin:10px 0 4px;padding:0;border:none;
+  display:block;letter-spacing:-.01em;
+}
+.exp-em{font-style:italic;color:var(--written-accent);font-weight:400}
+.exp-q{
+  display:block;border-right:3px solid rgba(233,69,96,.35);
+  padding:4px 10px 4px 0;margin:8px 0;
+  font-style:normal;opacity:.82;color:var(--text);
+  text-align:justify;text-align-last:right;
+}
+body.theme-light .exp-q,body.theme-sepia .exp-q{border-right-color:rgba(9,105,218,.3)}
+.exp-term{
+  background:rgba(233,69,96,.12);color:var(--accent);
+  border-radius:3px;padding:0 4px;font-weight:600;
+  font-style:normal;
+}
+body.theme-light .exp-term{background:rgba(9,105,218,.1);color:var(--accent)}
+
+/* ── Settings panel ──────────────────────────────────────────────────────── */
+#settings-panel{
+  background:rgba(13,17,23,.97);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(48,54,61,.5);padding:12px 18px;display:none;
+}
+#settings-panel.open{display:block}
+body.theme-light #settings-panel{background:rgba(246,248,250,.98);border-bottom-color:rgba(208,215,222,.7)}
+body.theme-sepia  #settings-panel{background:rgba(244,236,216,.98);border-bottom-color:rgba(212,197,160,.6)}
+body.theme-hc #settings-panel{background:#000;border-bottom:1px solid #fff}
+.settings-row{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start}
+.setting-block{display:flex;flex-direction:column;gap:6px;min-width:130px}
+.setting-label{font-size:.65rem;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;opacity:.75}
+/* Font-size step buttons */
+.fs-btns{display:flex;gap:3px}
+.fs-btn{
+  padding:4px 9px;border-radius:6px;border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.05);color:var(--muted);cursor:pointer;
+  font-size:var(--_fs,12px);transition:all .16s;line-height:1;
+}
+.fs-btn[data-fs="s"]{--_fs:11px}
+.fs-btn[data-fs="m"]{--_fs:13px}
+.fs-btn[data-fs="l"]{--_fs:15px}
+.fs-btn[data-fs="xl"]{--_fs:17px}
+.fs-btn.active,.fs-btn:hover{background:rgba(233,69,96,.15);border-color:rgba(233,69,96,.4);color:var(--accent)}
+body.theme-light .fs-btn{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.1)}
+/* Width slider */
+.sett-range{
+  width:100%;accent-color:var(--accent);cursor:pointer;
+  height:4px;border-radius:2px;
+}
+.sett-val{font-size:.7rem;color:var(--muted)}
+/* Font select */
+.sett-select{
+  padding:4px 8px;border-radius:6px;background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.09);color:var(--muted);
+  font-size:.76rem;cursor:pointer;
+}
+body.theme-light .sett-select{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.08);color:var(--text)}
+/* Color swatches */
+.color-swatches{display:flex;gap:6px;flex-wrap:wrap}
+.color-sw{
+  width:22px;height:22px;border-radius:50%;cursor:pointer;
+  border:2px solid transparent;transition:all .16s;flex-shrink:0;
+}
+.color-sw.active{border-color:var(--accent);box-shadow:0 0 0 2px rgba(233,69,96,.3)}
+.color-sw:hover{transform:scale(1.15)}
+
+/* ── Marker mode ─────────────────────────────────────────────────────────── */
+body.mode-marker .opt.is-correct{
+  background:rgba(255,230,0,.22);border:2px solid #ffe000 !important;
+  color:#ffe000;font-weight:700;
+  box-shadow:0 0 0 2px rgba(255,230,0,.12)}
+body.mode-marker .opt:not(.is-correct){opacity:.45}
+/* Test mode: hide explanation by default — only show after clicking Show Explanation */
+body.mode-test .explanation-ar:not(.exp-revealed),
+body.mode-test .exp-label:not(.exp-revealed){display:none}
+
+body.mode-marker .answer-block{display:block}
+body.mode-marker .explanation-ar,
+body.mode-marker .exp-label{display:none!important}
+body.mode-marker .show-exp-btn,
+body.mode-marker .show-answer-btn,
+body.mode-marker .self-assess{display:none!important}
+/* Study mode: always show answer blocks (JS also handles this) */
+/* Study mode: auto-show all answer blocks (MCQ + written) */
+body.mode-study .qcard .answer-block{display:block}
+
+/* ── Print protection — blank page on any print attempt ─────────────────── */
+@media print{
+  html,body{display:none!important;visibility:hidden!important}
+}
+
+/* ── Annotate system ─────────────────────────────────────────────────────── */
+.qcard{position:relative;overflow:hidden}
+.qcard-canvas{
+  position:absolute;top:0;left:0;width:100%;
+  pointer-events:none;z-index:10;border-radius:inherit;touch-action:none
+}
+body.mode-annotate .qcard-canvas{pointer-events:auto;cursor:crosshair}
+body.mode-annotate.tool-erase .qcard-canvas{cursor:cell}
+body.mode-annotate.tool-pan .qcard-canvas{cursor:grab}
+#annotate-bar{
+  display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:40px;padding:8px 18px;gap:10px;align-items:center;
+  z-index:500;box-shadow:0 4px 24px rgba(0,0,0,.35);backdrop-filter:blur(12px)
+}
+body.mode-annotate #annotate-bar{display:flex}
+.ann-tool-btn{
+  background:none;border:1.5px solid transparent;border-radius:50%;
+  width:36px;height:36px;font-size:16px;cursor:pointer;color:var(--text);
+  transition:background .15s,border-color .15s
+}
+.ann-tool-btn:hover{background:var(--border)}
+.ann-tool-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.ann-sep{width:1px;height:24px;background:var(--border);flex-shrink:0}
+.ann-color{
+  width:22px;height:22px;border-radius:50%;border:2px solid transparent;
+  cursor:pointer;transition:transform .15s;flex-shrink:0
+}
+.ann-color.active{border-color:var(--text);transform:scale(1.2)}
+.ann-width{width:80px;accent-color:var(--accent);cursor:pointer}
+.ann-action-btn{
+  background:none;border:1.5px solid var(--border);border-radius:8px;
+  padding:4px 10px;font-size:12px;color:var(--muted);cursor:pointer
+}
+.ann-action-btn:hover{border-color:var(--accent);color:var(--accent)}
+.ann-clear-btn:hover{border-color:#e74c3c!important;color:#e74c3c!important}
+.sticky-note-btn{
+  background:none;border:none;cursor:pointer;font-size:14px;
+  opacity:.5;transition:opacity .15s;margin-left:4px;padding:2px
+}
+.sticky-note-btn:hover,.sticky-note-btn.has-note{opacity:1}
+.sticky-note{
+  display:none;position:absolute;right:0;top:0;width:220px;height:170px;
+  background:#fffde7;border:1px solid #f0e060;border-radius:8px;z-index:50;
+  box-shadow:3px 3px 12px rgba(0,0,0,.22);flex-direction:column;overflow:hidden;
+  resize:both;min-width:160px;min-height:120px;max-width:480px;max-height:480px
+}
+.note-mini-bar{display:flex;align-items:center;gap:3px;flex:1;padding:1px 3px;overflow:hidden}
+.nc{width:13px;height:13px;border-radius:50%;cursor:pointer;border:1.5px solid rgba(0,0,0,.2);flex-shrink:0;transition:transform .1s}
+.nc.act{border-color:#333;transform:scale(1.2)}
+.nw{width:44px;height:3px;cursor:pointer;accent-color:#555;flex-shrink:0}
+.ne,.nu{background:none;border:none;cursor:pointer;font-size:12px;padding:1px 3px;color:#333;line-height:1;border-radius:2px}
+.ne:hover,.nu:hover{background:rgba(0,0,0,.12)}
+.ne.erasing{background:rgba(0,0,0,.18);outline:1px solid #555}
+.sticky-note.visible{display:flex}
+.sticky-note-header{
+  background:#f9e400;display:flex;justify-content:flex-end;padding:3px 6px
+}
+.note-close-btn{background:none;border:none;cursor:pointer;font-size:14px;color:#555;line-height:1}
+.sticky-canvas{flex:1;width:100%;cursor:crosshair;touch-action:none;display:block}
+.ann-sett-btn{
+  padding:4px 9px;border-radius:6px;border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.05);color:var(--muted);cursor:pointer;
+  font-size:.76rem;transition:all .16s;line-height:1
+}
+.ann-sett-btn.active{background:rgba(233,69,96,.15);border-color:rgba(233,69,96,.4);color:var(--accent)}
+body.theme-light .ann-sett-btn{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.1)}
+/* === CUSTOM SELECTION POPUP === */
+#sel-popup{
+  display:none;position:fixed;z-index:700;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:28px;padding:5px 12px;gap:6px;align-items:center;
+  box-shadow:0 4px 20px rgba(0,0,0,.45);backdrop-filter:blur(14px);
+  transform:translateX(-50%);pointer-events:auto;
+  user-select:none;-webkit-user-select:none;
+}
+#sel-popup.visible{display:flex}
+.sel-hl-dot{
+  width:20px;height:20px;border-radius:50%;
+  cursor:pointer;border:2px solid transparent;flex-shrink:0;
+  transition:transform .15s,border-color .12s;
+}
+.sel-hl-dot:hover{transform:scale(1.3)}
+.sel-sep2{width:1px;height:18px;background:var(--border);flex-shrink:0}
+.sel-btn{
+  background:none;border:none;cursor:pointer;font-size:13px;
+  color:var(--muted);padding:2px 7px;border-radius:6px;
+  transition:all .15s;white-space:nowrap;
+}
+.sel-btn:hover{background:var(--border);color:var(--text)}
+.sel-remove-btn:hover{color:#e74c3c!important}
+mark.hl-yellow{background:rgba(255,220,0,.45);color:inherit;border-radius:2px}
+mark.hl-green{background:rgba(76,175,80,.38);color:inherit;border-radius:2px}
+mark.hl-blue{background:rgba(33,150,243,.35);color:inherit;border-radius:2px}
+mark.hl-pink{background:rgba(233,30,99,.30);color:inherit;border-radius:2px}
+</style>
+</head>
+<body class="mode-study theme-dark">
+
+<div id="fixed-header">
+<nav id="top-nav">
+  <span class="nav-title">🦴 Anatomy — Blood Dept Questions</span>
+  <div class="nav-sections"><a class="nav-btn" id="navbtn-unknown_source" href="#section-unknown_source">Unknown Source<span class="sec-prog">0/40</span></a></div>
+  <div class="nav-controls">
+    <button id="sett-toggle" class="nav-icon-btn" onclick="toggleSettings()">&#9881;&#65039; Settings</button>
+    <button id="stats-toggle" class="nav-icon-btn" onclick="toggleStats()">&#128200; Stats</button>
+    <div class="mode-btns">
+      <button class="mode-btn active" id="mode-btn-study" onclick="setMode('study')">&#128214; Study</button>
+      <button class="mode-btn" id="mode-btn-test" onclick="setMode('test')">&#9999;&#65039; Test</button>
+      <button class="mode-btn" id="mode-btn-marker" onclick="setMode('marker')">&#128397; Marker</button>
+      <button class="mode-btn" id="mode-btn-annotate" onclick="setMode('annotate')">&#9998; Annotate</button>
+    </div>
+    <select id="theme-select" class="theme-select" onchange="changeTheme(this)" title="Theme">
+      <option value="dark">&#127769; Dark</option>
+      <option value="light">&#9728;&#65039; Light</option>
+      <option value="sepia">&#128220; Sepia</option>
+      <option value="hc">&#11035; H-Contrast</option>
+    </select>
+    <button id="fs-btn" class="nav-icon-btn" onclick="toggleFullscreen()" title="Fullscreen">&#x26F6; Fullscreen</button>
+    <button id="reset-btn" class="nav-icon-btn" onclick="resetProgress()">&#8635; Reset</button>
+  </div>
+</nav>
+
+<div id="stats-panel">
+  <div class="stats-grid">
+    <div class="stat-item"><span class="stat-val" id="stat-total">0</span><span class="stat-label">Total</span></div>
+    <div class="stat-item"><span class="stat-val" id="stat-ans">0</span><span class="stat-label">Answered</span></div>
+    <div class="stat-item"><span class="stat-val" id="stat-correct">0</span><span class="stat-label">Correct</span></div>
+    <div class="stat-item"><span class="stat-val" id="stat-wrong">0</span><span class="stat-label">Wrong</span></div>
+    <div class="stat-item"><span class="stat-val" id="stat-pct">0%</span><span class="stat-label">Done</span></div>
+  </div>
+</div>
+
+<div id="settings-panel">
+  <div class="settings-row">
+    <div class="setting-block">
+      <div class="setting-label">Font Size</div>
+      <div class="fs-btns">
+        <button class="fs-btn" data-fs="s"  onclick="changeFontSize('s')">A</button>
+        <button class="fs-btn active" data-fs="m" onclick="changeFontSize('m')">A</button>
+        <button class="fs-btn" data-fs="l"  onclick="changeFontSize('l')">A</button>
+        <button class="fs-btn" data-fs="xl" onclick="changeFontSize('xl')">A</button>
+      </div>
+    </div>
+    <div class="setting-block" style="min-width:180px">
+      <div class="setting-label">Content Width &mdash; <span id="width-display">880px</span></div>
+      <input type="range" class="sett-range" id="width-range"
+             min="600" max="1200" step="40" value="880"
+             oninput="changeWidth(this)">
+    </div>
+    <div class="setting-block">
+      <div class="setting-label">Arabic Font</div>
+      <select class="sett-select" id="font-family-sel" onchange="changeFont(this)">
+        <option value="amiri">Amiri (Classic)</option>
+        <option value="noto">Noto Naskh</option>
+        <option value="cairo">Cairo</option>
+        <option value="tajawal">Tajawal</option>
+        <option value="system">System Default</option>
+      </select>
+    </div>
+    <div class="setting-block">
+      <div class="setting-label">Explanation Color</div>
+      <div class="color-swatches" id="exp-color-swatches">
+        <button class="color-sw active" data-c="default" onclick="changeExpColor('default')"
+                style="background:rgba(230,237,243,.75)" title="Default"></button>
+        <button class="color-sw" data-c="warm" onclick="changeExpColor('warm')"
+                style="background:#e8d5a3" title="Warm"></button>
+        <button class="color-sw" data-c="cyan" onclick="changeExpColor('cyan')"
+                style="background:#90cdf4" title="Cyan"></button>
+        <button class="color-sw" data-c="gold" onclick="changeExpColor('gold')"
+                style="background:#f6d860" title="Gold"></button>
+        <button class="color-sw" data-c="mint" onclick="changeExpColor('mint')"
+                style="background:#9ae6b4" title="Mint"></button>
+      </div>
+    </div>
+    <div class="setting-block">
+      <div class="setting-label">Annotate</div>
+      <button id="palm-reject-btn" class="ann-sett-btn active" onclick="togglePalmReject(this)"
+              title="Reject large touch contacts (palm) — keeps hand off canvas while pen writes">
+        &#128586; Palm Reject: ON
+      </button>
+    </div>
+    <div class="setting-block" style="min-width:180px">
+      <div class="setting-label">Stroke Smoothing &mdash; <span id="ann-smooth-display">80%</span></div>
+      <input type="range" class="sett-range" id="ann-smooth-range"
+             min="0" max="100" step="5" value="80"
+             oninput="changeAnnSmooth(this)"
+             title="0% = sharp lines, 100% = full bezier smoothing">
+    </div>
+  </div>
+</div>
+
+<div id="filter-bar">
+  <button class="filter-btn active" data-filter="all" onclick="applyFilter('all')">All (<span id="fc-all">0</span>)</button>
+  <button class="filter-btn" data-filter="unanswered" onclick="applyFilter('unanswered')">Unanswered (<span id="fc-unanswered">0</span>)</button>
+  <button class="filter-btn" data-filter="correct" onclick="applyFilter('correct')">&#10003; Correct (<span id="fc-correct">0</span>)</button>
+  <button class="filter-btn" data-filter="wrong" onclick="applyFilter('wrong')">&#10007; Wrong (<span id="fc-wrong">0</span>)</button>
+  <button class="filter-btn" data-filter="starred" onclick="applyFilter('starred')">&#9733; Starred (<span id="fc-starred">0</span>)</button>
+</div>
+</div>
+
+<div id="annotate-bar">
+  <button class="ann-tool-btn active" data-tool="pen" onclick="setAnnTool('pen')" title="Pen">&#9998;</button>
+  <button class="ann-tool-btn" data-tool="erase" onclick="setAnnTool('erase')" title="Erase">&#11036;</button>
+  <button class="ann-tool-btn" data-tool="pan" onclick="setAnnTool('pan')" title="Pan / scroll (touch moves page)">&#9995;</button>
+  <div class="ann-sep"></div>
+  <div class="ann-color active" data-color="#e74c3c" style="background:#e74c3c" onclick="setAnnColor(this)" title="Red"></div>
+  <div class="ann-color" data-color="#2980b9" style="background:#2980b9" onclick="setAnnColor(this)" title="Blue"></div>
+  <div class="ann-color" data-color="#27ae60" style="background:#27ae60" onclick="setAnnColor(this)" title="Green"></div>
+  <div class="ann-color" data-color="#f39c12" style="background:#f39c12" onclick="setAnnColor(this)" title="Orange"></div>
+  <div class="ann-color" data-color="#8e44ad" style="background:#8e44ad" onclick="setAnnColor(this)" title="Purple"></div>
+  <div class="ann-sep"></div>
+  <input class="ann-width" type="range" min="1" max="10" value="3" oninput="setAnnWidth(this)" title="Pen width">
+  <div class="ann-sep"></div>
+  <button class="ann-action-btn" onclick="annUndo()" title="Undo">&#8617;</button>
+  <button class="ann-action-btn" onclick="annRedo()" title="Redo">&#8618;</button>
+  <div class="ann-sep"></div>
+  <button class="ann-action-btn ann-clear-btn" onclick="clearAllAnnotations()">Clear All</button>
+</div>
+<div id="sel-popup">
+  <div class="sel-hl-dot" style="background:#ffd700" title="Highlight Yellow" onclick="selHighlight('yellow')"></div>
+  <div class="sel-hl-dot" style="background:#4caf50" title="Highlight Green"  onclick="selHighlight('green')"></div>
+  <div class="sel-hl-dot" style="background:#2196f3" title="Highlight Blue"   onclick="selHighlight('blue')"></div>
+  <div class="sel-hl-dot" style="background:#e91e63" title="Highlight Pink"   onclick="selHighlight('pink')"></div>
+  <div class="sel-sep2"></div>
+  <button class="sel-btn sel-remove-btn" id="sel-remove-btn" onclick="selRemoveHighlight()" title="Remove highlight">&#10006;</button>
+  <button class="sel-btn" onclick="selCopy()" title="Copy">&#128203;</button>
+  <button class="sel-btn" onclick="selSearch()" title="Search on Google">&#128269;</button>
+</div>
+
+<main>
+<section id="section-unknown_source" class="exam-section">
+  <h2 class="section-title">
+    Unknown Source
+    <span class="q-count">(40 questions)</span>
+    <div class="section-progress-bar">
+      <div class="section-progress-fill" id="secfill-unknown_source" style="width:0%"></div>
+    </div>
+  </h2>
+  
+<div class="qcard" data-id="blood_dept_anatomy_q001" data-type="mcq" data-correct="B" data-idx="1">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q001"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q001">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q001" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q1</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q001" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q001" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">To which system is the spleen functionally connected?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q001"><li class="opt" data-letter="A">A. Respiratory system</li>
+<li class="opt is-correct" data-letter="B">B. Vascular system</li>
+<li class="opt" data-letter="C">C. Digestive system</li>
+<li class="opt" data-letter="D">D. Nervous system</li>
+<li class="opt" data-letter="E">E. Endocrine system</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q001">
+    <div class="answer-reveal">&#9989; Correct: B &mdash; Vascular system</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Spleen (الطحال) بيتكون وظيفياً كجزء من الـ Vascular  system (الجهاز الوعائي) أو الـ Circulatory system (الجهاز الدوري). ورغم إننا  دايماً بنشرحه مع الـ Lymphatic organs (الأعضاء اللمفاوية) عشان فيه عدد كبير جداً من الـ Lymphocytes (الخلايا الليمفاوية)، لكنه في الأساس متصل وظيفياً بالدم  والأوعية الدموية وبيعمل كفلتر للدم ومخزن ليه، وده بيؤدي لتصنيفه تبع الجهاز  الوعائي في المقام الأول.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Respiratory system: الـ Respiratory system (الجهاز التنفسي) بتاع التنفس ملوش علاقة وظيفية مباشرة بتنقية الدم أو تخزينه في الطحال بناءً على مقرراتنا. .<br>C) Digestive system: الـ Digestive system (الجهاز الهضمي) بيؤدي وظيفة الهضم  والامتصاص، والطحال مش بيشارك في العملية دي خالص. .<br>D) Nervous system: الـ Nervous system (الجهاز العصبي) مسؤول عن نقل الإشارات  العصبية، والطحال مش جزء من تركيبه الوظيفي. .<br>E) Endocrine system: الـ Endocrine system (جهاز الغدد الصماء) بيفرز هرمونات،  والطحال وظيفته الأساسية هيا تصفية الدم والمناعة، مش إفراز الهرمونات في الدم.</p><p>يبقا الإجابة الصحيحة هي : B. Vascular system</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q001">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q002" data-type="mcq" data-correct="C" data-idx="2">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q002"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q002">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q002" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q2</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q002" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q002" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">In which abdominal region is the spleen located?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q002"><li class="opt" data-letter="A">A. Right hypochondrium</li>
+<li class="opt" data-letter="B">B. Umbilical region</li>
+<li class="opt is-correct" data-letter="C">C. Left hypochondrium</li>
+<li class="opt" data-letter="D">D. Epigastrium</li>
+<li class="opt" data-letter="E">E. Left iliac fossa</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q002">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; Left hypochondrium</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Spleen (الطحال) موجود تشريحياً في منطقة الـ Left  hypochondrium (المراق الأيسر) بتاع الـ Abdominal cavity (تجويف البطن). كمان  الموقع ده بيسبب حماية للطحال تحت الضلوع السفلية على الناحية الشمال، وده بيؤدي  لإننا نعتبره المكان الأكاديمي المعتمد في دراستنا لتركيب البطن.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Right hypochondrium: المنطقة دي (المراق الأيمن) هيا المكان اللي بيتكون فيه  الكبد (Liver) بشكل أساسي، مش الطحال. .<br>B) Umbilical region: منطقة السرة (Umbilical region) موجودة في نص البطن وبيكون  فيها الأمعاء، مش مكان الطحال. .<br>D) Epigastrium: منطقة الـ Epigastrium (فم المعدة) بيبقى فيها جزء من المعدة  والكبد والبنكرياس، بس الطحال متطرف أكتر ناحية الشمال. .<br>E) Left iliac fossa: المنطقة دي موجودة تحت في الحوض على الشمال، وبيكون فيها  أجزاء من القولون، والطحال مكانه فوق في الـ Hypochondrium.</p><p>يبقا الإجابة الصحيحة هي : C. Left hypochondrium</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q002">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q003" data-type="mcq" data-correct="C" data-idx="3">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q003"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q003">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q003" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q3</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q003" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q003" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">What is the approximate weight of the spleen?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q003"><li class="opt" data-letter="A">A. 50 gm</li>
+<li class="opt" data-letter="B">B. 100 gm</li>
+<li class="opt is-correct" data-letter="C">C. 150 gm</li>
+<li class="opt" data-letter="D">D. 200 gm</li>
+<li class="opt" data-letter="E">E. 250 gm</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q003">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; 150 gm</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الوزن التقريبي بتاع الـ Spleen (الطحال) في الشخص البالغ  الطبيعي هو حوالي 150 gm (جرام). الرقم ده هو المرجعية الأكاديمية الثابتة في  مقررات التشريح بتاعتنا اللي بتوصف خصائص العضو ده في الحالة الطبيعية بدون أي  تضخم أو أمراض.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) 50 gm: الوزن ده قليل جداً ومش بيعبر عن وزن الطحال الطبيعي البالغ، ممكن يكون  لغدة تانية أصغر. .<br>B) 100 gm: برضه الرقم ده أقل من المتوسط التشريحي المعتمد بتاع العضو ده. .<br>D) 200 gm: الوزن ده يعتبر أكبر من المتوسط الطبيعي، وممكن يظهر لو فيه بداية  Splenomegaly (تضخم الطحال) خفيف، بس مش ده الوزن التقريبي القياسي. .<br>E) 250 gm: ده وزن كبير وبيؤدي لتشخيص تضخم مرضي واضح، ومش هو الوزن القياسي  المعتمد بـ 150 جرام.</p><p>يبقا الإجابة الصحيحة هي : C. 150 gm</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q003">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q004" data-type="mcq" data-correct="B" data-idx="4">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q004"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q004">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q004" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q4</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q004" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q004" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">What are the dimensions of the spleen in inches (thickness x breadth x 
+length)?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q004"><li class="opt" data-letter="A">A. $1\times2\times3$</li>
+<li class="opt is-correct" data-letter="B">B. $1\times3\times5$</li>
+<li class="opt" data-letter="C">C. $2\times4\times6$</li>
+<li class="opt" data-letter="D">D. $1\times2\times5$</li>
+<li class="opt" data-letter="E">E. $3\times5\times7$</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q004">
+    <div class="answer-reveal">&#9989; Correct: B &mdash; $1\times3\times5$</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الأبعاد القياسية بتاع الـ Spleen (الطحال) بتتحفظ في علم  التشريح بقاعدة الأرقام الفردية (1، 3، 5). يعني العضو ده بيتكون من Thickness  (سُمك) حوالي 1 بوصة، و Breadth (عرض) حوالي 3 بوصة، و Length (طول) حوالي 5 بوصة. كمان القاعدة دي هيا المعتمدة في منهجنا، وده بيؤدي لوصف أبعاد الطحال بدقة  وبسهولة.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) $1\times2\times3$: الأبعاد دي أصغر بكتير من الحجم الطبيعي للطحال في الشخص  البالغ. .<br>C) $2\times4\times6$: دي أرقام زوجية وأكبر من الحجم القياسي المعتمد، والطحال مش بيوصل للحجم ده في الحالة الطبيعية. .<br>D) $1\times2\times5$: العرض هنا (2 بوصة) مش متطابق مع القياس التشريحي الصحيح  اللي هو 3 بوصة. .<br>E) $3\times5\times7$: الأبعاد دي ضخمة جداً وبتعبر عن حالة Splenomegaly (تضخم  الطحال)، ومش دي الأبعاد الفسيولوجية العادية.</p><p>يبقا الإجابة الصحيحة هي : B. $1\times3\times5$</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q004">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q005" data-type="mcq" data-correct="C" data-idx="5">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q005"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q005">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q005" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q5</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q005" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q005" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">The long axis of the spleen is parallel to which rib?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q005"><li class="opt" data-letter="A">A. 8th rib</li>
+<li class="opt" data-letter="B">B. 9th rib</li>
+<li class="opt is-correct" data-letter="C">C. 10th rib</li>
+<li class="opt" data-letter="D">D. 11th rib</li>
+<li class="opt" data-letter="E">E. 12th rib</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q005">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; 10th rib</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، المحور الطولي (Long axis) بتاع الـ Spleen (الطحال) بيكون  موازي تماماً للضلع العاشر (10th rib) في الناحية الشمال. العلاقة التشريحية دي  مهمة جداً عشان بتحدد مكان الطحال بدقة وتأكد إنه محمي بالضلوع السفلية في مساره  الطبيعي.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) 8th rib: الضلع التامن بيكون أعلى من المحور الأساسي اللي بينام عليه الطحال،  رغم إن الطحال بيوصل لمستواه، بس المحور مش موازي ليه. .<br>B) 9th rib: الطحال فعلاً بيفصل بينه وبين الحجاب الحاجز الضلوع 9 و 10 و 11،  بس المحور الطولي نفسه مش موازي للضلع التاسع. .<br>D) 11th rib: الضلع الحداشر بيغطي الجزء السفلي من الطحال، لكن الـ Long axis مش  بيكون موازي ليه. .<br>E) 12th rib: الضلع الاثناشر ملوش علاقة مباشرة بمحور الطحال، وبيكون تحت مستوى  العضو ده في أغلب الأحيان.</p><p>يبقا الإجابة الصحيحة هي : C. 10th rib</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q005">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q006" data-type="mcq" data-correct="B" data-idx="6">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q006"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q006">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q006" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q6</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q006" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q006" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">Which border of the spleen is characterized as being &#x27;sharp and notched&#x27;?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q006"><li class="opt" data-letter="A">A. Inferior border</li>
+<li class="opt is-correct" data-letter="B">B. Superior border</li>
+<li class="opt" data-letter="C">C. Intermediate border</li>
+<li class="opt" data-letter="D">D. Lateral border</li>
+<li class="opt" data-letter="E">E. Medial border</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q006">
+    <div class="answer-reveal">&#9989; Correct: B &mdash; Superior border</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، في علم التشريح بتاعنا بنوصف الـ Spleen (الطحال) بإن ليه  حواف معينة، ومن أهمها الـ Superior border (الحافة العلوية). الحافة دي هيا اللي  بتتميز بإنها بتكون Sharp and notched (حادة ومسننة أو فيها شقوق). الشقوق دي  بتمثل بقايا من التركيب الفصي اللي بيتكون منه الطحال في المرحلة الجنينية. كمان،  الشكل ده بيسبب سهولة في التعرف على الطحال إكلينيكياً وتفريقه عن الأعضاء التانية، وده بيؤدي لتحديد الإجابة دي كأدق وصف للحافة العلوية.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Inferior border: الـ Inferior border (الحافة السفلية) بتاع الطحال بتكون  Broad and blunt (عريضة وغير حادة)، ومش بيكون فيها أي Notches (شقوق) خالص. .<br>C) Intermediate border: الـ Intermediate border (الحافة الوسطى) هيا حافة غير  واضحة المعالم (Ill-defined) موجودة على الـ Visceral surface (السطح الحشوي) ومش  بتتميز بالحدة أو الشقوق. .<br>D) Lateral border: تشريحياً مفيش حافة رئيسية في الطحال بتسمى الـ Lateral border كحافة ليها خصائص الشقوق دي، الوصف ده مش دقيق في سياق حواف الطحال الأساسية. .<br>E) Medial border: زي الخيار اللي قبله، التسمية دي مش بتعبر عن الحافة العلوية  المحددة اللي بيؤدي شكلها المسنن لتمييزها.</p><p>يبقا الإجابة الصحيحة هي : B. Superior border</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q006">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q007" data-type="mcq" data-correct="C" data-idx="7">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q007"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q007">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q007" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q7</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q007" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q007" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">The lateral end of the spleen is also known as the:</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q007"><li class="opt" data-letter="A">A. Posterior end</li>
+<li class="opt" data-letter="B">B. Superior end</li>
+<li class="opt is-correct" data-letter="C">C. Anterior end</li>
+<li class="opt" data-letter="D">D. Medial end</li>
+<li class="opt" data-letter="E">E. Inferior end</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q007">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; Anterior end</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Spleen (الطحال) ليه طرفين أساسيين. الـ Lateral end  (الطرف الجانبي) بتاعه بيكون عريض (Broad and expanded) وبيتجه للأمام وللأسفل،  عشان كده بنسميه كمان الـ Anterior end (الطرف الأمامي). التسمية دي هيا المعتمدة  في دراسة التشريح لأنها بتوصف اتجاه وامتداد العضو جوه تجويف البطن.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Posterior end: الـ Posterior end (الطرف الخلفي) هو الاسم التاني للـ Medial  end (الطرف الداخلي) اللي بيكون متجه لورا ولفوق، يبقا مش هو الطرف الجانبي خالص. .<br>B) Superior end: الطحال ليه حواف علوية (Superior border) لكن مفيش طرف كامل  بنسميه Superior end في التقسيم التشريحي الأساسي للأطراف (Extremities). .<br>D) Medial end: الـ Medial end (الطرف الداخلي) هو العكس تماماً للـ Lateral end،  وبيكون مستدق (Tapering) وموجود ناحية العمود الفقري، فمستحيل يبقا هو نفس الطرف  الجانبي. .<br>E) Inferior end: التسمية دي مش بتوصف الـ Lateral end بشكل دقيق في المراجع  التشريحية، لأن الوصف المعتمد هو Anterior end.</p><p>يبقا الإجابة الصحيحة هي : C. Anterior end</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q007">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q008" data-type="mcq" data-correct="C" data-idx="8">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q008"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q008">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q008" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q8</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q008" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q008" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">At what level is the lateral end of the spleen typically found?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q008"><li class="opt" data-letter="A">A. Midclavicular line</li>
+<li class="opt" data-letter="B">B. Anterior axillary line</li>
+<li class="opt is-correct" data-letter="C">C. Midaxillary line</li>
+<li class="opt" data-letter="D">D. Posterior axillary line</li>
+<li class="opt" data-letter="E">E. Scapular line</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q008">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; Midaxillary line</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، لما بنحدد موقع الـ Lateral end (الطرف الجانبي) أو الـ  Anterior end بتاع الـ Spleen (الطحال) جوه الجسم، بنلاقيه بيمتد للأمام لحد ما  يوصل لمستوى الـ Midaxillary line (خط الإبط الأوسط). الامتداد ده بيسبب إننا نقدر نحدد الحدود الفسيولوجية للطحال، ولو عدى الخط ده بيؤدي لاعتباره متضخماً إكلينيكياً (Splenomegaly).</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Midclavicular line: الـ Midclavicular line (خط منتصف الترقوة) موجود قدام جداً في جدار البطن الأمامي، والطحال في حجمه الطبيعي مش بيوصل للمستوى ده. .<br>B) Anterior axillary line: الخط ده كمان موجود قدام الـ Midaxillary line، والطرف الجانبي للطحال الطبيعي مش بيمتد للدرجة دي. .<br>D) Posterior axillary line: الخط ده موجود ورا شوية، والـ Lateral end بتاع  الطحال بيمتد أبعد منه عشان يوصل لحد الـ Midaxillary line. .<br>E) Scapular line: الـ Scapular line (الخط الكتفي) موجود في الظهر من ورا خالص،  وده بعيد جداً عن الطرف الجانبي اللي بيتجه للأمام.</p><p>يبقا الإجابة الصحيحة هي : C. Midaxillary line</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q008">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q009" data-type="mcq" data-correct="C" data-idx="9">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q009"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q009">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q009" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q9</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q009" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q009" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">The medial end of the spleen is located how far from the middorsal line?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q009"><li class="opt" data-letter="A">A. 0.5 inch</li>
+<li class="opt" data-letter="B">B. 1 inch</li>
+<li class="opt is-correct" data-letter="C">C. 1.5 inches</li>
+<li class="opt" data-letter="D">D. 2 inches</li>
+<li class="opt" data-letter="E">E. 2.5 inches</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q009">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; 1.5 inches</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Medial end (الطرف الداخلي) أو الـ Posterior end بتاع  الـ Spleen (الطحال) بيكون موجود ورا ناحية العمود الفقري. المسافة القياسية بينه  وبين الـ Middorsal line (خط منتصف الظهر) هيا 1.5 inches (بوصة ونص). القياس ده  مهم جداً في علم التشريح وبيؤدي لتحديد علاقة الطحال بالفقرات بدقة.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) 0.5 inch: القياس ده معناه إن الطحال قريب جداً من خط المنتصف أو الـ Spines،  وده مش صحيح في التموضع التشريحي الطبيعي. .<br>B) 1 inch: برضه المسافة دي أقصر من القياس الأكاديمي المعتمد اللي هو بوصة ونص. .<br>D) 2 inches: القياس ده معناه إن الطرف الداخلي بعيد جداً عن الـ Middorsal line  ومتطرف للجانب، وده مش مطابق للوصف السليم. .<br>E) 2.5 inches: دي مسافة كبيرة جداً بتخلي الطحال أبعد من اللازم عن خط المنتصف،  والقياس الصح بتاعنا هو 1.5 بوصة.</p><p>يبقا الإجابة الصحيحة هي : C. 1.5 inches</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q009">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q010" data-type="mcq" data-correct="C" data-idx="10">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q010"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q010">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q010" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q10</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q010" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q010" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">The medial end of the spleen lies opposite which spinal level?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q010"><li class="opt" data-letter="A">A. T8 spine</li>
+<li class="opt" data-letter="B">B. T9 spine</li>
+<li class="opt is-correct" data-letter="C">C. T10 spine</li>
+<li class="opt" data-letter="D">D. T11 spine</li>
+<li class="opt" data-letter="E">E. T12 spine</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q010">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; T10 spine</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Medial end (الطرف الداخلي) بتاع الـ Spleen (الطحال)  بيكون موجود فوق وورا في التجويف البطني. إكلينيكياً وتشريحياً، الطرف ده بيكون  بمحاذاة أو Opposite لمستوى الـ T10 spine (الشوكة العظمية للفقرة الصدرية  العاشرة). الموقع ده بيتوافق تماماً مع المحور الطولي للطحال اللي بيكون موازي  للضلع العاشر، وده بيسبب حماية قوية للعضو ده.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) T8 spine: مستوى الفقرة التامنة عالي جداً عن المستوى الحقيقي اللي بيبدأ منه  الطرف الداخلي للطحال. .<br>B) T9 spine: رغم إن الطحال بيمتد ليغطي الضلع التاسع، لكن الـ Medial end بتاعه  بالتحديد بيكون قدام الـ T10 spine. .<br>D) T11 spine: الفقرة الحداشر بتكون تحت مستوى الطرف الداخلي، رغم إن الضلع  الحداشر بيغطي الجزء السفلي من الطحال ككل. .<br>E) T12 spine: المستوى ده واطي جداً عن المكان التشريحي اللي بيبدأ منه الطحال،  واللي بيكون محمي بالضلوع من 9 لـ 11.</p><p>يبقا الإجابة الصحيحة هي : C. T10 spine</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q010">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q011" data-type="mcq" data-correct="D" data-idx="11">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q011"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q011">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q011" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q11</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q011" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q011" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">Which surface of the spleen is smooth, convex, and related to the 
+diaphragm?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q011"><li class="opt" data-letter="A">A. Visceral surface</li>
+<li class="opt" data-letter="B">B. Gastric surface</li>
+<li class="opt" data-letter="C">C. Renal surface</li>
+<li class="opt is-correct" data-letter="D">D. Diaphragmatic surface</li>
+<li class="opt" data-letter="E">E. Colic surface</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q011">
+    <div class="answer-reveal">&#9989; Correct: D &mdash; Diaphragmatic surface</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Diaphragmatic surface (السطح الحجابي) بتاع الـ Spleen (الطحال) بيتكون بشكل أملس (Smooth) ومحدب (Convex) عشان يناسب شكل الـ Diaphragm  (الحجاب الحاجز) اللي بيغطيه. السطح ده هيا الواجهة الخارجية للطحال، وبيسبب الشكل ده إنه يقدر يتمدد ويتحرك بسهولة مع التنفس. كمان، العلاقة المباشرة دي بتؤدي  لتسميته بالسطح الحجابي.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Visceral surface: الـ Visceral surface (السطح الحشوي) مش بيكون أملس ولا  محدب، ده بيكون مقعر (Concave) ومليان انطباعات (Impressions) للأعضاء اللي حواليه زي المعدة والكلية. .<br>B) Gastric surface: الـ Gastric surface (السطح المعدي) ده جزء من السطح الحشوي  وبيكون فيه انطباع المعدة، ومش هو السطح الأملس المحدب اللي بيواجه الحجاب الحاجز. .<br>C) Renal surface: الـ Renal surface (السطح الكلوي) برضه جزء من السطح الحشوي  وبيكون فيه الـ Renal impression (الانطباع الكلوي)، فبالتالي مش ده السطح الخارجي الأملس. .<br>E) Colic surface: الـ Colic surface (السطح القولوني) ده الجزء اللي بيلمس ثنية  القولون، وموجود على السطح الداخلي (الحشوي) مش الخارجي.</p><p>يبقا الإجابة الصحيحة هي : D. Diaphragmatic surface</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q011">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q012" data-type="mcq" data-correct="C" data-idx="12">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q012"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q012">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q012" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q12</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q012" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q012" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">Which structure separates the spleen from the 9th, 10th, and 11th ribs?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q012"><li class="opt" data-letter="A">A. The stomach</li>
+<li class="opt" data-letter="B">B. The left kidney</li>
+<li class="opt is-correct" data-letter="C">C. The diaphragm</li>
+<li class="opt" data-letter="D">D. The pancreas</li>
+<li class="opt" data-letter="E">E. The left colic flexure</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q012">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; The diaphragm</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Spleen (الطحال) موجود في الـ Left hypochondrium  (المراق الأيسر) وبيكون محمي بالضلوع من التاسع للحداشر (9th, 10th, and 11th  ribs). التركيب التشريحي اللي بيفصل مباشرة بين الطحال والضلوع دي هو الـ  Diaphragm (الحجاب الحاجز). الحجاب الحاجز ده بيتكون كعضلة فاصلة، وده بيسبب حماية للطحال وبيؤدي لفصله عن القفص الصدري والجدار الخارجي للبطن.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) The stomach: الـ Stomach (المعدة) موجودة قدام الطحال وبتعمل الـ Gastric  impression (الانطباع المعدي) على السطح الحشوي، مش بتفصل بينه وبين الضلوع خالص. .<br>B) The left kidney: الـ Left kidney (الكلية اليسرى) موجودة ورا وتحت الطحال،  وبتعمل الـ Renal impression (الانطباع الكلوي)، ومش هيا التركيب الفاصل بينه وبين الضلوع. .<br>D) The pancreas: الـ Pancreas (البنكرياس) الديل بتاعه بيلمس الـ Hilum (نقير  الطحال)، وملوش علاقة بالضلوع. .<br>E) The left colic flexure: الـ Left colic flexure (الثنية القولونية اليسرى)  بتلمس الطرف السفلي للطحال، لكن مش بتفصل السطح الخارجي بتاعه عن الضلوع.</p><p>يبقا الإجابة الصحيحة هي : C. The diaphragm</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q012">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q013" data-type="mcq" data-correct="C" data-idx="13">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q013"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q013">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q013" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q13</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q013" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q013" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">The gastric impression is located between the hilum and which border?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q013"><li class="opt" data-letter="A">A. Inferior border</li>
+<li class="opt" data-letter="B">B. Intermediate border</li>
+<li class="opt is-correct" data-letter="C">C. Superior border</li>
+<li class="opt" data-letter="D">D. Lateral border</li>
+<li class="opt" data-letter="E">E. Medial border</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q013">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; Superior border</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، على الـ Visceral surface (السطح الحشوي) بتاع الـ Spleen  (الطحال)، بنلاقي انطباعات (Impressions) للأعضاء المجاورة. الـ Gastric  impression (الانطباع المعدي) بيتكون في المنطقة الواسعة والمقعرة اللي موجودة بين الـ Hilum (النقير) والـ Superior border (الحافة العلوية) اللي بتتميز بإنها  مسننة (Notched). المكان ده هيا اللي بتنام فيه المعدة، وده بيسبب شكل الانطباع ده وبيؤدي لمعرفة حدود الطحال بدقة.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Inferior border: الـ Inferior border (الحافة السفلية) دي الحافة اللي تحت،  والمنطقة اللي بينها وبين النقير بيكون فيها الـ Renal impression (الانطباع  الكلوي)، مش المعدي. .<br>B) Intermediate border: الـ Intermediate border (الحافة الوسطى) دي حافة غير  واضحة بتفصل بين الانطباع المعدي والكلوي، ومش هيا الحدود الخارجية للانطباع  المعدي زي الحافة العلوية. .<br>D) Lateral border: الـ Lateral border (الحافة الجانبية) مفيش حافة رئيسية في  الطحال بتسمى كدا في وصف الانطباعات دي، فالخيار تشريحياً مش دقيق هنا. .<br>E) Medial border: الـ Medial border (الحافة الداخلية) برضه التسمية دي مش بتعبر  عن الحدود العلوية اللي بيمتد الانطباع المعدي لحد عندها.</p><p>يبقا الإجابة الصحيحة هي : C. Superior border</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q013">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q014" data-type="mcq" data-correct="D" data-idx="14">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q014"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q014">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q014" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q14</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q014" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q014" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">Which part of the stomach is related to the gastric impression of the 
+spleen?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q014"><li class="opt" data-letter="A">A. Body</li>
+<li class="opt" data-letter="B">B. Pylorus</li>
+<li class="opt" data-letter="C">C. Antrum</li>
+<li class="opt is-correct" data-letter="D">D. Fundus</li>
+<li class="opt" data-letter="E">E. Cardia</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q014">
+    <div class="answer-reveal">&#9989; Correct: D &mdash; Fundus</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Gastric impression (الانطباع المعدي) اللي موجود على  الـ Spleen (الطحال) بيلمس جزء محدد من الـ Stomach (المعدة). الجزء ده هو الـ  Fundus (قاع المعدة)، واللي بيكون أعلى وأوسع جزء في المعدة. تلامس قاع المعدة مع  الطحال بيسبب تكون الانطباع ده على السطح الحشوي للطحال، وبيؤدي لتكوين مساحة  كبيرة ومقعرة قدام الـ Hilum (النقير).</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Body: الـ Body (جسم المعدة) ده الجزء الأساسي والأوسط من المعدة، لكن الانطباع المباشر والأكبر على الطحال بييجي من قاع المعدة اللي بيمتد لفوق وشمال. .<br>B) Pylorus: الـ Pylorus (البواب) ده الجزء السفلي من المعدة اللي بيوصل للـ  Duodenum (الاثني عشر)، وبيكون بعيد جداً عن الطحال ناحية اليمين. .<br>C) Antrum: الـ Antrum (غار المعدة) ده جزء من الـ Pylorus موجود تحت وبعيد عن  المكان اللي الطحال بيتكون فيه. .<br>E) Cardia: الـ Cardia (فؤاد المعدة) دي فتحة دخول المريء للمعدة، ومكانها أقرب  للخط الأوسط (Midline) ومش بتلمس الطحال اللي متطرف ناحية الشمال.</p><p>يبقا الإجابة الصحيحة هي : D. Fundus</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q014">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q015" data-type="mcq" data-correct="B" data-idx="15">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q015"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q015">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q015" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q15</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q015" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q015" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">The renal impression is found between the hilum and which border?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q015"><li class="opt" data-letter="A">A. Superior border</li>
+<li class="opt is-correct" data-letter="B">B. Inferior border</li>
+<li class="opt" data-letter="C">C. Intermediate border</li>
+<li class="opt" data-letter="D">D. Anterior border</li>
+<li class="opt" data-letter="E">E. Medial border</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q015">
+    <div class="answer-reveal">&#9989; Correct: B &mdash; Inferior border</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Renal impression (الانطباع الكلوي) اللي بتعمله الـ  Left kidney (الكلية اليسرى) على الـ Visceral surface (السطح الحشوي) بتاع الـ  Spleen (الطحال)، بيتكون في المنطقة اللي موجودة تحت وورا الـ Hilum (النقير).  المنطقة دي محصورة بين النقير والـ Inferior border (الحافة السفلية) للطحال.  الموقع ده هيا اللي بيؤدي لتحديد علاقة الطحال بالكلية، وبيسبب إن الانطباع يكون  في الجزء السفلي الخلفي.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Superior border: الـ Superior border (الحافة العلوية) دي الحافة اللي فوق،  والمنطقة اللي بينها وبين النقير بيبقى فيها الـ Gastric impression (الانطباع  المعدي)، مش الكلوي. .<br>C) Intermediate border: الـ Intermediate border (الحافة الوسطى) دي الحافة اللي  بتفصل بين الانطباع المعدي والانطباع الكلوي، يعني الانطباع الكلوي موجود تحتها مش بينها وبين النقير. .<br>D) Anterior border: الـ Anterior border (الحافة الأمامية) دي تسمية تانية للـ  Superior border في بعض السياقات، وفي كلتا الحالتين مش دي حدود الانطباع الكلوي. .<br>E) Medial border: الـ Medial border (الحافة الداخلية) التسمية دي مش بتحدد  الموقع التشريحي للانطباع الكلوي زي الحافة السفلية المعتمدة في منهجنا.</p><p>يبقا الإجابة الصحيحة هي : B. Inferior border</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q015">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q016" data-type="mcq" data-correct="C" data-idx="16">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q016"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q016">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q016" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q16</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q016" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q016" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">Which part of the left kidney is related to the renal impression?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q016"><li class="opt" data-letter="A">A. Lower pole</li>
+<li class="opt" data-letter="B">B. Medial border</li>
+<li class="opt is-correct" data-letter="C">C. Upper part of the lateral border</li>
+<li class="opt" data-letter="D">D. Hilum</li>
+<li class="opt" data-letter="E">E. Inferior surface</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q016">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; Upper part of the lateral border</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Renal impression (الانطباع الكلوي) اللي موجود على الـ Visceral surface (السطح الحشوي) بتاع الـ Spleen (الطحال) بيتكون نتيجة تلامسه مع الـ Left kidney (الكلية اليسرى). التلامس ده بيحصل تحديداً عند الـ Upper part of the lateral border (الجزء العلوي من الحافة الجانبية) للكلية. العلاقة دي هيا  اللي بتحدد شكل الانطباع ده على السطح الداخلي للطحال، وكمان بيسبب إن الكلية تسند الطحال من ورا، وده بيؤدي لمعرفة الحدود التشريحية بدقة أثناء الفحص والجراحة.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Lower pole: الـ Lower pole (القطب السفلي) بتاع الكلية بيكون تحت خالص وبعيد  عن منطقة التلامس المباشر اللي بتعمل الانطباع الأساسي على الطحال. .<br>B) Medial border: الـ Medial border (الحافة الداخلية) للكلية دي اللي بيكون فيها الـ Hilum (النقير) بتاع الكلية نفسها، ومكانها بعيد ومستخبي عن السطح اللي بيلمس  الطحال. .<br>D) Hilum: الـ Hilum (نقير الكلية) بيمر منه الأوعية الدموية الخاصة بالكلية  وموجود على الناحية الداخلية، فمستحيل يلمس الطحال اللي موجود بره ورا. .<br>E) Inferior surface: مفيش سطح بنسميه Inferior surface بشكل أساسي بيلمس الطحال،  والتلامس بيكون مع الجزء العلوي الخارجي مش السفلي.</p><p>يبقا الإجابة الصحيحة هي : C. Upper part of the lateral border</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q016">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q017" data-type="mcq" data-correct="C" data-idx="17">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q017"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q017">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q017" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q17</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q017" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q017" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">The colic impression is located at which part of the spleen?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q017"><li class="opt" data-letter="A">A. Medial end</li>
+<li class="opt" data-letter="B">B. Superior border</li>
+<li class="opt is-correct" data-letter="C">C. Broad expanded lateral end</li>
+<li class="opt" data-letter="D">D. Hilum</li>
+<li class="opt" data-letter="E">E. Intermediate border</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q017">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; Broad expanded lateral end</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Colic impression (الانطباع القولوني) بيتكون على السطح بتاع الـ Spleen (الطحال) نتيجة تلامسه مع الـ Left colic flexure (الثنية  القولونية اليسرى). التلامس ده بيحصل تحديداً عند الـ Broad expanded lateral end  (الطرف الجانبي العريض والممتد) اللي بنسميه كمان الطرف الأمامي. الجزء ده بيسبب  ارتكاز الطحال على القولون من تحت، وبيؤدي لتكوين الانطباع ده في المكان ده هيا  بالظبط زي ما اتعلمنا في المشرحة.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Medial end: الـ Medial end (الطرف الداخلي) بيكون متجه لورا ولفوق ناحية  العمود الفقري، ومش بيلمس القولون خالص. .<br>B) Superior border: الـ Superior border (الحافة العلوية) دي الحافة المسننة اللي فوق، والقولون بيكون موجود تحت عند الطرف الجانبي مش فوق. .<br>D) Hilum: الـ Hilum (النقير) ده المكان اللي بتدخل منه الأوعية الدموية، وبيكون  ورا الانطباع المعدي مش مكان الانطباع القولوني. .<br>E) Intermediate border: الـ Intermediate border (الحافة الوسطى) بتفصل بين  الانطباع المعدي والكلوي، وكمان ملهاش علاقة بالانطباع بتاع القولون اللي موجود  تحت خالص.</p><p>يبقا الإجابة الصحيحة هي : C. Broad expanded lateral end</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q017">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q018" data-type="mcq" data-correct="C" data-idx="18">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q018"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q018">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q018" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q18</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q018" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q018" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">Where is the pancreatic impression located?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q018"><li class="opt" data-letter="A">A. Superior border</li>
+<li class="opt" data-letter="B">B. Medial end</li>
+<li class="opt is-correct" data-letter="C">C. Close to the lateral end of the hilum</li>
+<li class="opt" data-letter="D">D. Inferior border</li>
+<li class="opt" data-letter="E">E. Diaphragmatic surface</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q018">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; Close to the lateral end of the hilum</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Pancreatic impression (الانطباع البنكرياسي) بيتكون  على الـ Spleen (الطحال) نتيجة تلامس ديل البنكرياس معاه. التلامس ده بيحصل في  منطقة صغيرة جداً موجودة Close to the lateral end of the hilum (بالقرب من الطرف  الجانبي للنقير). المكان ده هيا اللي بيستقبل ديل البنكرياس وهو داخل في الرباط،  وده بيسبب ترك أثر أو انطباع خفيف، وبيؤدي لتحديد العلاقة الوثيقة بينهم جراحياً  عشان ديل البنكرياس ميتجرحش وقت استئصال الطحال.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Superior border: الـ Superior border (الحافة العلوية) دي الحافة اللي فوق  ومكانها بعيد عن ديل البنكرياس اللي بيوصل للنقير. .<br>B) Medial end: الـ Medial end (الطرف الداخلي) بيكون ورا ناحية العمود الفقري،  ومش هو ده المكان اللي بيلمس البنكرياس. .<br>D) Inferior border: الـ Inferior border (الحافة السفلية) دي الحافة اللي ورا  وتحت، والبنكرياس بيلمس الطحال عند النقير مش عند الحافة دي. .<br>E) Diaphragmatic surface: الـ Diaphragmatic surface (السطح الحجابي) ده السطح  الخارجي الأملس اللي بيلمس الحجاب الحاجز، والبنكرياس موجود جوه على السطح الحشوي.</p><p>يبقا الإجابة الصحيحة هي : C. Close to the lateral end of the hilum</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q018">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q019" data-type="mcq" data-correct="C" data-idx="19">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q019"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q019">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q019" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q19</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q019" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q019" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">The spleen is completely covered by visceral peritoneum except at the:</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q019"><li class="opt" data-letter="A">A. Superior border</li>
+<li class="opt" data-letter="B">B. Lateral end</li>
+<li class="opt is-correct" data-letter="C">C. Hilum</li>
+<li class="opt" data-letter="D">D. Inferior border</li>
+<li class="opt" data-letter="E">E. Medial end</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q019">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; Hilum</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Spleen (الطحال) بيعتبر من الأعضاء اللي بتكون داخل  التجويف البريتوني (Intraperitoneal)، يعني متغطي بالكامل بـ Visceral peritoneum  (الغشاء البريتوني الحشوي). لكن فيه منطقة واحدة بس مش متغطية بالبريتون وهيا الـ  Hilum (النقير). المنطقة دي هيا اللي بيدخل ويخرج منها الـ Splenic vessels  (الأوعية الطحالية)، وده بيسبب إن البريتون يعكس مساره عشان يعمل الأربطة، وبيؤدي  لترك النقير بدون غطاء مباشر من البريتون.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Superior border: الـ Superior border (الحافة العلوية) دي حافة حرة ومسننة  ومتغطية بالبريتون بالكامل. .<br>B) Lateral end: الـ Lateral end (الطرف الجانبي) كمان متغطي بالبريتون، والقولون  بيسنده من تحت. .<br>D) Inferior border: الـ Inferior border (الحافة السفلية) دي حافة ناعمة ومتغطية  تماماً بالبريتون الحشوي. .<br>E) Medial end: الـ Medial end (الطرف الداخلي) متغطي بالبريتون زي باقي أجزاء  الطحال باستثناء النقير.</p><p>يبقا الإجابة الصحيحة هي : C. Hilum</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q019">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q020" data-type="mcq" data-correct="C" data-idx="20">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q020"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q020">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q020" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q20</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q020" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q020" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">Which ligament extends from the splenic hilum to the fundus of the 
+stomach?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q020"><li class="opt" data-letter="A">A. Lienorenal ligament</li>
+<li class="opt" data-letter="B">B. Phrenicocolic ligament</li>
+<li class="opt is-correct" data-letter="C">C. Gastrosplenic ligament</li>
+<li class="opt" data-letter="D">D. Splenocolic ligament</li>
+<li class="opt" data-letter="E">E. Hepatogastric ligament</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q020">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; Gastrosplenic ligament</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الرباط اللي بيمتد من الـ Hilum (النقير) بتاع الـ Spleen  (الطحال) لحد الـ Fundus (قاع المعدة) وكمان الـ Greater curvature (الانحناء  الأكبر) بتاع الـ Stomach (المعدة) هو الـ Gastrosplenic ligament (الرباط المعدي  الطحالي). الرباط ده بيتكون من طيتين من البريتون، ويمر فيه الـ Short gastric  vessels (الأوعية المعدية القصيرة)، وده بيسبب تثبيت الطحال بالمعدة، وبيؤدي  للحفاظ على موقعه التشريحي السليم.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Lienorenal ligament: الـ Lienorenal ligament (الرباط الطحالي الكلوي) بيمتد  من النقير لحد الـ Left kidney (الكلية اليسرى)، مش للمعدة خالص، ويمر فيه الأوعية الطحالية وديل البنكرياس. .<br>B) Phrenicocolic ligament: الـ Phrenicocolic ligament (الرباط الحجابي القولوني) بيمتد من الحجاب الحاجز للقولون وبيسند الطحال من تحت، بس مش بيمسك في الطحال أو  المعدة بشكل مباشر. .<br>D) Splenocolic ligament: مفيش رباط أساسي ورئيسي بالاسم ده بيمتد من النقير  للمعدة، التسمية دي مش دقيقة لوصف الرباط اللي في السؤال. .<br>E) Hepatogastric ligament: الـ Hepatogastric ligament (الرباط الكبدي المعدي) ده جزء من الـ Lesser omentum (الثرب الأصغر) وبيربط الكبد بالمعدة، وملوش أي علاقة  بالطحال.</p><p>يبقا الإجابة الصحيحة هي : C. Gastrosplenic ligament</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q020">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q021" data-type="mcq" data-correct="B" data-idx="21">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q021"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q021">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q021" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q21</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q021" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q021" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">Which vessels are contained within the gastrosplenic ligament?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q021"><li class="opt" data-letter="A">A. Splenic artery and vein</li>
+<li class="opt is-correct" data-letter="B">B. Short gastric and left gastroepiploic</li>
+<li class="opt" data-letter="C">C. Left gastric artery</li>
+<li class="opt" data-letter="D">D. Renal vessels</li>
+<li class="opt" data-letter="E">E. Inferior mesenteric vessels</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q021">
+    <div class="answer-reveal">&#9989; Correct: B &mdash; Short gastric and left gastroepiploic</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Gastrosplenic ligament (الرباط المعدي الطحالي) بيتكون كطية من البريتون بتمتد من الـ Hilum (النقير) بتاع الـ Spleen (الطحال) لحد  المعدة. كمان، الرباط ده بيمر جواه أوعية دموية مهمة جداً هيا الـ Short gastric  vessels (الأوعية المعدية القصيرة) والـ Left gastroepiploic vessels (الأوعية  المعدية الثربية اليسرى). وجود الأوعية دي هنا بيسبب تغذية دموية للمعدة وبيؤدي  لربط الطحال بيها تشريحياً بشكل محكم.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Splenic artery and vein: الـ Splenic artery and vein (الشريان والوريد  الطحالي) مش بيمشوا في الرباط ده، لكن بيمروا في رباط تاني اسمه الـ Lienorenal  ligament (الرباط الطحالي الكلوي) عشان يوصلوا للنقير. .<br>C) Left gastric artery: الـ Left gastric artery (الشريان المعدي الأيسر) بيمشي  على الـ Lesser curvature (الانحناء الأصغر) بتاع المعدة، وملوش علاقة بالرباط  اللي بيمسك في الطحال. .<br>D) Renal vessels: الـ Renal vessels (الأوعية الكلوية) بتدخل وتخرج من الكلية  مباشرة من خلال الـ Renal hilum (نقير الكلية)، مش بتعدي في أربطة الطحال. .<br>E) Inferior mesenteric vessels: الـ Inferior mesenteric vessels (الأوعية  المساريقية السفلية) بتغذي الجزء السفلي من الأمعاء والقولون، ومكانها بعيد جداً  تحت في البطن.</p><p>يبقا الإجابة الصحيحة هي : B. Short gastric and left gastroepiploic</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q021">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q022" data-type="mcq" data-correct="B" data-idx="22">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q022"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q022">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q022" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q22</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q022" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q022" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">The lienorenal ligament extends from the splenic hilum to the:</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q022"><li class="opt" data-letter="A">A. Diaphragm</li>
+<li class="opt is-correct" data-letter="B">B. Left kidney</li>
+<li class="opt" data-letter="C">C. Tail of the pancreas</li>
+<li class="opt" data-letter="D">D. Stomach</li>
+<li class="opt" data-letter="E">E. Descending colon</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q022">
+    <div class="answer-reveal">&#9989; Correct: B &mdash; Left kidney</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Lienorenal ligament أو Splenorenal ligament (الرباط  الطحالي الكلوي) هو طية بريتونية بتمتد من الـ Splenic hilum (نقير الطحال) لحد ما تمسك في الـ Left kidney (الكلية اليسرى). كمان، الرباط ده بيتكون عشان يثبت  الطحال في مكانه ورا، وهيا دي الميكانيزم اللي بتمرر الأوعية الدموية الأساسية  بتاع الطحال عشان تدخل وتخرج منه. ده بيسبب أمان للأوعية وبيؤدي لاستقرار تشريحي  للعضو ده.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Diaphragm: الـ Diaphragm (الحجاب الحاجز) بيفصل الطحال عن الضلوع وبيعمل معاه  تلامس مباشر، بس الرباط ده مش بيمتد ليه، لأن اللي بيمسك في الحجاب الحاجز هو رباط تاني زي الـ Phrenicocolic ligament. .<br>C) Tail of the pancreas: الـ Tail of the pancreas (ديل البنكرياس) بيمشي جوه  الرباط ده فعلاً لحد ما يلمس نقير الطحال، بس الرباط نفسه كمنشأ ومندغم بيمتد لحد  الكلية اليسرى مش بينتهي عند البنكرياس. .<br>D) Stomach: الـ Stomach (المعدة) بيمسك فيها رباط تاني خالص طالع من الطحال اسمه  الـ Gastrosplenic ligament (الرباط المعدي الطحالي)، ومش الرباط ده. .<br>E) Descending colon: الـ Descending colon (القولون النازل) ملوش رباط مباشر  بيمسك في نقير الطحال، الطحال بس بيسند على الثنية القولونية اليسرى من تحت.</p><p>يبقا الإجابة الصحيحة هي : B. Left kidney</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q022">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q023" data-type="mcq" data-correct="D" data-idx="23">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q023"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q023">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q023" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q23</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q023" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q023" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">Which of these is NOT a content of the lienorenal ligament?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q023"><li class="opt" data-letter="A">A. Tail of pancreas</li>
+<li class="opt" data-letter="B">B. Splenic vessels</li>
+<li class="opt" data-letter="C">C. Pancreatico-splenic lymph nodes</li>
+<li class="opt is-correct" data-letter="D">D. Short gastric vessels</li>
+<li class="opt" data-letter="E">E. Extraperitoneal tissue</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q023">
+    <div class="answer-reveal">&#9989; Correct: D &mdash; Short gastric vessels</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Lienorenal ligament (الرباط الطحالي الكلوي) بيحتوي  جواه على تراكيب مهمة جداً بتاع الـ Spleen (الطحال). لكن الـ Short gastric  vessels (الأوعية المعدية القصيرة) مش من ضمن المحتويات دي خالص، لأنها بتمشي في  رباط تاني هو الـ Gastrosplenic ligament (الرباط المعدي الطحالي). كمان، الأوعية  دي هيا اللي بتروح تغذي المعدة، وده بيسبب فصلها عن مسار الأوعية الطحالية  الأساسية، وبيؤدي لإنها تكون الاستثناء الصحيح هنا لأن الرباط ده بيتكون من تراكيب تانية.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Tail of pancreas: الـ Tail of pancreas (ديل البنكرياس) بيتكون ويمتد جواه  الرباط ده لحد ما يلمس نقير الطحال، وده بيسبب خطورة عليه أثناء استئصال الطحال  جراحياً، فمش هنختاره. .<br>B) Splenic vessels: الـ Splenic vessels (الأوعية الطحالية) زي الشريان والوريد  الطحالي بيمروا بشكل أساسي جوه الرباط ده عشان يدخلوا الطحال. .<br>C) Pancreatico-splenic lymph nodes: الـ Pancreatico-splenic lymph nodes (العقد  اللمفاوية البنكرياسية الطحالية) بتمشي مع الأوعية الطحالية جوه نفس الرباط، وده  بيؤدي لتنقية اللمف من المنطقة دي. .<br>E) Extraperitoneal tissue: الـ Extraperitoneal tissue (النسيج خارج البريتون) أو الدهون، بتكون موجودة كحشوة طبيعية جوه طيات البريتون دي كلها بما فيها الرباط ده.</p><p>يبقا الإجابة الصحيحة هي : D. Short gastric vessels</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q023">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q024" data-type="mcq" data-correct="C" data-idx="24">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q024"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q024">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q024" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q24</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q024" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q024" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">What is the origin of the splenic artery?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q024"><li class="opt" data-letter="A">A. Superior mesenteric artery</li>
+<li class="opt" data-letter="B">B. Abdominal aorta</li>
+<li class="opt is-correct" data-letter="C">C. Coeliac trunk</li>
+<li class="opt" data-letter="D">D. Left gastric artery</li>
+<li class="opt" data-letter="E">E. Hepatic artery</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q024">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; Coeliac trunk</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Splenic artery (الشريان الطحالي) هو أكبر فرع بيطلع من الـ Coeliac trunk (الجذع الزلاقي). الجذع ده بيتكون من الأورطى البطني  تحت الحجاب الحاجز مباشرة، وبيسبب خروج الشريان ده عشان يمشي بالعرض ويروح يغذي  الـ Spleen (الطحال). كمان، الخروج المباشر ده من الجذع الزلاقي هيا الطريقة اللي  بتوفر كمية دم كبيرة ومباشرة بتاع الطحال، وبيؤدي لأداء وظيفته بكفاءة.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Superior mesenteric artery: الـ Superior mesenteric artery (الشريان  المساريقي العلوي) بيطلع تحت الجذع الزلاقي، ووظيفته الأساسية هيا تغذية الأمعاء  الدقيقة وجزء من القولون، ومش بيطلع منه الشريان الطحالي خالص. .<br>B) Abdominal aorta: الـ Abdominal aorta (الأورطى البطني) هو الشريان الأم  الكبير، بس الشريان الطحالي مش بيطلع منه بشكل مباشر، ده بيطلع من فرع من فروعه  اللي هو الجذع الزلاقي. .<br>D) Left gastric artery: الـ Left gastric artery (الشريان المعدي الأيسر) هو فرع  تاني طالع برضه من الجذع الزلاقي عشان يغذي المعدة، بس مش هو الـ Origin (المنشأ)  بتاع الشريان الطحالي. .<br>E) Hepatic artery: الـ Hepatic artery (الشريان الكبدي) هو الفرع التالت بتاع  الجذع الزلاقي واللي بيروح يغذي الكبد، يعني هو أخو الشريان الطحالي مش المنشأ  بتاعه.</p><p>يبقا الإجابة الصحيحة هي : C. Coeliac trunk</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q024">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q025" data-type="mcq" data-correct="C" data-idx="25">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q025"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q025">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q025" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q25</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q025" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q025" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">What is the characteristic course of the splenic artery along the 
+pancreas?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q025"><li class="opt" data-letter="A">A. Straight</li>
+<li class="opt" data-letter="B">B. Descending</li>
+<li class="opt is-correct" data-letter="C">C. Tortuous</li>
+<li class="opt" data-letter="D">D. Ascending</li>
+<li class="opt" data-letter="E">E. Retroperitoneal vertical</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q025">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; Tortuous</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، المسار أو الـ Course بتاع الـ Splenic artery (الشريان  الطحالي) بيتميز جداً في التشريح بإنه بيكون Tortuous (متعرج وملتوي) وهو ماشي على الحافة العلوية بتاعة البنكرياس. التعرج ده بيتكون كحكمة ربانية عشان يسمح  بتمدد المعدة من غير ما الشريان يتشد أو يتقطع. كمان، المسار اللي هيا دي صفته  بيسبب تقليل ضغط الدم المندفع بقوة للطحال، وبيؤدي لحماية أنسجته الدقيقة.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Straight: المسار مش بيكون Straight (مستقيم) خالص، لأن الاستقامة دي هتخليه  عرضة للتمزق مع أي تمدد للأعضاء اللي حواليه زي المعدة. .<br>B) Descending: الشريان الطحالي بيمشي بالعرض (Horizontally) ناحية الشمال، ومش  بينزل لتحت (Descending) في مساره الأساسي. .<br>D) Ascending: برضه الشريان مش بيطلع لفوق (Ascending) بشكل ملحوظ، هو بيمشي متعرج في اتجاه أفقي فوق البنكرياس لحد ما يوصل للطحال. .<br>E) Retroperitoneal vertical: المسار ده مش عمودي (Vertical) نهائياً، الشريان  بيمشي أفقياً، والمسار العمودي ده بيخص أوعية تانية في البطن زي الأورطى نفسه.</p><p>يبقا الإجابة الصحيحة هي : C. Tortuous</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q025">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q026" data-type="mcq" data-correct="C" data-idx="26">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q026"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q026">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q026" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q26</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q026" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q026" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">The splenic artery typically divides into how many end branches?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q026"><li class="opt" data-letter="A">A. 2-3</li>
+<li class="opt" data-letter="B">B. 3-4</li>
+<li class="opt is-correct" data-letter="C">C. 5-6</li>
+<li class="opt" data-letter="D">D. 7-8</li>
+<li class="opt" data-letter="E">E. 9-10</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q026">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; 5-6</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Splenic artery (الشريان الطحالي) لما بيقرب من الـ  Spleen (الطحال) عشان يدخله، بيتقسم عند الـ Hilum (النقير) لعدد من الـ End  branches (الفروع النهائية). تشريحياً وعلمياً، الشريان ده بيتكون من 5-6 فروع  نهائية قبل ما يخترق محفظة الطحال ويدخل نسيجه. التفرع ده بيسبب توزيع ممتاز للدم  جوه العضو وبيؤدي لتغذية كل الفصوص الصغيرة بكفاءة عالية.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) 2-3: الـ 2-3 فروع ده عدد قليل جداً ومش بيكفي لتغطية كل الحجم بتاع الطحال، لأن التوزيع التشريحي بيحتاج شبكة أوسع عشان يغطي كل النسيج الداخلي. .<br>B) 3-4: رغم إن العدد ده أكبر شوية، بس برضه أقل من العدد القياسي المعتمد في  دراستنا التشريحية للفروع النهائية اللي بتدخل من النقير. .<br>D) 7-8: العدد ده كبير أكتر من اللازم، الشريان الطحالي مش بيتقسم للعدد ده كله  بره الطحال، التفرعات الكتير دي بتحصل جوه النسيج نفسه في شكل الـ Trabecular  arteries (الشرايين الترابيقية). .<br>E) 9-10: الرقم ده مبالغ فيه جداً بالنسبة لعدد الفروع الأساسية اللي بتخترق محفظة الطحال، فمش هو العدد الصحيح علمياً.</p><p>يبقا الإجابة الصحيحة هي : C. 5-6</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q026">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q027" data-type="mcq" data-correct="B" data-idx="27">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q027"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q027">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q027" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q27</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q027" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q027" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">The splenic vein follows which course relative to the pancreas?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q027"><li class="opt" data-letter="A">A. Tortuous above</li>
+<li class="opt is-correct" data-letter="B">B. Straight behind</li>
+<li class="opt" data-letter="C">C. Tortuous behind</li>
+<li class="opt" data-letter="D">D. Straight in front</li>
+<li class="opt" data-letter="E">E. Vertical beside</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q027">
+    <div class="answer-reveal">&#9989; Correct: B &mdash; Straight behind</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Splenic vein (الوريد الطحالي) بيمشي في مسار مختلف  تماماً عن الشريان بتاعه. الوريد ده بيتكون ورا الـ Pancreas (البنكرياس) وبيمشي  بشكل Straight (مستقيم) و Behind (خلف) البنكرياس لحد ما يتحد مع الوريد المساريقي العلوي. المسار ده هيا اللي بيسبب حماية للوريد وبيؤدي لسهولة رجوع الدم من الطحال بدون أي إعاقة، كمان مساره المستقيم بيقلل مقاومة تدفق الدم.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Tortuous above: الـ Tortuous above (متعرج وفوق) ده الوصف الدقيق لمسار الـ  Splenic artery (الشريان الطحالي) اللي بيمشي فوق البنكرياس، مش الوريد الطحالي  خالص. .<br>C) Tortuous behind: الوريد فعلاً بيمشي ورا البنكرياس، بس مساره مش بيكون Tortuous (متعرج)، لأنه كـ vein بيحتاج مسار مستقيم عشان يسهل حركة الدم تحت ضغط واطي. .<br>D) Straight in front: الوريد مش بيمشي In front (أمام) البنكرياس، لأن البنكرياس  بيغطيه وبيكون موجود قدامه، فالوريد بيكون مدفون وراه. .<br>E) Vertical beside: مسار الوريد الطحالي بيكون أفقي (Horizontal) متجه ناحية  اليمين عشان يقابل الأوردة التانية، ومش بيكون Vertical (عمودي) أو رأسي خالص.</p><p>يبقا الإجابة الصحيحة هي : B. Straight behind</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q027">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q028" data-type="mcq" data-correct="B" data-idx="28">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q028"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q028">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q028" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q28</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q028" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q028" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">Where is the splenic vein formed?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q028"><li class="opt" data-letter="A">A. Behind the neck of the pancreas</li>
+<li class="opt is-correct" data-letter="B">B. At the hilum of the spleen</li>
+<li class="opt" data-letter="C">C. In the gastrosplenic ligament</li>
+<li class="opt" data-letter="D">D. At the coeliac trunk</li>
+<li class="opt" data-letter="E">E. Near the left kidney</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q028">
+    <div class="answer-reveal">&#9989; Correct: B &mdash; At the hilum of the spleen</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Splenic vein (الوريد الطحالي) بيتكون وبتبدأ رحلته عند الـ Hilum (نقير الطحال). الميكانيزم بتاعه إن الدم الوريدي بيرجع من الـ Red pulp (اللب الأحمر) عن طريق أوردة صغيرة بتتجمع مع بعضها وتكون الـ Trabecular veins  (الأوردة الترابيقية). الأوردة دي بتتحد مع بعض عند مخرج الطحال اللي هو النقير  عشان تعمل الوريد الرئيسي. التجمع ده بيسبب سحب الدم بكفاءة وبيؤدي لرجوعه في  دورة الدم البابية.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Behind the neck of the pancreas: المنطقة اللي ورا الـ Neck (عنق) البنكرياس  هيا المكان اللي الوريد الطحالي بيتحد فيه مع الوريد المساريقي العلوي عشان يكونوا الـ Portal vein (الوريد البابي)، مش المكان اللي بيتكون فيه الوريد الطحالي نفسه. .<br>C) In the gastrosplenic ligament: الـ Gastrosplenic ligament (الرباط المعدي  الطحالي) بيمر فيه الـ Short gastric vessels (الأوعية المعدية القصيرة)، ومش ده  المكان اللي بيتكون فيه الوريد الطحالي الأساسي. .<br>D) At the coeliac trunk: الـ Coeliac trunk (الجذع الزلاقي) هو المكان اللي بيطلع منه الشريان الطحالي (Origin of splenic artery)، وملوش علاقة بتكوين أو بداية  الوريد اللي بيشيل الدم الراجع. .<br>E) Near the left kidney: رغم إن الوريد بيمر في الرباط الطحالي الكلوي ناحية الـ  Left kidney (الكلية اليسرى)، لكن نقطة التكوين الأساسية والبداية بتاع الوريد  بتكون عند النقير نفسه مش مجرد جنب الكلية.</p><p>يبقا الإجابة الصحيحة هي : B. At the hilum of the spleen</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q028">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q029" data-type="mcq" data-correct="C" data-idx="29">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q029"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q029">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q029" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q29</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q029" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q029" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">Lymphatics from the splenic capsule and trabeculae drain into:</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q029"><li class="opt" data-letter="A">A. Coeliac lymph nodes</li>
+<li class="opt" data-letter="B">B. Superior mesenteric nodes</li>
+<li class="opt is-correct" data-letter="C">C. Pancreaticosplenic lymph nodes</li>
+<li class="opt" data-letter="D">D. Para-aortic nodes</li>
+<li class="opt" data-letter="E">E. Hilar nodes</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q029">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; Pancreaticosplenic lymph nodes</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Lymphatics (الأوعية اللمفاوية) اللي بتطلع من الـ  Capsule (المحفظة) والـ Trabeculae (الترابيق) بتاع الـ Spleen (الطحال) بتسحب  اللمف وتروح تصُب في عقد لمفاوية قريبة منها جداً اسمها الـ Pancreaticosplenic  lymph nodes (العقد اللمفاوية البنكرياسية الطحالية) الموجودة في الرباط الطحالي  الكلوي. العقد دي بتمتد مع الأوعية الطحالية، وده بيسبب تنقية فورية للمف  وبيؤدي لحماية المنطقة دي من أي عدوى أو خلايا سرطانية.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Coeliac lymph nodes: اللمف في النهاية ممكن يوصل للـ Coeliac nodes كمحطة  نهائية، بس المحطة الأولى والمباشرة اللي بتستقبل اللمف من محفظة الطحال هيا العقد البنكرياسية الطحالية. .<br>B) Superior mesenteric nodes: العقد دي مسؤولة عن استقبال اللمف من أجزاء من  الأمعاء الدقيقة والغليظة اللي بتتغذى بالشريان المساريقي العلوي، وملهاش علاقة  مباشرة بالطحال. .<br>D) Para-aortic nodes: الـ Para-aortic nodes (العقد المجاورة للأبهر) بتستقبل  اللمف من أعضاء الحوض والكلى والخصية/المبيض، مش هيا المحطة المباشرة بتاع الطحال. .<br>E) Hilar nodes: رغم إن فيه عقد عند النقير، بس الاسم التشريحي المعتمد والشامل  للمجموعة اللي بتمتد من النقير وعلى طول البنكرياس واللي بتستقبل اللمف ده هيا الـ Pancreaticosplenic nodes.</p><p>يبقا الإجابة الصحيحة هي : C. Pancreaticosplenic lymph nodes</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q029">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q030" data-type="mcq" data-correct="C" data-idx="30">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q030"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q030">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q030" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q30</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q030" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q030" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">Which part of the spleen has no lymph vessels?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q030"><li class="opt" data-letter="A">A. Capsule</li>
+<li class="opt" data-letter="B">B. Trabeculae</li>
+<li class="opt is-correct" data-letter="C">C. Splenic pulp</li>
+<li class="opt" data-letter="D">D. Hilum</li>
+<li class="opt" data-letter="E">E. Visceral surface</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q030">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; Splenic pulp</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Splenic pulp (لب الطحال) سواء كان أحمر أو أبيض بيتكون بشكل فريد ومفيهوش أي Lymph vessels (أوعية لمفاوية) من جوه خالص. الأوعية  اللمفاوية في الطحال بتكون مقتصرة بس على المحفظة والترابيق. غياب الأوعية  اللمفاوية من اللب بيسبب إن مجرى الدم نفسه هو اللي بيمر مباشرة على الـ  Lymphocytes (الخلايا الليمفاوية) والماكروفاج جوه اللب، وده بيؤدي لإن الطحال  يشتغل كفلتر للدم من الأجسام الغريبة والخلايا العجوزة (Filter of blood) مش فلتر  للمف.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Capsule: الـ Capsule (محفظة الطحال) فيها فعلاً أوعية لمفاوية بتجمع اللمف من  السطح الخارجي وتوديه للعقد اللمفاوية، فمش هيا الجزء اللي مفيهوش. .<br>B) Trabeculae: الـ Trabeculae (الترابيق) اللي بتدخل من المحفظة لجوه العضو  بتحتوي كمان على أوعية لمفاوية بتمشي مع الأوعية الدموية جوه العضو. .<br>D) Hilum: الـ Hilum (النقير) هو المخرج الأساسي اللي بتطلع منه الأوعية اللمفاوية اللي جاية من المحفظة والترابيق عشان تروح للعقد اللمفاوية البنكرياسية الطحالية،  فأكيد موجودة فيه. .<br>E) Visceral surface: الـ Visceral surface (السطح الحشوي) متغطي بالمحفظة  (Capsule) اللي زي ما وضحنا فيها أوعية لمفاوية، فالاستثناء الوحيد اللي مفيهوش هو اللب الداخلي نفسه.</p><p>يبقا الإجابة الصحيحة هي : C. Splenic pulp</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q030">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q031" data-type="mcq" data-correct="B" data-idx="31">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q031"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q031">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q031" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q31</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q031" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q031" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">The nerve supply to the spleen is mainly:</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q031"><li class="opt" data-letter="A">A. Parasympathetic from Vagus</li>
+<li class="opt is-correct" data-letter="B">B. Sympathetic from coeliac plexus</li>
+<li class="opt" data-letter="C">C. Somatic from intercostal nerves</li>
+<li class="opt" data-letter="D">D. Phrenic nerve</li>
+<li class="opt" data-letter="E">E. Splanchnic nerves only</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q031">
+    <div class="answer-reveal">&#9989; Correct: B &mdash; Sympathetic from coeliac plexus</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الإمداد العصبي بتاع الـ Spleen (الطحال) بيتكون بشكل أساسي من ألياف عصبية سمبثاوية جاية من الـ Coeliac plexus (الضفيرة الزلاقية). الألياف  دي بتمشي مع الـ Splenic artery (الشريان الطحالي) عشان تدخل الطحال، وده بيسبب  تحكم في الأوعية الدموية وبيؤدي لتنظيم تدفق الدم. هيا دي الأعصاب الوحيدة اللي  بتغذيه في الأساس بناءً على مصادرنا.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Parasympathetic from Vagus: الـ Vagus nerve (العصب الحائر) بيدي إمداد لمعظم  أعضاء البطن، لكن الطحال ملوش أي إمداد باراسمبثاوي واضح، والاعتماد كله بتاع  التغذية العصبية بيكون على السمبثاوي. .<br>C) Somatic from intercostal nerves: الـ Intercostal nerves (الأعصاب البيضلعية)  دي أعصاب جسدية مش بتغذي الأعضاء الحشوية زي الطحال من جوه، كمان هيا بتغذي جدار  البطن بس. .<br>D) Phrenic nerve: الـ Phrenic nerve (العصب الحجابي) بيغذي الـ Diaphragm (الحجاب الحاجز)، وملوش علاقة بتغذية الطحال المباشرة. .<br>E) Splanchnic nerves only: الـ Splanchnic nerves (الأعصاب الحشوية) بتحمل ألياف  سمبثاوية، لكنها بتعمل تشابك الأول في الـ Coeliac plexus، يبقا اختيار الضفيرة  الزلاقية كمصدر مباشر للطحال هو الأدق.</p><p>يبقا الإجابة الصحيحة هي : B. Sympathetic from coeliac plexus</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q031">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q032" data-type="mcq" data-correct="C" data-idx="32">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q032"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q032">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q032" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q32</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q032" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q032" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">The nerves supplying the spleen are primarily:</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q032"><li class="opt" data-letter="A">A. Sensory</li>
+<li class="opt" data-letter="B">B. Secretomotor</li>
+<li class="opt is-correct" data-letter="C">C. Vasomotor</li>
+<li class="opt" data-letter="D">D. Motor</li>
+<li class="opt" data-letter="E">E. Proprioceptive</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q032">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; Vasomotor</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الأعصاب اللي بتغذي الـ Spleen (الطحال) هيا في الأساس  ألياف Vasomotor (محركة للأوعية الدموية). يعني الوظيفة الرئيسية بتاع الأعصاب دي  إنها بتتحكم في انقباض الأوعية الدموية، وده بيسبب تنظيم كمية الدم اللي متخزنة  فيه وبيؤدي لدفع الدم وقت الحاجة لتنشيط الدورة الدموية.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Sensory: الطحال ملوش ألياف Sensory (حسية) جوه نسيجه الداخلي، الإحساس بالألم  بييجي بس من المحفظة بتاعته لو حصلها تمدد، مش من الأعصاب اللي بتغذي نسيجه  الأساسي. .<br>B) Secretomotor: الـ Secretomotor fibers (الألياف المحركة للإفرازات) دي بتروح  للغدد، والطحال مش غدة إفرازية عشان يحتاج النوع ده، كمان هو عضو لمفاوي ووعائي. .<br>D) Motor: الـ Motor nerves (الأعصاب الحركية) بتغذي العضلات الهيكلية، والطحال  عضو حشوي مفيهوش عضلات هيكلية عشان تتحرك. .<br>E) Proprioceptive: الـ Proprioceptive fibers (ألياف الحس العميق) مسؤولة عن  الإحساس بوضع المفاصل في الفراغ، وملهاش أي وجود أو وظيفة في الطحال.</p><p>يبقا الإجابة الصحيحة هي : C. Vasomotor</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q032">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q033" data-type="mcq" data-correct="C" data-idx="33">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q033"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q033">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q033" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q33</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q033" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q033" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">What is the main supporting factor of the spleen?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q033"><li class="opt" data-letter="A">A. Gastrosplenic ligament</li>
+<li class="opt" data-letter="B">B. Lienorenal ligament</li>
+<li class="opt is-correct" data-letter="C">C. Phrenico-colic ligament</li>
+<li class="opt" data-letter="D">D. Splenocolic ligament</li>
+<li class="opt" data-letter="E">E. The ribs</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q033">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; Phrenico-colic ligament</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Main supporting factor (عامل الدعم الأساسي) بتاع الـ  Spleen (الطحال) هو الـ Phrenico-colic ligament (الرباط الحجابي القولوني).  الرباط ده بيتكون كرف (Shelf) بين الحجاب الحاجز والثنية القولونية اليسرى وبينام  عليه الطحال، وده بيسبب دعم قوي ليه وبيؤدي لمنع سقوطه لتحت في تجويف البطن.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Gastrosplenic ligament: الـ Gastrosplenic ligament (الرباط المعدي الطحالي)  بيربط الطحال بالمعدة، لكن وظيفته الأساسية التوصيل مش الدعم ورفع الطحال من تحت،  كمان هو بيمشي فيه أوعية دموية. .<br>B) Lienorenal ligament: الـ Lienorenal ligament (الرباط الطحالي الكلوي) بيمسك  الطحال في الكلية اليسرى، لكنه مش الرف الأساسي اللي بيسند وزنه كلياً من الأسفل. .<br>D) Splenocolic ligament: مفيش رباط تشريحي أساسي بالاسم ده بيعتبر الداعم  الرئيسي، الدعم بييجي بشكل مباشر من الرباط الحجابي القولوني. .<br>E) The ribs: الـ Ribs (الضلوع) بتوفر حماية للطحال من الخارج، لكنها مش بتعمل دعم مباشر لأنسجته من جوه البطن زي الأربطة البريتونية.</p><p>يبقا الإجابة الصحيحة هي : C. Phrenico-colic ligament</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q033">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q034" data-type="mcq" data-correct="B" data-idx="34">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q034"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q034">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q034" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q34</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q034" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q034" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">The superior border of the spleen is in line with the superior border of 
+which rib?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q034"><li class="opt" data-letter="A">A. 8th rib</li>
+<li class="opt is-correct" data-letter="B">B. 9th rib</li>
+<li class="opt" data-letter="C">C. 10th rib</li>
+<li class="opt" data-letter="D">D. 11th rib</li>
+<li class="opt" data-letter="E">E. 12th rib</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q034">
+    <div class="answer-reveal">&#9989; Correct: B &mdash; 9th rib</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Superior border (الحافة العلوية) بتاع الـ Spleen  (الطحال) بتكون في نفس مستوى الحافة العلوية بتاعة الـ 9th rib (الضلع التاسع) في  الناحية الشمال. التحديد ده هيا الطريقة التشريحية اللي بتسبب دقة في معرفة حدود  الطحال الطبيعية، وبيؤدي لتقييم أي تضخم بسهولة بناءً على مقرراتنا.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) 8th rib: الـ 8th rib (الضلع التامن) بيكون مستواه أعلى من الحدود التشريحية  الطبيعية بتاع الحافة العلوية للطحال. .<br>C) 10th rib: الـ 10th rib (الضلع العاشر) هو اللي بيكون موازي للمحور الطولي بتاع الطحال ككل، ومش هو اللي بيحدد الحافة العلوية المباشرة. .<br>D) 11th rib: الـ 11th rib (الضلع الحداشر) بيحدد مستوى الحافة السفلية للطحال، مش العلوية خالص. .<br>E) 12th rib: الـ 12th rib (الضلع الاثناشر) مكانه تحت مستوى الطحال، وملوش علاقة  بحدوده العلوية نهائياً.</p><p>يبقا الإجابة الصحيحة هي : B. 9th rib</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q034">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q035" data-type="mcq" data-correct="C" data-idx="35">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q035"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q035">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q035" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q35</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q035" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q035" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">The inferior border of the spleen is in line with the inferior border of 
+which rib?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q035"><li class="opt" data-letter="A">A. 9th rib</li>
+<li class="opt" data-letter="B">B. 10th rib</li>
+<li class="opt is-correct" data-letter="C">C. 11th rib</li>
+<li class="opt" data-letter="D">D. 12th rib</li>
+<li class="opt" data-letter="E">E. 8th rib</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q035">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; 11th rib</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Inferior border (الحافة السفلية) بتاع الـ Spleen  (الطحال) بتكون موازية وفي نفس مستوى الحافة السفلية بتاعة الـ 11th rib (الضلع  الحداشر). الامتداد ده بين الضلع التاسع والحداشر بيسبب تغطية وحماية كاملة للطحال بالقفص الصدري، وبيؤدي لإننا نقدر نحدد نهاية حجمه من تحت إكلينيكياً.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) 9th rib: الـ 9th rib (الضلع التاسع) بيحدد الحافة العلوية للطحال زي ما  اتكلمنا، مش الحافة السفلية. .<br>B) 10th rib: الـ 10th rib (الضلع العاشر) هيا اللي المحور الطولي للطحال بيكون  موازي ليه، ومش هو حد النهاية السفلية. .<br>D) 12th rib: الـ 12th rib (الضلع الاثناشر) بيكون مستوى نزوله تحت نهاية الطحال  الطبيعية، كمان الطحال مش بيمتد للدرجة دي. .<br>E) 8th rib: الـ 8th rib (الضلع التامن) مكانه فوق خالص، وبعيد جداً عن إنه يحدد أي حافة سفلية לעضو موجود في الجزء السفلي من القفص الصدري.</p><p>يبقا الإجابة الصحيحة هي : C. 11th rib</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q035">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q036" data-type="mcq" data-correct="C" data-idx="36">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q036"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q036">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q036" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q36</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q036" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q036" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">Which ligament contains the tail of the pancreas?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q036"><li class="opt" data-letter="A">A. Gastrosplenic ligament</li>
+<li class="opt" data-letter="B">B. Phrenicocolic ligament</li>
+<li class="opt is-correct" data-letter="C">C. Lienorenal ligament</li>
+<li class="opt" data-letter="D">D. Splenocolic ligament</li>
+<li class="opt" data-letter="E">E. Broad ligament</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q036">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; Lienorenal ligament</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Tail of the pancreas (ديل البنكرياس) بيمتد ويدخل جوه  الـ Lienorenal ligament (الرباط الطحالي الكلوي). الرباط ده بيتكون كطية من  البريتون بتمتد من الـ Spleen (الطحال) لحد الكلية اليسرى، وبيمر جواه ديل  البنكرياس لحد ما يلمس نقير الطحال، وده بيسبب أهمية جراحية عشان ديل البنكرياس  ميتجرحش وقت استئصال الطحال.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Gastrosplenic ligament: الـ Gastrosplenic ligament (الرباط المعدي الطحالي)  بيمر جواه الـ Short gastric vessels (الأوعية المعدية القصيرة) والـ Left  gastroepiploic vessels، ومش بيتكون جواه ديل البنكرياس خالص. .<br>B) Phrenicocolic ligament: الـ Phrenicocolic ligament (الرباط الحجابي القولوني) بيمثل عامل الدعم الأساسي اللي بيسند الطحال من تحت، ومفيش جواه ديل البنكرياس. .<br>D) Splenocolic ligament: مفيش رباط رئيسي معتمد بالاسم ده بيحتوي على ديل  البنكرياس في منهجنا بتاع التشريح. .<br>E) Broad ligament: الـ Broad ligament (الرباط العريض) ده رباط موجود في الحوض  بتاع الأنثى عشان يثبت الرحم، وملوش أي علاقة بالطحال أو البنكرياس في تجويف البطن من فوق.</p><p>يبقا الإجابة الصحيحة هي : C. Lienorenal ligament</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q036">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q037" data-type="mcq" data-correct="B" data-idx="37">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q037"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q037">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q037" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q37</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q037" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q037" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">The spleen is wedged between the diaphragm and which two other 
+structures?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q037"><li class="opt" data-letter="A">A. Liver and gallbladder</li>
+<li class="opt is-correct" data-letter="B">B. Fundus of stomach and left kidney</li>
+<li class="opt" data-letter="C">C. Right kidney and pancreas</li>
+<li class="opt" data-letter="D">D. Transverse colon and liver</li>
+<li class="opt" data-letter="E">E. Stomach and right kidney</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q037">
+    <div class="answer-reveal">&#9989; Correct: B &mdash; Fundus of stomach and left kidney</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Spleen (الطحال) بيكون محشور (Wedged) تشريحياً بين الـ Diaphragm (الحجاب الحاجز) من بره، وبين عضوين تانيين من جوه هما الـ Fundus of  stomach (قاع المعدة) والـ Left kidney (الكلية اليسرى). التموضع ده بيسبب  الانطباعات (Impressions) اللي بنشوفها على السطح الحشوي للطحال، وبيؤدي لاستقراره في مكانه الطبيعي في المراق الأيسر.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Liver and gallbladder: الـ Liver and gallbladder (الكبد والمرارة) موجودين في الناحية اليمين من تجويف البطن، والطحال موجود في الناحية الشمال، فمش ممكن يكون  محشور بينهم. .<br>C) Right kidney and pancreas: الـ Right kidney (الكلية اليمنى) موجودة برضه في  الناحية اليمين بعيد جداً عن الطحال. رغم إن البنكرياس بيلمس الطحال، لكن الكلية  اليمنى بتخلي الخيار ده كله غلط. .<br>D) Transverse colon and liver: الـ Liver (الكبد) زي ما قلنا موجود يمين، والـ  Transverse colon (القولون المستعرض) بيمتد بالعرض، لكن الأعضاء الأساسية المجاورة للطحال هيا المعدة والكلية اليسرى. .<br>E) Stomach and right kidney: الـ Stomach (المعدة) فعلاً بتجاور الطحال، لكن الـ  Right kidney (الكلية اليمنى) موجودة في الناحية العكسية، واللي بيجاور الطحال هو  الكلية اليسرى.</p><p>يبقا الإجابة الصحيحة هي : B. Fundus of stomach and left kidney</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q037">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q038" data-type="mcq" data-correct="B" data-idx="38">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q038"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q038">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q038" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q38</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q038" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q038" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">Which surface of the spleen carries the ill-defined intermediate border?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q038"><li class="opt" data-letter="A">A. Diaphragmatic surface</li>
+<li class="opt is-correct" data-letter="B">B. Visceral surface</li>
+<li class="opt" data-letter="C">C. Lateral surface</li>
+<li class="opt" data-letter="D">D. Medial surface</li>
+<li class="opt" data-letter="E">E. Posterior surface</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q038">
+    <div class="answer-reveal">&#9989; Correct: B &mdash; Visceral surface</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Visceral surface (السطح الحشوي) بتاع الـ Spleen  (الطحال) بيتكون عليه حافة غير واضحة المعالم بنسميها الـ Intermediate border  (الحافة الوسطى). الحافة دي هيا اللي بتفصل بين الانطباعين الكبار اللي هما الـ  Gastric impression (الانطباع المعدي) والـ Renal impression (الانطباع الكلوي).  ده بيسبب شكل مميز للسطح الحشوي وبيؤدي لتحديد أماكن الأعضاء المجاورة بدقة.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Diaphragmatic surface: الـ Diaphragmatic surface (السطح الحجابي) هو السطح  الخارجي للطحال وبيكون أملس (Smooth) ومحدب، ومفيش عليه حواف فاصلة زي الحافة  الوسطى. .<br>C) Lateral surface: مفيش سطح رئيسي في الطحال بنسميه Lateral surface، التقسيم  المعتمد هما السطح الحجابي والسطح الحشوي. .<br>D) Medial surface: برضه مفيش سطح بالاسم ده في التقسيم التشريحي الأساسي للطحال. .<br>E) Posterior surface: الطحال ليه طرف خلفي (Posterior end)، لكن مفيش سطح كامل  بنسميه Posterior surface، والـ Intermediate border موجودة على السطح الحشوي  الداخلي.</p><p>يبقا الإجابة الصحيحة هي : B. Visceral surface</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q038">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q039" data-type="mcq" data-correct="C" data-idx="39">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q039"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q039">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q039" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q39</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q039" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q039" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">The splenic artery runs along which border of the pancreas?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q039"><li class="opt" data-letter="A">A. Inferior border</li>
+<li class="opt" data-letter="B">B. Anterior border</li>
+<li class="opt is-correct" data-letter="C">C. Superior border</li>
+<li class="opt" data-letter="D">D. Posterior border</li>
+<li class="opt" data-letter="E">E. Left border</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q039">
+    <div class="answer-reveal">&#9989; Correct: C &mdash; Superior border</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Splenic artery (الشريان الطحالي) بيمشي في مسار متعرج  (Tortuous course) على طول الـ Superior border (الحافة العلوية) بتاع الـ  Pancreas (البنكرياس). المسار المتعرج ده هيا الطريقة اللي بتحميه من  الشد وقت تمدد المعدة، ومروره على الحافة العلوية دي بيسبب وصوله بأمان لحد نقير  الطحال، وبيؤدي لتغذية الطحال وجزء من البنكرياس.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) Inferior border: الـ Inferior border (الحافة السفلية) للبنكرياس مش بيمشي  عليها الشريان الطحالي خالص في علم التشريح. .<br>B) Anterior border: الـ Anterior border (الحافة الأمامية) برضه مش هيا مسار  الشريان الطحالي، الشريان بيمشي فوق على الحافة العلوية. .<br>D) Posterior border: الـ Splenic vein (الوريد الطحالي) هو اللي بيمشي ورا  البنكرياس (Straight behind)، مش الشريان الطحالي اللي بيمشي فوقه. .<br>E) Left border: البنكرياس ليه حواف علوية وسفلية وأمامية، لكن ملوش حافة رئيسية  معتمدة كمسار للشريان الطحالي اسمها Left border.</p><p>يبقا الإجابة الصحيحة هي : C. Superior border</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q039">&#128161; Show Explanation</button>
+</div>
+<div class="qcard" data-id="blood_dept_anatomy_q040" data-type="mcq" data-correct="B" data-idx="40">
+<canvas class="qcard-canvas" data-qid="blood_dept_anatomy_q040"></canvas>
+<div class="sticky-note" data-qid="blood_dept_anatomy_q040">
+  <div class="sticky-note-header"><button class="note-close-btn" onclick="closeNote(this)">&#215;</button></div>
+  <canvas class="sticky-canvas" data-qid="blood_dept_anatomy_q040" tabindex="0"></canvas>
+</div>
+  <div class="qcard-header">
+    <span class="q-num">Q40</span>
+    <div class="qcard-badges"></div>
+    <button class="star-btn" data-id="blood_dept_anatomy_q040" onclick="toggleStar(this)" title="Star this question">☆</button>
+    <button class="sticky-note-btn" data-qid="blood_dept_anatomy_q040" onclick="toggleNote(this)" title="Sticky note">&#128221;</button>
+  </div>
+  
+  <p class="q-text" dir="ltr">How many surfaces does the spleen have?</p>
+  <ul class="opts" data-id="blood_dept_anatomy_q040"><li class="opt" data-letter="A">A. One</li>
+<li class="opt is-correct" data-letter="B">B. Two</li>
+<li class="opt" data-letter="C">C. Three</li>
+<li class="opt" data-letter="D">D. Four</li>
+<li class="opt" data-letter="E">E. Five</li>
+</ul>
+  <div class="answer-block" data-id="blood_dept_anatomy_q040">
+    <div class="answer-reveal">&#9989; Correct: B &mdash; Two</div>
+    <div class="exp-label">الشرح</div>
+    <div class="explanation-ar" dir="rtl" lang="ar"><p>وإليك التوضيح، الـ Spleen (الطحال) بيتكون تشريحياً من Two surfaces  (سطحين) رئيسيين بس. الأول هو الـ Diaphragmatic surface (السطح الحجابي) اللي  بيكون أملس ومواجه للحجاب الحاجز، والتاني هو الـ Visceral surface (السطح الحشوي) اللي بيواجه الأعضاء الداخلية للبطن ومليان انطباعات (Impressions). التقسيم ده  بيسبب سهولة في دراسة العضو وبيؤدي لمعرفة علاقاته التشريحية بشكل واضح.</p><p>لماذا الخيارات الأخرى خاطئة؟🤔<br>A) One: الطحال ملوش سطح واحد، هو ليه سطحين مختلفين تماماً في الشكل والوظيفة  والعلاقات التشريحية. .<br>C) Three: الأعضاء التانية ممكن يكون ليها 3 أسطح زي الكبد، لكن الطحال متقسم  تشريحياً لسطحين اتنين بس. .<br>D) Four: مفيش أي مرجع تشريحي في منهجنا بيقسم الطحال لـ 4 أسطح. .<br>E) Five: الطحال ليه سطحين وحافتين (علوية وسفلية) وطرفين، لكن ملوش خمس أسطح  خالص.</p><p>يبقا الإجابة الصحيحة هي : B. Two</p></div>
+  </div>
+  <button class="show-exp-btn" onclick="showExplanation(this)" data-id="blood_dept_anatomy_q040">&#128161; Show Explanation</button>
+</div>
+</section></main>
+
+<script>
+// ── State ────────────────────────────────────────────────────────────────────
+const FILE_ID = "blood_dept_anatomy";
+const STORAGE_KEY = "exam_os_v1_" + FILE_ID;
+const SECTIONS = [{"slug": "unknown_source", "title": "Unknown Source", "question_ids": ["blood_dept_anatomy_q001", "blood_dept_anatomy_q002", "blood_dept_anatomy_q003", "blood_dept_anatomy_q004", "blood_dept_anatomy_q005", "blood_dept_anatomy_q006", "blood_dept_anatomy_q007", "blood_dept_anatomy_q008", "blood_dept_anatomy_q009", "blood_dept_anatomy_q010", "blood_dept_anatomy_q011", "blood_dept_anatomy_q012", "blood_dept_anatomy_q013", "blood_dept_anatomy_q014", "blood_dept_anatomy_q015", "blood_dept_anatomy_q016", "blood_dept_anatomy_q017", "blood_dept_anatomy_q018", "blood_dept_anatomy_q019", "blood_dept_anatomy_q020", "blood_dept_anatomy_q021", "blood_dept_anatomy_q022", "blood_dept_anatomy_q023", "blood_dept_anatomy_q024", "blood_dept_anatomy_q025", "blood_dept_anatomy_q026", "blood_dept_anatomy_q027", "blood_dept_anatomy_q028", "blood_dept_anatomy_q029", "blood_dept_anatomy_q030", "blood_dept_anatomy_q031", "blood_dept_anatomy_q032", "blood_dept_anatomy_q033", "blood_dept_anatomy_q034", "blood_dept_anatomy_q035", "blood_dept_anatomy_q036", "blood_dept_anatomy_q037", "blood_dept_anatomy_q038", "blood_dept_anatomy_q039", "blood_dept_anatomy_q040"]}];
+
+const DEFAULT_STATE = {
+  version: 1,
+  mode: "study",
+  theme: "dark",
+  showExplanations: true,
+  filter: "all",
+  answers: {},
+  starred: [],
+  fontSize: "m",
+  contentWidth: 880,
+  fontFamily: "amiri",
+  expColor: "default",
+};
+
+const FONT_MAP = {
+  amiri:   "'Amiri','Noto Naskh Arabic',Georgia,serif",
+  noto:    "'Noto Naskh Arabic','Segoe UI',Tahoma,serif",
+  cairo:   "'Cairo',sans-serif",
+  tajawal: "'Tajawal',sans-serif",
+  system:  "'Segoe UI',Tahoma,Arial,sans-serif",
+};
+const EXP_COLOR_MAP = {
+  default: "",               // use theme CSS default
+  warm:    "#d4a96a",
+  cyan:    "#7ec8e3",
+  gold:    "#e8c547",
+  mint:    "#6fcf97",
+};
+
+let state = DEFAULT_STATE;
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed.version === 1) {
+        state = Object.assign({}, DEFAULT_STATE, parsed);
+        return;
+      }
+    }
+  } catch(e) {}
+  state = Object.assign({}, DEFAULT_STATE);
+}
+
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+// ── Fixed header height → main padding ───────────────────────────────────
+function updateMainPadding() {
+  var h = document.getElementById("fixed-header").offsetHeight;
+  var offset = h + 10;
+  document.querySelector("main").style.paddingTop = offset + "px";
+  document.querySelectorAll(".exam-section").forEach(function(s) {
+    s.style.scrollMarginTop = offset + "px";
+  });
+}
+
+function toggleStats() {
+  document.getElementById("stats-panel").classList.toggle("open");
+  updateMainPadding();
+}
+
+function toggleSettings() {
+  document.getElementById("settings-panel").classList.toggle("open");
+  updateMainPadding();
+}
+
+// ── Settings ──────────────────────────────────────────────────────────────────
+function applySettings() {
+  // Font size
+  document.body.setAttribute("data-fs", state.fontSize);
+  document.querySelectorAll(".fs-btn").forEach(function(b) {
+    b.classList.toggle("active", b.dataset.fs === state.fontSize);
+  });
+  // Content width
+  document.body.style.setProperty("--content-width", state.contentWidth + "px");
+  var wr = document.getElementById("width-range");
+  var wd = document.getElementById("width-display");
+  if (wr) wr.value = state.contentWidth;
+  if (wd) wd.textContent = state.contentWidth + "px";
+  // Font family
+  document.body.style.setProperty("--arabic-font", FONT_MAP[state.fontFamily] || FONT_MAP.amiri);
+  var fsel = document.getElementById("font-family-sel");
+  if (fsel) fsel.value = state.fontFamily;
+  // Explanation color
+  var col = EXP_COLOR_MAP[state.expColor];
+  if (col) document.body.style.setProperty("--exp-color", col);
+  else      document.body.style.removeProperty("--exp-color");
+  document.querySelectorAll(".color-sw").forEach(function(b) {
+    b.classList.toggle("active", b.dataset.c === state.expColor);
+  });
+}
+
+function changeFontSize(fs) {
+  state.fontSize = fs;
+  applySettings();
+  saveState();
+}
+
+function changeWidth(input) {
+  state.contentWidth = parseInt(input.value);
+  document.body.style.setProperty("--content-width", state.contentWidth + "px");
+  var wd = document.getElementById("width-display");
+  if (wd) wd.textContent = state.contentWidth + "px";
+  saveState();
+  updateMainPadding();
+}
+
+function changeFont(sel) {
+  state.fontFamily = sel.value;
+  document.body.style.setProperty("--arabic-font", FONT_MAP[sel.value] || FONT_MAP.amiri);
+  saveState();
+}
+
+function changeExpColor(c) {
+  state.expColor = c;
+  var col = EXP_COLOR_MAP[c];
+  if (col) document.body.style.setProperty("--exp-color", col);
+  else      document.body.style.removeProperty("--exp-color");
+  document.querySelectorAll(".color-sw").forEach(function(b) {
+    b.classList.toggle("active", b.dataset.c === c);
+  });
+  saveState();
+}
+
+// ── Initialise on load ───────────────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", function() {
+  loadState();
+  applyTheme(state.theme);
+  applyMode(state.mode);
+  restoreAnswers();
+  restoreStars();
+  updateAllProgress();
+  applyFilter(state.filter);
+  if (!state.showExplanations && state.mode === "study") hideExplanations();
+  document.getElementById("theme-select").value = state.theme;
+  applySettings();
+  updateMainPadding();
+  if (window.ResizeObserver) {
+    new ResizeObserver(updateMainPadding).observe(document.getElementById("fixed-header"));
+  } else {
+    window.addEventListener("resize", updateMainPadding);
+  }
+  initAnnotateSystem();
+});
+
+// ── Mode ─────────────────────────────────────────────────────────────────────
+function applyMode(mode) {
+  document.body.classList.remove("mode-study", "mode-test", "mode-marker", "mode-annotate",
+                                  "tool-pen", "tool-erase", "tool-pan");
+  document.body.classList.add("mode-" + mode);
+  if (mode === "annotate") { document.body.classList.add("tool-pen"); _hideSelPopup(); }
+
+  ["study","test","marker","annotate"].forEach(function(m) {
+    var btn = document.getElementById("mode-btn-" + m);
+    if (btn) btn.classList.toggle("active", m === mode);
+  });
+
+  if (mode === "study" && state.showExplanations) {
+    showExplanations();
+  } else if (mode === "test") {
+    // Leaving study mode: remove .visible from unanswered MCQ cards so the
+    // answer-block doesn't leak through into test mode
+    document.querySelectorAll(".qcard[data-type='mcq']:not([data-answered]) .answer-block")
+      .forEach(function(el) { el.classList.remove("visible"); });
+  }
+}
+
+function setMode(mode) {
+  state.mode = mode;
+  applyMode(mode);
+  saveState();
+}
+
+// ── Explanations toggle (study mode only) ────────────────────────────────────
+function toggleExplanations() {
+  state.showExplanations = !state.showExplanations;
+  if (state.showExplanations) showExplanations(); else hideExplanations();
+  updateExpToggleLabel();
+  saveState();
+}
+
+function showExplanations() {
+  // Auto-reveal all answer blocks (MCQ + written) in Study mode
+  document.querySelectorAll(".qcard .answer-block").forEach(function(el) {
+    el.classList.add("visible");
+  });
+}
+
+function hideExplanations() {
+  document.querySelectorAll(".qcard[data-type=mcq] .answer-block").forEach(function(el) {
+    if (!el.closest(".qcard").dataset.answered) el.classList.remove("visible");
+  });
+}
+
+
+// ── MCQ interaction (test mode) ───────────────────────────────────────────────
+document.addEventListener("click", function(e) {
+  var opt = e.target.closest(".opt");
+  if (!opt) return;
+  var card = opt.closest(".qcard");
+  if (!card || card.dataset.type !== "mcq") return;
+  if (card.dataset.answered) return;
+  if (document.body.classList.contains("mode-study")) return;
+
+  var chosen  = opt.dataset.letter;
+  var correct = card.dataset.correct;
+  var isRight = chosen === correct;
+
+  // Mark options
+  card.querySelectorAll(".opt").forEach(function(o) {
+    o.style.pointerEvents = "none";
+    if (o.dataset.letter === correct) o.classList.add("opt-correct");
+    if (o.dataset.letter === chosen && !isRight) o.classList.add("opt-wrong");
+  });
+
+  card.dataset.answered = "1";
+  var qid = card.dataset.id;
+  state.answers[qid] = { chosen: chosen, correct: isRight, timestamp: Date.now() };
+  saveState();
+  updateAllProgress();
+  applyFilter(state.filter);
+
+  // Show answer reveal block (explanation stays hidden via CSS until Show Explanation clicked)
+  var ab = card.querySelector(".answer-block");
+  if (ab) ab.classList.add("visible");
+});
+
+// ── Show explanation (test mode, after answering) ─────────────────────────────
+function showExplanation(btn) {
+  var card = btn.closest(".qcard");
+  var isRevealed = !!card.querySelector(".explanation-ar.exp-revealed");
+  card.querySelectorAll(".explanation-ar, .exp-label").forEach(function(el) {
+    el.classList.toggle("exp-revealed", !isRevealed);
+  });
+  btn.innerHTML = isRevealed
+    ? "&#128161; Show Explanation"
+    : "&#128065;&#65039; Hide Explanation";
+}
+
+// ── Written question ──────────────────────────────────────────────────────────
+function showWrittenAnswer(btn) {
+  var card = btn.closest(".qcard");
+  var ab = card.querySelector(".answer-block");
+  if (ab) ab.classList.add("visible");
+  btn.style.display = "none";
+}
+
+function selfAssess(btn, isCorrect) {
+  var card = btn.closest(".qcard");
+  var qid  = card.dataset.id;
+  state.answers[qid] = { chosen: isCorrect ? "correct" : "wrong",
+                          correct: isCorrect, timestamp: Date.now() };
+  card.dataset.answered = "1";
+  card.querySelector(".self-assess").innerHTML =
+    isCorrect ? '<span style="color:var(--got-it)">✓ Marked correct</span>'
+              : '<span style="color:var(--missed)">✗ Marked wrong</span>';
+  saveState();
+  updateAllProgress();
+  applyFilter(state.filter);
+}
+
+// ── Matching question ─────────────────────────────────────────────────────────
+function checkMatching(btn) {
+  var card = btn.closest(".qcard");
+  var rows = card.querySelectorAll(".match-row");
+  var allCorrect = true;
+  rows.forEach(function(row) {
+    var sel = row.querySelector(".match-select");
+    var correct = row.dataset.correct;
+    row.classList.remove("match-correct","match-wrong");
+    if (sel.value === correct) {
+      row.classList.add("match-correct");
+    } else {
+      row.classList.add("match-wrong");
+      allCorrect = false;
+    }
+    sel.disabled = true;
+  });
+  btn.style.display = "none";
+  var qid = card.dataset.id;
+  state.answers[qid] = { chosen: "checked", correct: allCorrect, timestamp: Date.now() };
+  card.dataset.answered = "1";
+  var ab = card.querySelector(".answer-block");
+  if (ab) ab.classList.add("visible");
+  saveState();
+  updateAllProgress();
+  applyFilter(state.filter);
+}
+
+// ── Stars ─────────────────────────────────────────────────────────────────────
+function toggleStar(btn) {
+  var qid = btn.dataset.id;
+  var idx = state.starred.indexOf(qid);
+  if (idx === -1) {
+    state.starred.push(qid);
+    btn.textContent = "★";
+    btn.classList.add("starred");
+    btn.closest(".qcard").classList.add("starred-card");
+  } else {
+    state.starred.splice(idx, 1);
+    btn.textContent = "☆";
+    btn.classList.remove("starred");
+    btn.closest(".qcard").classList.remove("starred-card");
+  }
+  saveState();
+  updateFilterCounts();
+  if (state.filter === "starred") applyFilter("starred");
+}
+
+function restoreStars() {
+  state.starred.forEach(function(qid) {
+    var card = document.querySelector('.qcard[data-id="' + qid + '"]');
+    if (!card) return;
+    var btn = card.querySelector(".star-btn");
+    if (btn) { btn.textContent = "★"; btn.classList.add("starred"); }
+    card.classList.add("starred-card");
+  });
+}
+
+// ── Restore answers from localStorage ────────────────────────────────────────
+function restoreAnswers() {
+  Object.entries(state.answers).forEach(function([qid, ans]) {
+    var card = document.querySelector('.qcard[data-id="' + qid + '"]');
+    if (!card) return;
+    card.dataset.answered = "1";
+    var qtype = card.dataset.type;
+
+    if (qtype === "mcq") {
+      var correct = card.dataset.correct;
+      card.querySelectorAll(".opt").forEach(function(o) {
+        o.style.pointerEvents = "none";
+        if (o.dataset.letter === correct) o.classList.add("opt-correct");
+        if (o.dataset.letter === ans.chosen && ans.chosen !== correct)
+          o.classList.add("opt-wrong");
+      });
+      var ab = card.querySelector(".answer-block");
+      if (ab) ab.classList.add("visible");
+    } else if (qtype === "written") {
+      var ab = card.querySelector(".answer-block");
+      if (ab) ab.classList.add("visible");
+      var sa = card.querySelector(".show-answer-btn");
+      if (sa) sa.style.display = "none";
+      var assess = card.querySelector(".self-assess");
+      if (assess) assess.innerHTML = ans.correct
+        ? '<span style="color:var(--got-it)">✓ Marked correct</span>'
+        : '<span style="color:var(--missed)">✗ Marked wrong</span>';
+    } else if (qtype === "matching") {
+      var ab = card.querySelector(".answer-block");
+      if (ab) ab.classList.add("visible");
+    }
+  });
+}
+
+// ── Progress ──────────────────────────────────────────────────────────────────
+function getSectionStats(sectionQIds) {
+  var answered = sectionQIds.filter(function(id) { return state.answers[id]; });
+  var correct  = answered.filter(function(id) { return state.answers[id] && state.answers[id].correct; });
+  return { total: sectionQIds.length, answered: answered.length, correct: correct.length };
+}
+
+function updateAllProgress() {
+  var totalQ = 0, totalAns = 0, totalCor = 0;
+  SECTIONS.forEach(function(sec) {
+    var s = getSectionStats(sec.question_ids);
+    totalQ   += s.total;
+    totalAns += s.answered;
+    totalCor += s.correct;
+
+    // Update nav button progress
+    var btn = document.getElementById("navbtn-" + sec.slug);
+    if (btn) {
+      var prog = btn.querySelector(".sec-prog");
+      if (prog) prog.textContent = s.answered + "/" + s.total;
+    }
+
+    // Update section progress bar
+    var fill = document.getElementById("secfill-" + sec.slug);
+    if (fill) {
+      fill.style.width = (s.total > 0 ? (s.answered / s.total * 100) : 0) + "%";
+    }
+  });
+
+  // Overall stats
+  document.getElementById("stat-total").textContent   = totalQ;
+  document.getElementById("stat-ans").textContent     = totalAns;
+  document.getElementById("stat-correct").textContent = totalCor;
+  document.getElementById("stat-wrong").textContent   = totalAns - totalCor;
+  var pct = totalQ > 0 ? Math.round(totalAns / totalQ * 100) : 0;
+  document.getElementById("stat-pct").textContent     = pct + "%";
+
+  updateFilterCounts();
+}
+
+// ── Filters ───────────────────────────────────────────────────────────────────
+function updateFilterCounts() {
+  var all       = document.querySelectorAll(".qcard").length;
+  var answered  = Object.keys(state.answers).length;
+  var correct   = Object.values(state.answers).filter(function(a){return a.correct;}).length;
+  var wrong     = answered - correct;
+  var starred   = state.starred.length;
+  var unans     = all - answered;
+
+  document.getElementById("fc-all").textContent      = all;
+  document.getElementById("fc-unanswered").textContent = unans;
+  document.getElementById("fc-correct").textContent  = correct;
+  document.getElementById("fc-wrong").textContent    = wrong;
+  document.getElementById("fc-starred").textContent  = starred;
+}
+
+function applyFilter(filter) {
+  state.filter = filter;
+  document.querySelectorAll(".filter-btn").forEach(function(btn) {
+    btn.classList.toggle("active", btn.dataset.filter === filter);
+  });
+
+  document.querySelectorAll(".qcard").forEach(function(card) {
+    var qid = card.dataset.id;
+    var ans = state.answers[qid];
+    var show = false;
+    if (filter === "all")          show = true;
+    else if (filter === "unanswered") show = !ans;
+    else if (filter === "correct") show = !!(ans && ans.correct);
+    else if (filter === "wrong")   show = !!(ans && !ans.correct);
+    else if (filter === "starred") show = state.starred.includes(qid);
+    card.classList.toggle("filtered-out", !show);
+  });
+
+  saveState();
+  updateFilterCounts();
+}
+
+// ── Theme ─────────────────────────────────────────────────────────────────────
+function applyTheme(theme) {
+  document.body.classList.remove("theme-light","theme-sepia","theme-hc","theme-dark");
+  document.body.classList.add("theme-" + theme);
+}
+
+function changeTheme(sel) {
+  state.theme = sel.value;
+  applyTheme(state.theme);
+  saveState();
+}
+
+// ── Fullscreen ────────────────────────────────────────────────────────────────
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen();
+  }
+}
+document.addEventListener('fullscreenchange', () => {
+  const btn = document.getElementById('fs-btn');
+  if (!btn) return;
+  btn.innerHTML = document.fullscreenElement ? '&#x2716; Exit Full' : '&#x26F6; Fullscreen';
+});
+
+// ── Reset ─────────────────────────────────────────────────────────────────────
+function resetProgress() {
+  if (!confirm("Reset all progress for this file? (Answers, stars, and settings will be cleared.)")) return;
+  state = Object.assign({}, DEFAULT_STATE);
+  saveState();
+  location.reload();
+}
+
+// ── Print protection ──────────────────────────────────────────────────────────
+// Block Ctrl+P / Cmd+P keyboard shortcut
+document.addEventListener("keydown", function(e) {
+  if ((e.ctrlKey || e.metaKey) && (e.key === "p" || e.key === "P")) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+}, true);
+
+// beforeprint fires even from browser menu — hide body immediately
+window.addEventListener("beforeprint", function() {
+  document.documentElement.style.display = "none";
+});
+window.addEventListener("afterprint", function() {
+  document.documentElement.style.display = "";
+});
+
+// ── Annotate system ──────────────────────────────────────────────────────────
+const ANN_KEY = STORAGE_KEY + '_ann';
+var annTool = 'pen', annColor = '#e74c3c', annWidth = 3;
+var annIsDrawing = false, annCurrentStroke = null, annLastX = 0, annLastY = 0;
+var THROTTLE_SQ = 9, ERASE_R = 20, PALM_W = 50;
+var annPalmReject = true;          // palm rejection on by default
+var annSmooth = 0.8;               // stroke smoothing 0 (off) → 1 (full bezier)
+var annScrollY = null;             // reference y for pan-tool scroll
+var _scrollV = 0;                  // scroll velocity (px/frame) for inertia
+var _scrollRaf = null;             // RAF handle for inertia animation
+var ANN_CFG_KEY = ANN_KEY + '_cfg'; // persists rendering settings (smooth, palmReject)
+var annCanvases = {}, annStrokes = {}, annUndoStacks = {}, annRafQ = {};
+
+function _loadAnns() {
+  try { return JSON.parse(localStorage.getItem(ANN_KEY) || '{}'); } catch(e) { return {}; }
+}
+function _saveAnn(qid) {
+  var anns = _loadAnns(); anns[qid] = anns[qid] || {};
+  anns[qid].strokes = annStrokes[qid] || [];
+  localStorage.setItem(ANN_KEY, JSON.stringify(anns));
+}
+function _schedRdraw(qid) {
+  if (annRafQ[qid]) return; annRafQ[qid] = true;
+  requestAnimationFrame(function() { _rdraw(qid); annRafQ[qid] = false; });
+}
+function _drawStroke(ctx, stroke, canvas) {
+  var pts = stroke.points;
+  if (!pts || !pts.length) return;
+  ctx.beginPath(); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.strokeStyle = stroke.color; ctx.lineWidth = stroke.width;
+  var xp = function(i) { return pts[i].x * canvas.width; };
+  var yp = function(i) { return pts[i].y; }; // y is absolute pixels
+  ctx.moveTo(xp(0), yp(0));
+  if (pts.length < 3 || annSmooth < 0.01) {
+    // 0% smoothing → straight lines
+    for (var i = 1; i < pts.length; i++) ctx.lineTo(xp(i), yp(i));
+  } else {
+    // Parameterized midpoint bezier: blend factor = annSmooth * 0.5
+    // At annSmooth=1 → end = exact midpoint (full smoothing)
+    // At annSmooth=0.x → end pulled closer to control point (less rounding)
+    var s = annSmooth * 0.5;
+    for (var i = 0; i < pts.length - 2; i++) {
+      var cpx = xp(i+1), cpy = yp(i+1);
+      var nx = xp(i+2), ny = yp(i+2);
+      ctx.quadraticCurveTo(cpx, cpy, cpx + s * (nx - cpx), cpy + s * (ny - cpy));
+    }
+    ctx.lineTo(xp(pts.length-1), yp(pts.length-1));
+  }
+  ctx.stroke();
+}
+function _rdraw(qid) {
+  var c = annCanvases[qid]; if (!c) return;
+  c.ctx.clearRect(0, 0, c.canvas.width, c.canvas.height);
+  (annStrokes[qid] || []).forEach(function(stroke) { _drawStroke(c.ctx, stroke, c.canvas); });
+}
+function _rdrawWithCurrent(qid) {
+  var c = annCanvases[qid]; if (!c) return;
+  c.ctx.clearRect(0, 0, c.canvas.width, c.canvas.height);
+  (annStrokes[qid] || []).forEach(function(stroke) { _drawStroke(c.ctx, stroke, c.canvas); });
+  if (annCurrentStroke && annCurrentStroke.points.length > 1)
+    _drawStroke(c.ctx, annCurrentStroke, c.canvas);
+}
+function _onQcardResize(qcard) {
+  var cv = qcard.querySelector('.qcard-canvas'); if (!cv) return;
+  var qid = cv.dataset.qid;
+  var c = annCanvases[qid]; if (!c) return;
+  var changed = false;
+  if (c.canvas.width !== qcard.offsetWidth) { c.canvas.width = qcard.offsetWidth; changed = true; }
+  var fh = qcard.scrollHeight;
+  if (fh > c.canvas.height) { c.canvas.height = fh; changed = true; } // only grow — never shrink
+  if (changed) _schedRdraw(qid);
+}
+function initAnnotateSystem() {
+  var anns = _loadAnns();
+  // Restore annotation rendering settings
+  var cfg = _loadAnnCfg();
+  if (cfg.smooth !== undefined) annSmooth = cfg.smooth;
+  if (cfg.palmReject !== undefined) annPalmReject = cfg.palmReject;
+  // Sync UI controls
+  var smR = document.getElementById('ann-smooth-range');
+  var smD = document.getElementById('ann-smooth-display');
+  if (smR) smR.value = Math.round(annSmooth * 100);
+  if (smD) smD.textContent = Math.round(annSmooth * 100) + '%';
+  var prB = document.getElementById('palm-reject-btn');
+  if (prB) {
+    prB.innerHTML = '&#128586; Palm Reject: ' + (annPalmReject ? 'ON' : 'OFF');
+    prB.classList.toggle('active', annPalmReject);
+  }
+  document.querySelectorAll('.qcard-canvas').forEach(function(canvas) {
+    var qid = canvas.dataset.qid;
+    var qcard = canvas.closest('.qcard');
+    canvas.width = qcard.offsetWidth; canvas.height = qcard.scrollHeight;
+    var ctx = canvas.getContext('2d');
+    annCanvases[qid] = { canvas: canvas, ctx: ctx };
+    annStrokes[qid] = (anns[qid] && anns[qid].strokes) ? anns[qid].strokes : [];
+    _schedRdraw(qid);
+    canvas.addEventListener('pointerdown',  function(e) { _annDown(e, qid); });
+    canvas.addEventListener('pointermove',  function(e) { _annMove(e, qid); });
+    canvas.addEventListener('pointerup',    function(e) { _annUp(e, qid); });
+    canvas.addEventListener('pointerleave', function(e) { _annUp(e, qid); });
+    canvas.addEventListener('pointercancel',function(e) {
+      _cancelAnnStroke(qid);
+    });
+  });
+  if (window.ResizeObserver) {
+    var annRo = new ResizeObserver(function(entries) {
+      entries.forEach(function(e) { _onQcardResize(e.target); });
+    });
+    document.querySelectorAll('.qcard').forEach(function(qcard) { annRo.observe(qcard); });
+  }
+  document.addEventListener('keydown', function(e) {
+    if (!document.body.classList.contains('mode-annotate')) return;
+    if (e.target.classList && e.target.classList.contains('sticky-canvas')) {
+      if (e.ctrlKey && !e.shiftKey && e.key === 'z') { e.preventDefault(); _noteUndo(e.target); }
+      if (e.ctrlKey && (e.key === 'y' || (e.shiftKey && e.key === 'z'))) { e.preventDefault(); _noteRedo(e.target); }
+      return;
+    }
+    if (e.ctrlKey && !e.shiftKey && e.key === 'z') { e.preventDefault(); annUndo(); }
+    if (e.ctrlKey && (e.key === 'y' || (e.shiftKey && e.key === 'z'))) { e.preventDefault(); annRedo(); }
+  });
+  _restoreHL();
+  _initSelPopup();
+}
+
+function _annDown(e, qid) {
+  if (e.pointerType === 'touch' && annPalmReject &&
+      ((e.width || 0) > PALM_W || (e.height || 0) > PALM_W)) return; // reject palm
+  e.preventDefault();
+  if (annTool === 'pan') { _stopInertia(); annScrollY = e.clientY; return; } // pan mode
+  annIsDrawing = true;
+  if (annTool === 'erase') return;
+  annCurrentStroke = { id: 'sk_' + Date.now(), color: annColor, width: annWidth, points: [] };
+  var c = annCanvases[qid].canvas, r = c.getBoundingClientRect();
+  annLastX = e.clientX - r.left; annLastY = e.clientY - r.top;
+  annCurrentStroke.points.push({ x: +(annLastX / c.width).toFixed(3), y: Math.round(annLastY) });
+}
+function _annMove(e, qid) {
+  if (e.pointerType === 'touch' && annPalmReject &&
+      ((e.width || 0) > PALM_W || (e.height || 0) > PALM_W)) return; // reject palm
+  if (annTool === 'pan' && annScrollY !== null) { // single-finger pan scroll
+    var dp = annScrollY - e.clientY;
+    _scrollV = dp * 0.7 + _scrollV * 0.3;
+    window.scrollBy(0, dp); annScrollY = e.clientY; e.preventDefault(); return;
+  }
+  if (annTool === 'erase' && annIsDrawing) { _annErase(e, qid); return; }
+  if (!annIsDrawing) return;
+  e.preventDefault();
+  var c = annCanvases[qid].canvas, r = c.getBoundingClientRect();
+  var px = e.clientX - r.left, py = e.clientY - r.top;
+  var dx = px - annLastX, dy = py - annLastY;
+  if (dx * dx + dy * dy < THROTTLE_SQ) return;
+  annLastX = px; annLastY = py;
+  annCurrentStroke.points.push({ x: +(px / c.width).toFixed(3), y: Math.round(py) });
+  _rdrawWithCurrent(qid);
+}
+function _annUp(e, qid) {
+  if (annTool === 'pan') {
+    if (annScrollY !== null) { _launchInertia(); annScrollY = null; }
+    return;
+  }
+  if (!annIsDrawing) return; annIsDrawing = false;
+  if (annCurrentStroke && annCurrentStroke.points.length > 1) {
+    annStrokes[qid] = annStrokes[qid] || [];
+    annStrokes[qid].push(annCurrentStroke);
+    annUndoStacks[qid] = []; _saveAnn(qid);
+  }
+  annCurrentStroke = null; _schedRdraw(qid);
+}
+function _annErase(e, qid) {
+  var c = annCanvases[qid]; if (!c) return;
+  var r = c.canvas.getBoundingClientRect();
+  var px = e.clientX - r.left, py = e.clientY - r.top;
+  var before = (annStrokes[qid] || []).length;
+  annStrokes[qid] = (annStrokes[qid] || []).filter(function(stroke) {
+    return !stroke.points.some(function(pt) {
+      var dx = pt.x * c.canvas.width - px, dy = pt.y - py; // pt.y is absolute pixels
+      return dx * dx + dy * dy < ERASE_R * ERASE_R;
+    });
+  });
+  if ((annStrokes[qid] || []).length !== before) { _schedRdraw(qid); _saveAnn(qid); }
+}
+function annUndo(qid) {
+  qid = qid || _centreQid();
+  if (!qid || !annStrokes[qid] || !annStrokes[qid].length) return;
+  annUndoStacks[qid] = annUndoStacks[qid] || [];
+  annUndoStacks[qid].push(annStrokes[qid].pop());
+  _schedRdraw(qid); _saveAnn(qid);
+}
+function annRedo(qid) {
+  qid = qid || _centreQid();
+  if (!qid || !annUndoStacks[qid] || !annUndoStacks[qid].length) return;
+  annStrokes[qid] = annStrokes[qid] || [];
+  annStrokes[qid].push(annUndoStacks[qid].pop());
+  _schedRdraw(qid); _saveAnn(qid);
+}
+function _centreQid() {
+  var best = null, bestD = Infinity;
+  document.querySelectorAll('.qcard-canvas').forEach(function(cv) {
+    var r = cv.getBoundingClientRect();
+    var d = Math.abs(r.top + r.height / 2 - window.innerHeight / 2);
+    if (d < bestD) { bestD = d; best = cv.dataset.qid; }
+  });
+  return best;
+}
+function _cancelAnnStroke(qid) {
+  if (annIsDrawing) { annIsDrawing = false; annCurrentStroke = null; _schedRdraw(qid); }
+}
+function _stopInertia() {
+  if (_scrollRaf) { cancelAnimationFrame(_scrollRaf); _scrollRaf = null; }
+  _scrollV = 0;
+}
+function _launchInertia() {
+  if (_scrollRaf) cancelAnimationFrame(_scrollRaf);
+  (function tick() {
+    if (Math.abs(_scrollV) < 0.5) { _scrollV = 0; return; }
+    window.scrollBy(0, _scrollV);
+    _scrollV *= 0.91; // friction — higher = more glide
+    _scrollRaf = requestAnimationFrame(tick);
+  })();
+}
+function _loadAnnCfg() {
+  try { return JSON.parse(localStorage.getItem(ANN_CFG_KEY) || '{}'); } catch(e) { return {}; }
+}
+function _saveAnnCfg() {
+  localStorage.setItem(ANN_CFG_KEY, JSON.stringify({ smooth: annSmooth, palmReject: annPalmReject }));
+}
+function togglePalmReject(btn) {
+  annPalmReject = !annPalmReject;
+  btn.innerHTML = '&#128586; Palm Reject: ' + (annPalmReject ? 'ON' : 'OFF');
+  btn.classList.toggle('active', annPalmReject);
+  _saveAnnCfg();
+}
+function changeAnnSmooth(input) {
+  annSmooth = +input.value / 100;
+  var d = document.getElementById('ann-smooth-display');
+  if (d) d.textContent = input.value + '%';
+  _saveAnnCfg();
+  // Live redraw: all existing strokes update instantly
+  Object.keys(annCanvases).forEach(function(qid) { _schedRdraw(qid); });
+}
+
+
+function toggleNote(btn) {
+  var qid = btn.dataset.qid;
+  var note = btn.closest('.qcard').querySelector('.sticky-note');
+  note.classList.toggle('visible');
+  if (note.classList.contains('visible')) _initSticky(qid, note);
+  btn.classList.toggle('has-note', note.classList.contains('visible'));
+}
+function closeNote(btn) { btn.closest('.sticky-note').classList.remove('visible'); }
+function _initSticky(qid, note) {
+  var sc = note.querySelector('.sticky-canvas');
+  if (sc._init) return;
+  sc.width = Math.max(note.clientWidth - 2, 50);
+  sc.height = Math.max(note.clientHeight - 26, 50);
+  var ctx = sc.getContext('2d');
+  var anns = _loadAnns();
+  sc._qid = qid; sc._ctx = ctx;
+  sc._strokes = (anns[qid] && anns[qid].note) ? anns[qid].note : [];
+  sc._undo = []; sc._color = '#e74c3c'; sc._width = 3; sc._tool = 'pen';
+  _rdrawNote(sc);
+  sc.addEventListener('pointerdown', function(e) { _nDown(e, sc); });
+  sc.addEventListener('pointermove', function(e) { _nMove(e, sc); });
+  sc.addEventListener('pointerup',   function(e) { _nUp(e, sc); });
+  // Inject mini toolbar into header (once)
+  var header = note.querySelector('.sticky-note-header');
+  if (!header.querySelector('.note-mini-bar')) {
+    var bar = document.createElement('div'); bar.className = 'note-mini-bar';
+    bar.innerHTML =
+      '<span class="nc act" style="background:#e74c3c" data-c="#e74c3c"></span>' +
+      '<span class="nc" style="background:#2980b9" data-c="#2980b9"></span>' +
+      '<span class="nc" style="background:#27ae60" data-c="#27ae60"></span>' +
+      '<span class="nc" style="background:#111111" data-c="#111111"></span>' +
+      '<input class="nw" type="range" min="1" max="8" value="3">' +
+      '<button class="ne">&#9998;</button>' +
+      '<button class="nu">&#8617;</button>';
+    header.insertBefore(bar, header.firstChild);
+    bar.querySelectorAll('.nc').forEach(function(dot) {
+      dot.addEventListener('click', function() {
+        sc._color = dot.dataset.c; sc._tool = 'pen';
+        var neB = bar.querySelector('.ne');
+        neB.innerHTML = '&#9998;'; neB.className = 'ne';
+        bar.querySelectorAll('.nc').forEach(function(d) { d.classList.remove('act'); });
+        dot.classList.add('act');
+      });
+    });
+    var wIn = bar.querySelector('.nw');
+    if (wIn) wIn.addEventListener('input', function() { sc._width = +wIn.value; });
+    var neB = bar.querySelector('.ne');
+    if (neB) neB.addEventListener('click', function() {
+      sc._tool = sc._tool === 'erase' ? 'pen' : 'erase';
+      neB.innerHTML = sc._tool === 'erase' ? '&#11036;' : '&#9998;';
+      neB.className = sc._tool === 'erase' ? 'ne erasing' : 'ne';
+    });
+    var nuB = bar.querySelector('.nu');
+    if (nuB) nuB.addEventListener('click', function() { _noteUndo(sc); });
+  }
+  // Resize observer: sync canvas to note size
+  if (window.ResizeObserver) {
+    new ResizeObserver(function() {
+      var nW = Math.max(note.clientWidth - 2, 50);
+      var nH = Math.max(note.clientHeight - 26, 50);
+      if (sc.width === nW && sc.height === nH) return;
+      sc.width = nW; sc.height = nH;
+      _rdrawNote(sc);
+    }).observe(note);
+  }
+  sc._init = true;
+}
+function _rdrawNote(sc) {
+  sc._ctx.clearRect(0, 0, sc.width, sc.height);
+  (sc._strokes || []).forEach(function(stroke) { _drawStroke(sc._ctx, stroke, sc); });
+}
+function _nDown(e, sc) {
+  sc.focus(); e.preventDefault(); sc._drawing = true;
+  if (sc._tool === 'erase') return;
+  sc._cur = { id: 'n_' + Date.now(), color: sc._color, width: sc._width, points: [] };
+  var r = sc.getBoundingClientRect();
+  sc._cur.points.push({ x: +((e.clientX - r.left) / sc.width).toFixed(3), y: Math.round(e.clientY - r.top) });
+}
+function _nErase(e, sc) {
+  var r = sc.getBoundingClientRect(), px = e.clientX - r.left, py = e.clientY - r.top;
+  var before = sc._strokes.length;
+  sc._strokes = sc._strokes.filter(function(stroke) {
+    return !stroke.points.some(function(pt) {
+      var dx = pt.x * sc.width - px, dy = pt.y - py; // pt.y is absolute pixels
+      return dx * dx + dy * dy < ERASE_R * ERASE_R;
+    });
+  });
+  if (sc._strokes.length !== before) { _rdrawNote(sc); _saveNote(sc); }
+}
+function _nMove(e, sc) {
+  if (sc._tool === 'erase' && sc._drawing) { _nErase(e, sc); return; }
+  if (!sc._drawing) return;
+  e.preventDefault();
+  var r = sc.getBoundingClientRect();
+  sc._cur.points.push({ x: +((e.clientX - r.left) / sc.width).toFixed(3), y: Math.round(e.clientY - r.top) });
+  _rdrawNote(sc);
+  if (sc._cur.points.length > 1) _drawStroke(sc._ctx, sc._cur, sc);
+}
+function _nUp(e, sc) {
+  if (!sc._drawing) return; sc._drawing = false;
+  if (sc._cur && sc._cur.points.length > 1) {
+    sc._strokes.push(sc._cur); sc._undo = []; _saveNote(sc);
+  }
+  sc._cur = null; _rdrawNote(sc);
+}
+function _saveNote(sc) {
+  var anns = _loadAnns(); anns[sc._qid] = anns[sc._qid] || {};
+  anns[sc._qid].note = sc._strokes; localStorage.setItem(ANN_KEY, JSON.stringify(anns));
+}
+function _noteUndo(sc) {
+  if (!sc._strokes || !sc._strokes.length) return;
+  sc._undo = sc._undo || []; sc._undo.push(sc._strokes.pop());
+  _rdrawNote(sc); _saveNote(sc);
+}
+function _noteRedo(sc) {
+  if (!sc._undo || !sc._undo.length) return;
+  sc._strokes.push(sc._undo.pop()); _rdrawNote(sc); _saveNote(sc);
+}
+
+function setAnnTool(tool) {
+  annTool = tool;
+  document.body.className = document.body.className.replace(/\btool-\w+/g, '').trim();
+  document.body.classList.add('tool-' + tool);
+  document.querySelectorAll('.ann-tool-btn').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.tool === tool);
+  });
+}
+function setAnnColor(el) {
+  annColor = el.dataset.color;
+  document.querySelectorAll('.ann-color').forEach(function(c) { c.classList.remove('active'); });
+  el.classList.add('active');
+}
+function setAnnWidth(input) { annWidth = +input.value; }
+function clearAllAnnotations() {
+  if (!confirm('Clear all annotations on this page? This cannot be undone.')) return;
+  localStorage.removeItem(ANN_KEY);
+  Object.keys(annStrokes).forEach(function(qid) { annStrokes[qid] = []; _schedRdraw(qid); });
+  document.querySelectorAll('mark[class^="hl-"]').forEach(function(m) {
+    var p = m.parentNode; while (m.firstChild) p.insertBefore(m.firstChild, m); p.removeChild(m);
+  });
+}
+
+// === CUSTOM SELECTION POPUP ===
+var _selPop = null;
+function _initSelPopup() {
+  _selPop = document.getElementById('sel-popup');
+  if (!_selPop) return;
+  // Hide popup when user clicks outside it
+  document.addEventListener('mousedown', function(e) {
+    if (_selPop && !_selPop.contains(e.target)) _hideSelPopup();
+  });
+  // Show popup when user makes a text selection inside a qcard
+  document.addEventListener('selectionchange', function() {
+    var sel = window.getSelection();
+    if (!sel || sel.isCollapsed || !sel.rangeCount) {
+      // Small delay: avoids hiding before a button click registers
+      setTimeout(function() {
+        var s = window.getSelection();
+        if (!s || s.isCollapsed) _hideSelPopup();
+      }, 120);
+      return;
+    }
+    var range = sel.getRangeAt(0);
+    var node = range.commonAncestorContainer;
+    var el = node.nodeType === 1 ? node : node.parentElement;
+    if (!el || !el.closest('.qcard')) { _hideSelPopup(); return; }
+    if (document.body.classList.contains('mode-annotate')) { _hideSelPopup(); return; }
+    _showSelPopup(range);
+  });
+}
+function _showSelPopup(range) {
+  if (!_selPop) return;
+  var rect = range.getBoundingClientRect();
+  if (!rect || (rect.width < 2 && rect.height < 2)) return;
+  var x = rect.left + rect.width / 2;
+  // Clamp horizontally so popup stays within viewport
+  x = Math.max(120, Math.min(window.innerWidth - 120, x));
+  var popH = 46;
+  var top = rect.top - popH - 8;
+  if (top < 60) top = rect.bottom + 8; // flip below selection when near top
+  _selPop.style.left = x + 'px';
+  _selPop.style.top = top + 'px';
+  // Show remove-hl button only when selection contains a highlight
+  var frag = range.cloneContents();
+  var hasHL = !!(frag.querySelector && frag.querySelector('mark[class^="hl-"]'));
+  var rb = document.getElementById('sel-remove-btn');
+  if (rb) rb.style.display = hasHL ? '' : 'none';
+  _selPop.classList.add('visible');
+}
+function _hideSelPopup() {
+  if (_selPop) _selPop.classList.remove('visible');
+}
+function selHighlight(color) {
+  var sel = window.getSelection();
+  if (!sel || sel.isCollapsed || !sel.rangeCount) { _hideSelPopup(); return; }
+  var range = sel.getRangeAt(0);
+  var node = range.commonAncestorContainer;
+  var el = node.nodeType === 1 ? node : node.parentElement;
+  var qcard = el ? el.closest('.qcard') : null;
+  if (!qcard) { _hideSelPopup(); return; }
+  var mark = document.createElement('mark');
+  mark.className = 'hl-' + color;
+  try {
+    range.surroundContents(mark);
+  } catch(e) {
+    // Range crosses element boundaries — extract and re-insert
+    try {
+      var frag = range.extractContents();
+      mark.appendChild(frag);
+      range.insertNode(mark);
+    } catch(e2) { _hideSelPopup(); return; }
+  }
+  sel.removeAllRanges();
+  _saveHL(qcard);
+  _hideSelPopup();
+}
+function selRemoveHighlight() {
+  var sel = window.getSelection();
+  if (!sel || !sel.rangeCount) { _hideSelPopup(); return; }
+  var range = sel.getRangeAt(0);
+  var node = range.commonAncestorContainer;
+  var el = node.nodeType === 1 ? node : node.parentElement;
+  var qcard = el ? el.closest('.qcard') : null;
+  if (!qcard) { _hideSelPopup(); return; }
+  var toRemove = [];
+  qcard.querySelectorAll('mark[class^="hl-"]').forEach(function(m) {
+    if (sel.containsNode(m, true)) toRemove.push(m);
+  });
+  toRemove.forEach(function(m) {
+    var p = m.parentNode;
+    while (m.firstChild) p.insertBefore(m.firstChild, m);
+    p.removeChild(m);
+  });
+  sel.removeAllRanges();
+  _saveHL(qcard);
+  _hideSelPopup();
+}
+function selCopy() {
+  var sel = window.getSelection();
+  if (sel && !sel.isCollapsed) {
+    try { document.execCommand('copy'); } catch(e) {}
+  }
+  _hideSelPopup();
+}
+function selSearch() {
+  var sel = window.getSelection();
+  var q = sel ? sel.toString().trim() : '';
+  if (q) window.open('https://www.google.com/search?q=' + encodeURIComponent(q), '_blank');
+  _hideSelPopup();
+}
+function _saveHL(qcard) {
+  var qid = qcard.dataset.id;
+  var anns = _loadAnns(); anns[qid] = anns[qid] || {};
+  var hl = {};
+  var qt = qcard.querySelector('.q-text');         if (qt) hl.qt = qt.innerHTML;
+  var op = qcard.querySelector('.opts');            if (op) hl.op = op.innerHTML;
+  var ex = qcard.querySelector('.explanation-ar'); if (ex) hl.ex = ex.innerHTML;
+  var wa = qcard.querySelector('.written-answer'); if (wa) hl.wa = wa.innerHTML;
+  var ar = qcard.querySelector('.answer-reveal');  if (ar) hl.ar = ar.innerHTML;
+  anns[qid].hl = hl;
+  localStorage.setItem(ANN_KEY, JSON.stringify(anns));
+}
+function _restoreHL() {
+  var anns = _loadAnns();
+  document.querySelectorAll('.qcard').forEach(function(qcard) {
+    var qid = qcard.dataset.id;
+    var hl = anns[qid] && anns[qid].hl;
+    if (!hl) return;
+    var qt = qcard.querySelector('.q-text');         if (qt && hl.qt) qt.innerHTML = hl.qt;
+    var op = qcard.querySelector('.opts');            if (op && hl.op) op.innerHTML = hl.op;
+    var ex = qcard.querySelector('.explanation-ar'); if (ex && hl.ex) ex.innerHTML = hl.ex;
+    var wa = qcard.querySelector('.written-answer'); if (wa && hl.wa) wa.innerHTML = hl.wa;
+    var ar = qcard.querySelector('.answer-reveal');  if (ar && hl.ar) ar.innerHTML = hl.ar;
+  });
+}
+</script>
+</body>
+</html>
