@@ -640,22 +640,6 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
           <span class="clast" id="cl-blood_written_bio"></span>
         </div>
       </a>
-      <a class="card" href="written-micro-sheet.html" onclick="markVisit('blood_written_micro_sheet')">
-        <div class="card-top">
-          <span class="cicon">🦠</span>
-          <span class="cname">ريتن مايكرو شيت Explained</span>
-        </div>
-        <div class="pbar-wrap"><div class="pbar-fill" id="pb-blood_written_micro_sheet" style="width:0%"></div></div>
-        <div class="cmeta">
-          <span>20 سؤال</span>
-          <span id="ca-blood_written_micro_sheet">0 أُجيب</span>
-          <span id="cs-blood_written_micro_sheet">0 ★</span>
-        </div>
-        <div class="cstatus">
-          <button class="sbtn" id="sb-blood_written_micro_sheet" onclick="cycleStatus('blood_written_micro_sheet',event)">—</button>
-          <span class="clast" id="cl-blood_written_micro_sheet"></span>
-        </div>
-      </a>
     </div>
   </div>
 </main>
@@ -663,7 +647,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
 <footer>Blood Study OS · Al-Azhar University · Batch 62 · Built with NotebookLM</footer>
 
 <script>
-const CATALOG = [{"fid": "blood_dept_micro", "total": 122}, {"fid": "blood_dept_physio", "total": 63}, {"fid": "blood_dept_pharma", "total": 74}, {"fid": "blood_dept_histo1", "total": 46}, {"fid": "blood_dept_histo2", "total": 49}, {"fid": "blood_dept_patho", "total": 50}, {"fid": "blood_dept_bio", "total": 31}, {"fid": "blood_dept_para", "total": 18}, {"fid": "blood_dept_anatomy", "total": 40}, {"fid": "blood_prev_subj_micro", "total": 180}, {"fid": "blood_prev_subj_physio", "total": 112}, {"fid": "blood_prev_subj_pharma", "total": 44}, {"fid": "blood_prev_subj_histo", "total": 43}, {"fid": "blood_prev_subj_patho", "total": 38}, {"fid": "blood_prev_subj_bio", "total": 62}, {"fid": "blood_prev_subj_para", "total": 33}, {"fid": "blood_prev_subj_anatomy", "total": 24}, {"fid": "blood_prev_exam_exam_61", "total": 68}, {"fid": "blood_prev_exam_end_sem_60", "total": 35}, {"fid": "blood_prev_exam_dor_tani_60", "total": 57}, {"fid": "blood_prev_exam_end_mod_60", "total": 40}, {"fid": "blood_prev_exam_exam_59", "total": 26}, {"fid": "blood_prev_exam_end_sem_58", "total": 39}, {"fid": "blood_prev_exam_em_58", "total": 39}, {"fid": "blood_prev_exam_end_mod_58", "total": 39}, {"fid": "blood_prev_exam_exam_57", "total": 61}, {"fid": "blood_prev_exam_form_57", "total": 26}, {"fid": "blood_prev_exam_exam_55", "total": 44}, {"fid": "blood_prev_exam_form1_55", "total": 60}, {"fid": "blood_prev_exam_form2_55", "total": 61}, {"fid": "blood_written_micro", "total": 20}, {"fid": "blood_written_physio", "total": 16}, {"fid": "blood_written_bio", "total": 12}, {"fid": "blood_written_micro_sheet", "total": 20}];
+const CATALOG = [{"fid": "blood_dept_micro", "total": 122}, {"fid": "blood_dept_physio", "total": 63}, {"fid": "blood_dept_pharma", "total": 74}, {"fid": "blood_dept_histo1", "total": 46}, {"fid": "blood_dept_histo2", "total": 49}, {"fid": "blood_dept_patho", "total": 50}, {"fid": "blood_dept_bio", "total": 31}, {"fid": "blood_dept_para", "total": 18}, {"fid": "blood_dept_anatomy", "total": 40}, {"fid": "blood_prev_subj_micro", "total": 180}, {"fid": "blood_prev_subj_physio", "total": 112}, {"fid": "blood_prev_subj_pharma", "total": 44}, {"fid": "blood_prev_subj_histo", "total": 43}, {"fid": "blood_prev_subj_patho", "total": 38}, {"fid": "blood_prev_subj_bio", "total": 62}, {"fid": "blood_prev_subj_para", "total": 33}, {"fid": "blood_prev_subj_anatomy", "total": 24}, {"fid": "blood_prev_exam_exam_61", "total": 68}, {"fid": "blood_prev_exam_end_sem_60", "total": 35}, {"fid": "blood_prev_exam_dor_tani_60", "total": 57}, {"fid": "blood_prev_exam_end_mod_60", "total": 40}, {"fid": "blood_prev_exam_exam_59", "total": 26}, {"fid": "blood_prev_exam_end_sem_58", "total": 39}, {"fid": "blood_prev_exam_em_58", "total": 39}, {"fid": "blood_prev_exam_end_mod_58", "total": 39}, {"fid": "blood_prev_exam_exam_57", "total": 61}, {"fid": "blood_prev_exam_form_57", "total": 26}, {"fid": "blood_prev_exam_exam_55", "total": 44}, {"fid": "blood_prev_exam_form1_55", "total": 60}, {"fid": "blood_prev_exam_form2_55", "total": 61}, {"fid": "blood_written_micro", "total": 20}, {"fid": "blood_written_physio", "total": 16}, {"fid": "blood_written_bio", "total": 12}];
 const LS_PFX  = 'exam_os_v1_';
 const HUB_KEY = 'blood_hub_v2';
 const CYCLES  = ['','sr','sd','sw'];
