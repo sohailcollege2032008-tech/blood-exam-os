@@ -2512,6 +2512,8 @@ mark.hl-pink{background:rgba(233,30,99,.30);color:inherit;border-radius:2px}
 // ── State ────────────────────────────────────────────────────────────────────
 const FILE_ID = "blood_prev_subj_bio";
 const STORAGE_KEY = "exam_os_v1_" + FILE_ID;
+const SHARED_KEY   = "exam_os_settings_v1";   // shared across ALL files
+const SETTINGS_KEYS = ["theme","fontSize","contentWidth","fontFamily","expColor"];
 const SECTIONS = [{"slug": "61", "title": "امتحان 61", "question_ids": ["prev_61_bio_q001", "prev_61_bio_q002", "prev_61_bio_q003", "prev_61_bio_q004", "prev_61_bio_q005", "prev_61_bio_q006", "prev_61_bio_q007"]}, {"slug": "60", "title": "إند سميستر 60", "question_ids": ["prev_60_bio_q008", "prev_60_bio_q009"]}, {"slug": "60_1", "title": "دور تاني 60", "question_ids": ["prev_60_bio_q010", "prev_60_bio_q011", "prev_60_bio_q012", "prev_60_bio_q013", "prev_60_bio_q014", "prev_60_bio_q015"]}, {"slug": "60_2", "title": "إند موديول 60", "question_ids": ["prev_60_bio_q016", "prev_60_bio_q017", "prev_60_bio_q018", "prev_60_bio_q019"]}, {"slug": "59", "title": "امتحان 59", "question_ids": ["prev_59_bio_q020", "prev_59_bio_q021", "prev_59_bio_q022", "prev_59_bio_q023"]}, {"slug": "58", "title": "إند سميستر 58", "question_ids": ["prev_58_bio_q024", "prev_58_bio_q025"]}, {"slug": "em_58", "title": "EM 58", "question_ids": ["prev_em_58_bio_q026", "prev_em_58_bio_q027", "prev_em_58_bio_q028"]}, {"slug": "58_1", "title": "إند موديول 58", "question_ids": ["prev_58_bio_q029", "prev_58_bio_q030", "prev_58_bio_q031"]}, {"slug": "57", "title": "امتحان 57", "question_ids": ["prev_57_bio_q032", "prev_57_bio_q033", "prev_57_bio_q034", "prev_57_bio_q035"]}, {"slug": "57_1", "title": "فورماتيف 57", "question_ids": ["prev_57_bio_q036", "prev_57_bio_q037"]}, {"slug": "55", "title": "امتحان 55", "question_ids": ["prev_55_bio_q038", "prev_55_bio_q039", "prev_55_bio_q040"]}, {"slug": "1_55", "title": "فورماتيف 1 - باتش 55", "question_ids": ["prev_1_55_bio_q041", "prev_1_55_bio_q042", "prev_1_55_bio_q043", "prev_1_55_bio_q044", "prev_1_55_bio_q045", "prev_1_55_bio_q046", "prev_1_55_bio_q047", "prev_1_55_bio_q048", "prev_1_55_bio_q049", "prev_1_55_bio_q050", "prev_1_55_bio_q051"]}, {"slug": "2_55", "title": "فورماتيف 2 - باتش 55", "question_ids": ["prev_2_55_bio_q052", "prev_2_55_bio_q053", "prev_2_55_bio_q054", "prev_2_55_bio_q055", "prev_2_55_bio_q056", "prev_2_55_bio_q057", "prev_2_55_bio_q058", "prev_2_55_bio_q059", "prev_2_55_bio_q060", "prev_2_55_bio_q061", "prev_2_55_bio_q062"]}];
 
 const DEFAULT_STATE = {
@@ -2545,6 +2547,15 @@ const EXP_COLOR_MAP = {
 
 let state = DEFAULT_STATE;
 
+function _loadShared() {
+  try { return JSON.parse(localStorage.getItem(SHARED_KEY) || "{}"); } catch(e) { return {}; }
+}
+function _saveShared() {
+  var s = {};
+  SETTINGS_KEYS.forEach(function(k) { s[k] = state[k]; });
+  try { localStorage.setItem(SHARED_KEY, JSON.stringify(s)); } catch(e) {}
+}
+
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -2552,15 +2563,23 @@ function loadState() {
       const parsed = JSON.parse(raw);
       if (parsed.version === 1) {
         state = Object.assign({}, DEFAULT_STATE, parsed);
-        return;
+      } else {
+        state = Object.assign({}, DEFAULT_STATE);
       }
+    } else {
+      state = Object.assign({}, DEFAULT_STATE);
     }
-  } catch(e) {}
-  state = Object.assign({}, DEFAULT_STATE);
+  } catch(e) {
+    state = Object.assign({}, DEFAULT_STATE);
+  }
+  // Overlay shared settings (theme, fontSize, etc.) from other files
+  var shared = _loadShared();
+  SETTINGS_KEYS.forEach(function(k) { if (shared[k] !== undefined) state[k] = shared[k]; });
 }
 
 function saveState() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+  _saveShared();
 }
 
 // ── Fixed header height → main padding ───────────────────────────────────
@@ -2959,6 +2978,19 @@ function changeTheme(sel) {
   applyTheme(state.theme);
   saveState();
 }
+
+// ── Cross-file settings sync ──────────────────────────────────────────────────
+window.addEventListener("storage", function(e) {
+  if (e.key !== SHARED_KEY || !e.newValue) return;
+  try {
+    var shared = JSON.parse(e.newValue);
+    SETTINGS_KEYS.forEach(function(k) { if (shared[k] !== undefined) state[k] = shared[k]; });
+    applyTheme(state.theme);
+    applySettings();
+    var ts = document.getElementById("theme-select");
+    if (ts) ts.value = state.theme;
+  } catch(err) {}
+});
 
 // ── Fullscreen ────────────────────────────────────────────────────────────────
 function toggleFullscreen() {

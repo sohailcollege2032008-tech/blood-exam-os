@@ -3807,6 +3807,8 @@ mark.hl-pink{background:rgba(233,30,99,.30);color:inherit;border-radius:2px}
 // ── State ────────────────────────────────────────────────────────────────────
 const FILE_ID = "blood_prev_subj_physio";
 const STORAGE_KEY = "exam_os_v1_" + FILE_ID;
+const SHARED_KEY   = "exam_os_settings_v1";   // shared across ALL files
+const SETTINGS_KEYS = ["theme","fontSize","contentWidth","fontFamily","expColor"];
 const SECTIONS = [{"slug": "61", "title": "امتحان 61", "question_ids": ["prev_61_physio_q001", "prev_61_physio_q002", "prev_61_physio_q003", "prev_61_physio_q004", "prev_61_physio_q005", "prev_61_physio_q006", "prev_61_physio_q007", "prev_61_physio_q008", "prev_61_physio_q009", "prev_61_physio_q010"]}, {"slug": "60", "title": "إند سميستر 60", "question_ids": ["prev_60_physio_q011", "prev_60_physio_q012", "prev_60_physio_q013", "prev_60_physio_q014", "prev_60_physio_q015"]}, {"slug": "60_1", "title": "دور تاني 60", "question_ids": ["prev_60_physio_q016", "prev_60_physio_q017", "prev_60_physio_q018", "prev_60_physio_q019", "prev_60_physio_q020", "prev_60_physio_q021", "prev_60_physio_q022"]}, {"slug": "60_2", "title": "إند موديول 60", "question_ids": ["prev_60_physio_q023", "prev_60_physio_q024", "prev_60_physio_q025", "prev_60_physio_q026", "prev_60_physio_q027", "prev_60_physio_q028", "prev_60_physio_q029", "prev_60_physio_q030", "prev_60_physio_q031", "prev_60_physio_q032"]}, {"slug": "59", "title": "امتحان 59", "question_ids": ["prev_59_physio_q033", "prev_59_physio_q034", "prev_59_physio_q035", "prev_59_physio_q036", "prev_59_physio_q037", "prev_59_physio_q038", "prev_59_physio_q039", "prev_59_physio_q040"]}, {"slug": "58", "title": "إند سميستر 58", "question_ids": ["prev_58_physio_q041", "prev_58_physio_q042", "prev_58_physio_q043"]}, {"slug": "em_58", "title": "EM 58", "question_ids": ["prev_em_58_physio_q044", "prev_em_58_physio_q045", "prev_em_58_physio_q046"]}, {"slug": "58_1", "title": "إند موديول 58", "question_ids": ["prev_58_physio_q047", "prev_58_physio_q048", "prev_58_physio_q049"]}, {"slug": "57", "title": "امتحان 57", "question_ids": ["prev_57_physio_q050", "prev_57_physio_q051", "prev_57_physio_q052", "prev_57_physio_q053", "prev_57_physio_q054", "prev_57_physio_q055", "prev_57_physio_q056", "prev_57_physio_q057", "prev_57_physio_q058", "prev_57_physio_q059", "prev_57_physio_q060", "prev_57_physio_q061", "prev_57_physio_q062", "prev_57_physio_q063"]}, {"slug": "57_1", "title": "فورماتيف 57", "question_ids": ["prev_57_physio_q064", "prev_57_physio_q065", "prev_57_physio_q066", "prev_57_physio_q067", "prev_57_physio_q068"]}, {"slug": "55", "title": "امتحان 55", "question_ids": ["prev_55_physio_q069", "prev_55_physio_q070", "prev_55_physio_q071", "prev_55_physio_q072", "prev_55_physio_q073", "prev_55_physio_q074", "prev_55_physio_q075", "prev_55_physio_q076", "prev_55_physio_q077"]}, {"slug": "1_55", "title": "فورماتيف 1 - باتش 55", "question_ids": ["prev_1_55_physio_q078", "prev_1_55_physio_q079", "prev_1_55_physio_q080", "prev_1_55_physio_q081", "prev_1_55_physio_q082", "prev_1_55_physio_q083", "prev_1_55_physio_q084", "prev_1_55_physio_q085", "prev_1_55_physio_q086", "prev_1_55_physio_q087", "prev_1_55_physio_q088", "prev_1_55_physio_q089", "prev_1_55_physio_q090", "prev_1_55_physio_q091", "prev_1_55_physio_q092", "prev_1_55_physio_q093", "prev_1_55_physio_q094", "prev_1_55_physio_q095"]}, {"slug": "2_55", "title": "فورماتيف 2 - باتش 55", "question_ids": ["prev_2_55_physio_q096", "prev_2_55_physio_q097", "prev_2_55_physio_q098", "prev_2_55_physio_q099", "prev_2_55_physio_q100", "prev_2_55_physio_q101", "prev_2_55_physio_q102", "prev_2_55_physio_q103", "prev_2_55_physio_q104", "prev_2_55_physio_q105", "prev_2_55_physio_q106", "prev_2_55_physio_q107", "prev_2_55_physio_q108", "prev_2_55_physio_q109", "prev_2_55_physio_q110", "prev_2_55_physio_q111", "prev_2_55_physio_q112"]}];
 
 const DEFAULT_STATE = {
@@ -3840,6 +3842,15 @@ const EXP_COLOR_MAP = {
 
 let state = DEFAULT_STATE;
 
+function _loadShared() {
+  try { return JSON.parse(localStorage.getItem(SHARED_KEY) || "{}"); } catch(e) { return {}; }
+}
+function _saveShared() {
+  var s = {};
+  SETTINGS_KEYS.forEach(function(k) { s[k] = state[k]; });
+  try { localStorage.setItem(SHARED_KEY, JSON.stringify(s)); } catch(e) {}
+}
+
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -3847,15 +3858,23 @@ function loadState() {
       const parsed = JSON.parse(raw);
       if (parsed.version === 1) {
         state = Object.assign({}, DEFAULT_STATE, parsed);
-        return;
+      } else {
+        state = Object.assign({}, DEFAULT_STATE);
       }
+    } else {
+      state = Object.assign({}, DEFAULT_STATE);
     }
-  } catch(e) {}
-  state = Object.assign({}, DEFAULT_STATE);
+  } catch(e) {
+    state = Object.assign({}, DEFAULT_STATE);
+  }
+  // Overlay shared settings (theme, fontSize, etc.) from other files
+  var shared = _loadShared();
+  SETTINGS_KEYS.forEach(function(k) { if (shared[k] !== undefined) state[k] = shared[k]; });
 }
 
 function saveState() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+  _saveShared();
 }
 
 // ── Fixed header height → main padding ───────────────────────────────────
@@ -4254,6 +4273,19 @@ function changeTheme(sel) {
   applyTheme(state.theme);
   saveState();
 }
+
+// ── Cross-file settings sync ──────────────────────────────────────────────────
+window.addEventListener("storage", function(e) {
+  if (e.key !== SHARED_KEY || !e.newValue) return;
+  try {
+    var shared = JSON.parse(e.newValue);
+    SETTINGS_KEYS.forEach(function(k) { if (shared[k] !== undefined) state[k] = shared[k]; });
+    applyTheme(state.theme);
+    applySettings();
+    var ts = document.getElementById("theme-select");
+    if (ts) ts.value = state.theme;
+  } catch(err) {}
+});
 
 // ── Fullscreen ────────────────────────────────────────────────────────────────
 function toggleFullscreen() {

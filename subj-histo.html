@@ -2011,6 +2011,8 @@ mark.hl-pink{background:rgba(233,30,99,.30);color:inherit;border-radius:2px}
 // ── State ────────────────────────────────────────────────────────────────────
 const FILE_ID = "blood_prev_subj_histo";
 const STORAGE_KEY = "exam_os_v1_" + FILE_ID;
+const SHARED_KEY   = "exam_os_settings_v1";   // shared across ALL files
+const SETTINGS_KEYS = ["theme","fontSize","contentWidth","fontFamily","expColor"];
 const SECTIONS = [{"slug": "61", "title": "امتحان 61", "question_ids": ["prev_61_histo_q001", "prev_61_histo_q002", "prev_61_histo_q003", "prev_61_histo_q004", "prev_61_histo_q005", "prev_61_histo_q006", "prev_61_histo_q007"]}, {"slug": "60", "title": "دور تاني 60", "question_ids": ["prev_60_histo_q008", "prev_60_histo_q009"]}, {"slug": "60_1", "title": "إند موديول 60", "question_ids": ["prev_60_histo_q010", "prev_60_histo_q011"]}, {"slug": "59", "title": "امتحان 59", "question_ids": ["prev_59_histo_q012"]}, {"slug": "58", "title": "إند سميستر 58", "question_ids": ["prev_58_histo_q013", "prev_58_histo_q014", "prev_58_histo_q015"]}, {"slug": "em_58", "title": "EM 58", "question_ids": ["prev_em_58_histo_q016", "prev_em_58_histo_q017", "prev_em_58_histo_q018"]}, {"slug": "58_1", "title": "إند موديول 58", "question_ids": ["prev_58_histo_q019", "prev_58_histo_q020", "prev_58_histo_q021"]}, {"slug": "57", "title": "امتحان 57", "question_ids": ["prev_57_histo_q022", "prev_57_histo_q023", "prev_57_histo_q024", "prev_57_histo_q025", "prev_57_histo_q026", "prev_57_histo_q027", "prev_57_histo_q028", "prev_57_histo_q029"]}, {"slug": "57_1", "title": "فورماتيف 57", "question_ids": ["prev_57_histo_q030", "prev_57_histo_q031"]}, {"slug": "55", "title": "امتحان 55", "question_ids": ["prev_55_histo_q032", "prev_55_histo_q033", "prev_55_histo_q034"]}, {"slug": "1_55", "title": "فورماتيف 1 - باتش 55", "question_ids": ["prev_1_55_histo_q035", "prev_1_55_histo_q036", "prev_1_55_histo_q037", "prev_1_55_histo_q038", "prev_1_55_histo_q039"]}, {"slug": "2_55", "title": "فورماتيف 2 - باتش 55", "question_ids": ["prev_2_55_histo_q040", "prev_2_55_histo_q041", "prev_2_55_histo_q042", "prev_2_55_histo_q043"]}];
 
 const DEFAULT_STATE = {
@@ -2044,6 +2046,15 @@ const EXP_COLOR_MAP = {
 
 let state = DEFAULT_STATE;
 
+function _loadShared() {
+  try { return JSON.parse(localStorage.getItem(SHARED_KEY) || "{}"); } catch(e) { return {}; }
+}
+function _saveShared() {
+  var s = {};
+  SETTINGS_KEYS.forEach(function(k) { s[k] = state[k]; });
+  try { localStorage.setItem(SHARED_KEY, JSON.stringify(s)); } catch(e) {}
+}
+
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -2051,15 +2062,23 @@ function loadState() {
       const parsed = JSON.parse(raw);
       if (parsed.version === 1) {
         state = Object.assign({}, DEFAULT_STATE, parsed);
-        return;
+      } else {
+        state = Object.assign({}, DEFAULT_STATE);
       }
+    } else {
+      state = Object.assign({}, DEFAULT_STATE);
     }
-  } catch(e) {}
-  state = Object.assign({}, DEFAULT_STATE);
+  } catch(e) {
+    state = Object.assign({}, DEFAULT_STATE);
+  }
+  // Overlay shared settings (theme, fontSize, etc.) from other files
+  var shared = _loadShared();
+  SETTINGS_KEYS.forEach(function(k) { if (shared[k] !== undefined) state[k] = shared[k]; });
 }
 
 function saveState() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+  _saveShared();
 }
 
 // ── Fixed header height → main padding ───────────────────────────────────
@@ -2458,6 +2477,19 @@ function changeTheme(sel) {
   applyTheme(state.theme);
   saveState();
 }
+
+// ── Cross-file settings sync ──────────────────────────────────────────────────
+window.addEventListener("storage", function(e) {
+  if (e.key !== SHARED_KEY || !e.newValue) return;
+  try {
+    var shared = JSON.parse(e.newValue);
+    SETTINGS_KEYS.forEach(function(k) { if (shared[k] !== undefined) state[k] = shared[k]; });
+    applyTheme(state.theme);
+    applySettings();
+    var ts = document.getElementById("theme-select");
+    if (ts) ts.value = state.theme;
+  } catch(err) {}
+});
 
 // ── Fullscreen ────────────────────────────────────────────────────────────────
 function toggleFullscreen() {

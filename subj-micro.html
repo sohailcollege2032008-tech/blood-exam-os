@@ -5561,6 +5561,8 @@ mark.hl-pink{background:rgba(233,30,99,.30);color:inherit;border-radius:2px}
 // ── State ────────────────────────────────────────────────────────────────────
 const FILE_ID = "blood_prev_subj_micro";
 const STORAGE_KEY = "exam_os_v1_" + FILE_ID;
+const SHARED_KEY   = "exam_os_settings_v1";   // shared across ALL files
+const SETTINGS_KEYS = ["theme","fontSize","contentWidth","fontFamily","expColor"];
 const SECTIONS = [{"slug": "61", "title": "امتحان 61", "question_ids": ["prev_61_micro_q001", "prev_61_micro_q002", "prev_61_micro_q003", "prev_61_micro_q004", "prev_61_micro_q005", "prev_61_micro_q006", "prev_61_micro_q007", "prev_61_micro_q008", "prev_61_micro_q009", "prev_61_micro_q010", "prev_61_micro_q011", "prev_61_micro_q012", "prev_61_micro_q013", "prev_61_micro_q014", "prev_61_micro_q015"]}, {"slug": "60", "title": "إند سميستر 60", "question_ids": ["prev_60_micro_q016", "prev_60_micro_q017", "prev_60_micro_q018", "prev_60_micro_q019", "prev_60_micro_q020", "prev_60_micro_q021", "prev_60_micro_q022", "prev_60_micro_q023", "prev_60_micro_q024", "prev_60_micro_q025", "prev_60_micro_q026", "prev_60_micro_q027", "prev_60_micro_q028", "prev_60_micro_q029"]}, {"slug": "60_1", "title": "دور تاني 60", "question_ids": ["prev_60_micro_q030", "prev_60_micro_q031", "prev_60_micro_q032", "prev_60_micro_q033", "prev_60_micro_q034", "prev_60_micro_q035", "prev_60_micro_q036", "prev_60_micro_q037", "prev_60_micro_q038", "prev_60_micro_q039", "prev_60_micro_q040", "prev_60_micro_q041", "prev_60_micro_q042", "prev_60_micro_q043", "prev_60_micro_q044"]}, {"slug": "60_2", "title": "إند موديول 60", "question_ids": ["prev_60_micro_q045", "prev_60_micro_q046", "prev_60_micro_q047", "prev_60_micro_q048", "prev_60_micro_q049", "prev_60_micro_q050", "prev_60_micro_q051", "prev_60_micro_q052", "prev_60_micro_q053", "prev_60_micro_q054", "prev_60_micro_q055", "prev_60_micro_q056", "prev_60_micro_q057", "prev_60_micro_q058", "prev_60_micro_q059"]}, {"slug": "59", "title": "امتحان 59", "question_ids": ["prev_59_micro_q060", "prev_59_micro_q061"]}, {"slug": "58", "title": "إند سميستر 58", "question_ids": ["prev_58_micro_q062", "prev_58_micro_q063", "prev_58_micro_q064", "prev_58_micro_q065", "prev_58_micro_q066", "prev_58_micro_q067", "prev_58_micro_q068", "prev_58_micro_q069", "prev_58_micro_q070", "prev_58_micro_q071", "prev_58_micro_q072", "prev_58_micro_q073"]}, {"slug": "em_58", "title": "EM 58", "question_ids": ["prev_em_58_micro_q074", "prev_em_58_micro_q075", "prev_em_58_micro_q076", "prev_em_58_micro_q077", "prev_em_58_micro_q078", "prev_em_58_micro_q079", "prev_em_58_micro_q080", "prev_em_58_micro_q081", "prev_em_58_micro_q082", "prev_em_58_micro_q083", "prev_em_58_micro_q084", "prev_em_58_micro_q085", "prev_em_58_micro_q086", "prev_em_58_micro_q087", "prev_em_58_micro_q088", "prev_em_58_micro_q089", "prev_em_58_micro_q090"]}, {"slug": "58_1", "title": "إند موديول 58", "question_ids": ["prev_58_micro_q091", "prev_58_micro_q092", "prev_58_micro_q093", "prev_58_micro_q094", "prev_58_micro_q095", "prev_58_micro_q096", "prev_58_micro_q097", "prev_58_micro_q098", "prev_58_micro_q099", "prev_58_micro_q100", "prev_58_micro_q101", "prev_58_micro_q102", "prev_58_micro_q103", "prev_58_micro_q104", "prev_58_micro_q105", "prev_58_micro_q106", "prev_58_micro_q107"]}, {"slug": "57", "title": "امتحان 57", "question_ids": ["prev_57_micro_q108", "prev_57_micro_q109", "prev_57_micro_q110", "prev_57_micro_q111", "prev_57_micro_q112", "prev_57_micro_q113", "prev_57_micro_q114", "prev_57_micro_q115", "prev_57_micro_q116", "prev_57_micro_q117", "prev_57_micro_q118", "prev_57_micro_q119", "prev_57_micro_q120"]}, {"slug": "57_1", "title": "فورماتيف 57", "question_ids": ["prev_57_micro_q121", "prev_57_micro_q122", "prev_57_micro_q123", "prev_57_micro_q124", "prev_57_micro_q125", "prev_57_micro_q126"]}, {"slug": "55", "title": "امتحان 55", "question_ids": ["prev_55_micro_q127", "prev_55_micro_q128", "prev_55_micro_q129", "prev_55_micro_q130", "prev_55_micro_q131", "prev_55_micro_q132", "prev_55_micro_q133", "prev_55_micro_q134", "prev_55_micro_q135", "prev_55_micro_q136", "prev_55_micro_q137", "prev_55_micro_q138", "prev_55_micro_q139", "prev_55_micro_q140", "prev_55_micro_q141", "prev_55_micro_q142"]}, {"slug": "1_55", "title": "فورماتيف 1 - باتش 55", "question_ids": ["prev_1_55_micro_q143", "prev_1_55_micro_q144", "prev_1_55_micro_q145", "prev_1_55_micro_q146", "prev_1_55_micro_q147", "prev_1_55_micro_q148", "prev_1_55_micro_q149", "prev_1_55_micro_q150", "prev_1_55_micro_q151", "prev_1_55_micro_q152", "prev_1_55_micro_q153", "prev_1_55_micro_q154", "prev_1_55_micro_q155", "prev_1_55_micro_q156", "prev_1_55_micro_q157", "prev_1_55_micro_q158", "prev_1_55_micro_q159", "prev_1_55_micro_q160", "prev_1_55_micro_q161"]}, {"slug": "2_55", "title": "فورماتيف 2 - باتش 55", "question_ids": ["prev_2_55_micro_q162", "prev_2_55_micro_q163", "prev_2_55_micro_q164", "prev_2_55_micro_q165", "prev_2_55_micro_q166", "prev_2_55_micro_q167", "prev_2_55_micro_q168", "prev_2_55_micro_q169", "prev_2_55_micro_q170", "prev_2_55_micro_q171", "prev_2_55_micro_q172", "prev_2_55_micro_q173", "prev_2_55_micro_q174", "prev_2_55_micro_q175", "prev_2_55_micro_q176", "prev_2_55_micro_q177", "prev_2_55_micro_q178", "prev_2_55_micro_q179", "prev_2_55_micro_q180"]}];
 
 const DEFAULT_STATE = {
@@ -5594,6 +5596,15 @@ const EXP_COLOR_MAP = {
 
 let state = DEFAULT_STATE;
 
+function _loadShared() {
+  try { return JSON.parse(localStorage.getItem(SHARED_KEY) || "{}"); } catch(e) { return {}; }
+}
+function _saveShared() {
+  var s = {};
+  SETTINGS_KEYS.forEach(function(k) { s[k] = state[k]; });
+  try { localStorage.setItem(SHARED_KEY, JSON.stringify(s)); } catch(e) {}
+}
+
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -5601,15 +5612,23 @@ function loadState() {
       const parsed = JSON.parse(raw);
       if (parsed.version === 1) {
         state = Object.assign({}, DEFAULT_STATE, parsed);
-        return;
+      } else {
+        state = Object.assign({}, DEFAULT_STATE);
       }
+    } else {
+      state = Object.assign({}, DEFAULT_STATE);
     }
-  } catch(e) {}
-  state = Object.assign({}, DEFAULT_STATE);
+  } catch(e) {
+    state = Object.assign({}, DEFAULT_STATE);
+  }
+  // Overlay shared settings (theme, fontSize, etc.) from other files
+  var shared = _loadShared();
+  SETTINGS_KEYS.forEach(function(k) { if (shared[k] !== undefined) state[k] = shared[k]; });
 }
 
 function saveState() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+  _saveShared();
 }
 
 // ── Fixed header height → main padding ───────────────────────────────────
@@ -6008,6 +6027,19 @@ function changeTheme(sel) {
   applyTheme(state.theme);
   saveState();
 }
+
+// ── Cross-file settings sync ──────────────────────────────────────────────────
+window.addEventListener("storage", function(e) {
+  if (e.key !== SHARED_KEY || !e.newValue) return;
+  try {
+    var shared = JSON.parse(e.newValue);
+    SETTINGS_KEYS.forEach(function(k) { if (shared[k] !== undefined) state[k] = shared[k]; });
+    applyTheme(state.theme);
+    applySettings();
+    var ts = document.getElementById("theme-select");
+    if (ts) ts.value = state.theme;
+  } catch(err) {}
+});
 
 // ── Fullscreen ────────────────────────────────────────────────────────────────
 function toggleFullscreen() {

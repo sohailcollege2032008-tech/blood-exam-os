@@ -1161,6 +1161,8 @@ intestinal tract; but cannot be transported to blood due to absence of.</p>
 // ── State ────────────────────────────────────────────────────────────────────
 const FILE_ID = "blood_written_bio";
 const STORAGE_KEY = "exam_os_v1_" + FILE_ID;
+const SHARED_KEY   = "exam_os_settings_v1";   // shared across ALL files
+const SETTINGS_KEYS = ["theme","fontSize","contentWidth","fontFamily","expColor"];
 const SECTIONS = [{"slug": "61", "title": "امتحان 61", "question_ids": ["written_exam_61_bio_q01"]}, {"slug": "60", "title": "إند سميستر 60", "question_ids": ["written_end_sem_60_bio_q01"]}, {"slug": "60_1", "title": "دور تاني 60", "question_ids": ["written_dor_tani_60_bio_q01"]}, {"slug": "59", "title": "امتحان 59", "question_ids": ["written_exam_59_bio_q01"]}, {"slug": "58", "title": "إند سميستر 58", "question_ids": ["written_end_sem_58_bio_q01", "written_end_sem_58_bio_q02"]}, {"slug": "em_58", "title": "EM 58", "question_ids": ["written_em_58_bio_q01", "written_em_58_bio_q02"]}, {"slug": "58_1", "title": "إند موديول 58", "question_ids": ["written_end_mod_58_bio_q01", "written_end_mod_58_bio_q02"]}, {"slug": "57", "title": "ريتن 57", "question_ids": ["written_written_57_bio_q01"]}, {"slug": "55", "title": "امتحان 55", "question_ids": ["written_exam_55_bio_q01"]}];
 
 const DEFAULT_STATE = {
@@ -1194,6 +1196,15 @@ const EXP_COLOR_MAP = {
 
 let state = DEFAULT_STATE;
 
+function _loadShared() {
+  try { return JSON.parse(localStorage.getItem(SHARED_KEY) || "{}"); } catch(e) { return {}; }
+}
+function _saveShared() {
+  var s = {};
+  SETTINGS_KEYS.forEach(function(k) { s[k] = state[k]; });
+  try { localStorage.setItem(SHARED_KEY, JSON.stringify(s)); } catch(e) {}
+}
+
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -1201,15 +1212,23 @@ function loadState() {
       const parsed = JSON.parse(raw);
       if (parsed.version === 1) {
         state = Object.assign({}, DEFAULT_STATE, parsed);
-        return;
+      } else {
+        state = Object.assign({}, DEFAULT_STATE);
       }
+    } else {
+      state = Object.assign({}, DEFAULT_STATE);
     }
-  } catch(e) {}
-  state = Object.assign({}, DEFAULT_STATE);
+  } catch(e) {
+    state = Object.assign({}, DEFAULT_STATE);
+  }
+  // Overlay shared settings (theme, fontSize, etc.) from other files
+  var shared = _loadShared();
+  SETTINGS_KEYS.forEach(function(k) { if (shared[k] !== undefined) state[k] = shared[k]; });
 }
 
 function saveState() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+  _saveShared();
 }
 
 // ── Fixed header height → main padding ───────────────────────────────────
@@ -1608,6 +1627,19 @@ function changeTheme(sel) {
   applyTheme(state.theme);
   saveState();
 }
+
+// ── Cross-file settings sync ──────────────────────────────────────────────────
+window.addEventListener("storage", function(e) {
+  if (e.key !== SHARED_KEY || !e.newValue) return;
+  try {
+    var shared = JSON.parse(e.newValue);
+    SETTINGS_KEYS.forEach(function(k) { if (shared[k] !== undefined) state[k] = shared[k]; });
+    applyTheme(state.theme);
+    applySettings();
+    var ts = document.getElementById("theme-select");
+    if (ts) ts.value = state.theme;
+  } catch(err) {}
+});
 
 // ── Fullscreen ────────────────────────────────────────────────────────────────
 function toggleFullscreen() {

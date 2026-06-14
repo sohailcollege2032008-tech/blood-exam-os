@@ -1497,6 +1497,8 @@ mark.hl-pink{background:rgba(233,30,99,.30);color:inherit;border-radius:2px}
 // ── State ────────────────────────────────────────────────────────────────────
 const FILE_ID = "blood_prev_subj_anatomy";
 const STORAGE_KEY = "exam_os_v1_" + FILE_ID;
+const SHARED_KEY   = "exam_os_settings_v1";   // shared across ALL files
+const SETTINGS_KEYS = ["theme","fontSize","contentWidth","fontFamily","expColor"];
 const SECTIONS = [{"slug": "61", "title": "امتحان 61", "question_ids": ["prev_61_anatomy_q001", "prev_61_anatomy_q002", "prev_61_anatomy_q003"]}, {"slug": "60", "title": "إند سميستر 60", "question_ids": ["prev_60_anatomy_q004"]}, {"slug": "60_1", "title": "دور تاني 60", "question_ids": ["prev_60_anatomy_q005", "prev_60_anatomy_q006", "prev_60_anatomy_q007", "prev_60_anatomy_q008", "prev_60_anatomy_q009", "prev_60_anatomy_q010"]}, {"slug": "60_2", "title": "إند موديول 60", "question_ids": ["prev_60_anatomy_q011", "prev_60_anatomy_q012", "prev_60_anatomy_q013"]}, {"slug": "58", "title": "إند سميستر 58", "question_ids": ["prev_58_anatomy_q014", "prev_58_anatomy_q015"]}, {"slug": "57", "title": "امتحان 57", "question_ids": ["prev_57_anatomy_q016", "prev_57_anatomy_q017"]}, {"slug": "57_1", "title": "فورماتيف 57", "question_ids": ["prev_57_anatomy_q018"]}, {"slug": "55", "title": "امتحان 55", "question_ids": ["prev_55_anatomy_q019", "prev_55_anatomy_q020"]}, {"slug": "1_55", "title": "فورماتيف 1 - باتش 55", "question_ids": ["prev_1_55_anatomy_q021"]}, {"slug": "2_55", "title": "فورماتيف 2 - باتش 55", "question_ids": ["prev_2_55_anatomy_q022", "prev_2_55_anatomy_q023", "prev_2_55_anatomy_q024"]}];
 
 const DEFAULT_STATE = {
@@ -1530,6 +1532,15 @@ const EXP_COLOR_MAP = {
 
 let state = DEFAULT_STATE;
 
+function _loadShared() {
+  try { return JSON.parse(localStorage.getItem(SHARED_KEY) || "{}"); } catch(e) { return {}; }
+}
+function _saveShared() {
+  var s = {};
+  SETTINGS_KEYS.forEach(function(k) { s[k] = state[k]; });
+  try { localStorage.setItem(SHARED_KEY, JSON.stringify(s)); } catch(e) {}
+}
+
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -1537,15 +1548,23 @@ function loadState() {
       const parsed = JSON.parse(raw);
       if (parsed.version === 1) {
         state = Object.assign({}, DEFAULT_STATE, parsed);
-        return;
+      } else {
+        state = Object.assign({}, DEFAULT_STATE);
       }
+    } else {
+      state = Object.assign({}, DEFAULT_STATE);
     }
-  } catch(e) {}
-  state = Object.assign({}, DEFAULT_STATE);
+  } catch(e) {
+    state = Object.assign({}, DEFAULT_STATE);
+  }
+  // Overlay shared settings (theme, fontSize, etc.) from other files
+  var shared = _loadShared();
+  SETTINGS_KEYS.forEach(function(k) { if (shared[k] !== undefined) state[k] = shared[k]; });
 }
 
 function saveState() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+  _saveShared();
 }
 
 // ── Fixed header height → main padding ───────────────────────────────────
@@ -1944,6 +1963,19 @@ function changeTheme(sel) {
   applyTheme(state.theme);
   saveState();
 }
+
+// ── Cross-file settings sync ──────────────────────────────────────────────────
+window.addEventListener("storage", function(e) {
+  if (e.key !== SHARED_KEY || !e.newValue) return;
+  try {
+    var shared = JSON.parse(e.newValue);
+    SETTINGS_KEYS.forEach(function(k) { if (shared[k] !== undefined) state[k] = shared[k]; });
+    applyTheme(state.theme);
+    applySettings();
+    var ts = document.getElementById("theme-select");
+    if (ts) ts.value = state.theme;
+  } catch(err) {}
+});
 
 // ── Fullscreen ────────────────────────────────────────────────────────────────
 function toggleFullscreen() {

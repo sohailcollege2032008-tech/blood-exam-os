@@ -1521,6 +1521,8 @@ intestinal tract; but cannot be transported to blood due to absence of.</p>
 // ── State ────────────────────────────────────────────────────────────────────
 const FILE_ID = "blood_prev_exam_exam_59";
 const STORAGE_KEY = "exam_os_v1_" + FILE_ID;
+const SHARED_KEY   = "exam_os_settings_v1";   // shared across ALL files
+const SETTINGS_KEYS = ["theme","fontSize","contentWidth","fontFamily","expColor"];
 const SECTIONS = [{"slug": "pharmacology", "title": "Pharmacology", "question_ids": ["prev_59_pharma_q001", "prev_59_pharma_q002"]}, {"slug": "histology", "title": "Histology", "question_ids": ["prev_59_histo_q001"]}, {"slug": "microbiology_immunology", "title": "Microbiology & Immunology", "question_ids": ["prev_59_micro_q001", "prev_59_micro_q002", "written_exam_59_micro_q01", "written_exam_59_micro_q02", "written_exam_59_micro_q03"]}, {"slug": "parasitology", "title": "Parasitology", "question_ids": ["prev_59_para_q001", "prev_59_para_q002"]}, {"slug": "pathology", "title": "Pathology", "question_ids": ["prev_59_patho_q001"]}, {"slug": "physiology", "title": "Physiology", "question_ids": ["prev_59_physio_q001", "prev_59_physio_q002", "prev_59_physio_q003", "prev_59_physio_q004", "prev_59_physio_q005", "prev_59_physio_q006", "prev_59_physio_q007", "prev_59_physio_q008", "written_exam_59_physio_q01", "written_exam_59_physio_q02"]}, {"slug": "biochemistry", "title": "Biochemistry", "question_ids": ["prev_59_bio_q001", "prev_59_bio_q002", "prev_59_bio_q003", "prev_59_bio_q004", "written_exam_59_bio_q01"]}];
 
 const DEFAULT_STATE = {
@@ -1554,6 +1556,15 @@ const EXP_COLOR_MAP = {
 
 let state = DEFAULT_STATE;
 
+function _loadShared() {
+  try { return JSON.parse(localStorage.getItem(SHARED_KEY) || "{}"); } catch(e) { return {}; }
+}
+function _saveShared() {
+  var s = {};
+  SETTINGS_KEYS.forEach(function(k) { s[k] = state[k]; });
+  try { localStorage.setItem(SHARED_KEY, JSON.stringify(s)); } catch(e) {}
+}
+
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -1561,15 +1572,23 @@ function loadState() {
       const parsed = JSON.parse(raw);
       if (parsed.version === 1) {
         state = Object.assign({}, DEFAULT_STATE, parsed);
-        return;
+      } else {
+        state = Object.assign({}, DEFAULT_STATE);
       }
+    } else {
+      state = Object.assign({}, DEFAULT_STATE);
     }
-  } catch(e) {}
-  state = Object.assign({}, DEFAULT_STATE);
+  } catch(e) {
+    state = Object.assign({}, DEFAULT_STATE);
+  }
+  // Overlay shared settings (theme, fontSize, etc.) from other files
+  var shared = _loadShared();
+  SETTINGS_KEYS.forEach(function(k) { if (shared[k] !== undefined) state[k] = shared[k]; });
 }
 
 function saveState() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+  _saveShared();
 }
 
 // ── Fixed header height → main padding ───────────────────────────────────
@@ -1968,6 +1987,19 @@ function changeTheme(sel) {
   applyTheme(state.theme);
   saveState();
 }
+
+// ── Cross-file settings sync ──────────────────────────────────────────────────
+window.addEventListener("storage", function(e) {
+  if (e.key !== SHARED_KEY || !e.newValue) return;
+  try {
+    var shared = JSON.parse(e.newValue);
+    SETTINGS_KEYS.forEach(function(k) { if (shared[k] !== undefined) state[k] = shared[k]; });
+    applyTheme(state.theme);
+    applySettings();
+    var ts = document.getElementById("theme-select");
+    if (ts) ts.value = state.theme;
+  } catch(err) {}
+});
 
 // ── Fullscreen ────────────────────────────────────────────────────────────────
 function toggleFullscreen() {

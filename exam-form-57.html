@@ -1524,6 +1524,8 @@ mark.hl-pink{background:rgba(233,30,99,.30);color:inherit;border-radius:2px}
 // ── State ────────────────────────────────────────────────────────────────────
 const FILE_ID = "blood_prev_exam_form_57";
 const STORAGE_KEY = "exam_os_v1_" + FILE_ID;
+const SHARED_KEY   = "exam_os_settings_v1";   // shared across ALL files
+const SETTINGS_KEYS = ["theme","fontSize","contentWidth","fontFamily","expColor"];
 const SECTIONS = [{"slug": "pharmacology", "title": "Pharmacology", "question_ids": ["prev_57_pharma_q001", "prev_57_pharma_q002"]}, {"slug": "histology", "title": "Histology", "question_ids": ["prev_57_histo_q001", "prev_57_histo_q002"]}, {"slug": "microbiology_immunology", "title": "Microbiology & Immunology", "question_ids": ["prev_57_micro_q001", "prev_57_micro_q002", "prev_57_micro_q003", "prev_57_micro_q004", "prev_57_micro_q005", "prev_57_micro_q006"]}, {"slug": "parasitology", "title": "Parasitology", "question_ids": ["prev_57_para_q001", "prev_57_para_q002", "prev_57_para_q003", "prev_57_para_q004"]}, {"slug": "pathology", "title": "Pathology", "question_ids": ["prev_57_patho_q001", "prev_57_patho_q002", "prev_57_patho_q003", "prev_57_patho_q004"]}, {"slug": "physiology", "title": "Physiology", "question_ids": ["prev_57_physio_q001", "prev_57_physio_q002", "prev_57_physio_q003", "prev_57_physio_q004", "prev_57_physio_q005"]}, {"slug": "anatomy_spleen", "title": "Anatomy (Spleen)", "question_ids": ["prev_57_anatomy_q001"]}, {"slug": "biochemistry", "title": "Biochemistry", "question_ids": ["prev_57_bio_q001", "prev_57_bio_q002"]}];
 
 const DEFAULT_STATE = {
@@ -1557,6 +1559,15 @@ const EXP_COLOR_MAP = {
 
 let state = DEFAULT_STATE;
 
+function _loadShared() {
+  try { return JSON.parse(localStorage.getItem(SHARED_KEY) || "{}"); } catch(e) { return {}; }
+}
+function _saveShared() {
+  var s = {};
+  SETTINGS_KEYS.forEach(function(k) { s[k] = state[k]; });
+  try { localStorage.setItem(SHARED_KEY, JSON.stringify(s)); } catch(e) {}
+}
+
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -1564,15 +1575,23 @@ function loadState() {
       const parsed = JSON.parse(raw);
       if (parsed.version === 1) {
         state = Object.assign({}, DEFAULT_STATE, parsed);
-        return;
+      } else {
+        state = Object.assign({}, DEFAULT_STATE);
       }
+    } else {
+      state = Object.assign({}, DEFAULT_STATE);
     }
-  } catch(e) {}
-  state = Object.assign({}, DEFAULT_STATE);
+  } catch(e) {
+    state = Object.assign({}, DEFAULT_STATE);
+  }
+  // Overlay shared settings (theme, fontSize, etc.) from other files
+  var shared = _loadShared();
+  SETTINGS_KEYS.forEach(function(k) { if (shared[k] !== undefined) state[k] = shared[k]; });
 }
 
 function saveState() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+  _saveShared();
 }
 
 // ── Fixed header height → main padding ───────────────────────────────────
@@ -1971,6 +1990,19 @@ function changeTheme(sel) {
   applyTheme(state.theme);
   saveState();
 }
+
+// ── Cross-file settings sync ──────────────────────────────────────────────────
+window.addEventListener("storage", function(e) {
+  if (e.key !== SHARED_KEY || !e.newValue) return;
+  try {
+    var shared = JSON.parse(e.newValue);
+    SETTINGS_KEYS.forEach(function(k) { if (shared[k] !== undefined) state[k] = shared[k]; });
+    applyTheme(state.theme);
+    applySettings();
+    var ts = document.getElementById("theme-select");
+    if (ts) ts.value = state.theme;
+  } catch(err) {}
+});
 
 // ── Fullscreen ────────────────────────────────────────────────────────────────
 function toggleFullscreen() {
