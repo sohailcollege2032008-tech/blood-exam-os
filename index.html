@@ -66,6 +66,11 @@ main{max-width:960px;margin:0 auto;padding:20px 14px}
 .sbtn.sd{background:rgba(63,185,80,.12);color:var(--green)}
 .sbtn.sw{background:rgba(233,69,96,.12);color:var(--red)}
 .clast{font-size:.6rem;color:var(--muted)}
+.dl-btn{border:none;border-radius:14px;padding:2px 8px;font-size:.65rem;
+  font-family:inherit;cursor:pointer;background:rgba(88,166,255,.1);color:var(--acc2);
+  margin-right:auto;transition:background .15s;text-decoration:none}
+.dl-btn:hover{background:rgba(88,166,255,.22)}
+.dl-btn.loading{opacity:.5;pointer-events:none}
 
 footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
 
@@ -111,6 +116,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_dept_micro" onclick="cycleStatus('blood_dept_micro',event)">—</button>
           <span class="clast" id="cl-blood_dept_micro"></span>
+          <button class="dl-btn" onclick="downloadFile('dept-micro.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="dept-physio.html" onclick="markVisit('blood_dept_physio')">
@@ -127,6 +133,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_dept_physio" onclick="cycleStatus('blood_dept_physio',event)">—</button>
           <span class="clast" id="cl-blood_dept_physio"></span>
+          <button class="dl-btn" onclick="downloadFile('dept-physio.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="dept-pharma.html" onclick="markVisit('blood_dept_pharma')">
@@ -143,6 +150,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_dept_pharma" onclick="cycleStatus('blood_dept_pharma',event)">—</button>
           <span class="clast" id="cl-blood_dept_pharma"></span>
+          <button class="dl-btn" onclick="downloadFile('dept-pharma.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="dept-histo1.html" onclick="markVisit('blood_dept_histo1')">
@@ -159,6 +167,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_dept_histo1" onclick="cycleStatus('blood_dept_histo1',event)">—</button>
           <span class="clast" id="cl-blood_dept_histo1"></span>
+          <button class="dl-btn" onclick="downloadFile('dept-histo1.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="dept-histo2.html" onclick="markVisit('blood_dept_histo2')">
@@ -175,6 +184,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_dept_histo2" onclick="cycleStatus('blood_dept_histo2',event)">—</button>
           <span class="clast" id="cl-blood_dept_histo2"></span>
+          <button class="dl-btn" onclick="downloadFile('dept-histo2.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="dept-patho.html" onclick="markVisit('blood_dept_patho')">
@@ -191,6 +201,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_dept_patho" onclick="cycleStatus('blood_dept_patho',event)">—</button>
           <span class="clast" id="cl-blood_dept_patho"></span>
+          <button class="dl-btn" onclick="downloadFile('dept-patho.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="dept-bio.html" onclick="markVisit('blood_dept_bio')">
@@ -207,6 +218,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_dept_bio" onclick="cycleStatus('blood_dept_bio',event)">—</button>
           <span class="clast" id="cl-blood_dept_bio"></span>
+          <button class="dl-btn" onclick="downloadFile('dept-bio.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="dept-para.html" onclick="markVisit('blood_dept_para')">
@@ -223,6 +235,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_dept_para" onclick="cycleStatus('blood_dept_para',event)">—</button>
           <span class="clast" id="cl-blood_dept_para"></span>
+          <button class="dl-btn" onclick="downloadFile('dept-para.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="dept-anatomy.html" onclick="markVisit('blood_dept_anatomy')">
@@ -239,6 +252,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_dept_anatomy" onclick="cycleStatus('blood_dept_anatomy',event)">—</button>
           <span class="clast" id="cl-blood_dept_anatomy"></span>
+          <button class="dl-btn" onclick="downloadFile('dept-anatomy.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
     </div>
@@ -260,6 +274,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_subj_micro" onclick="cycleStatus('blood_prev_subj_micro',event)">—</button>
           <span class="clast" id="cl-blood_prev_subj_micro"></span>
+          <button class="dl-btn" onclick="downloadFile('subj-micro.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="subj-physio.html" onclick="markVisit('blood_prev_subj_physio')">
@@ -276,6 +291,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_subj_physio" onclick="cycleStatus('blood_prev_subj_physio',event)">—</button>
           <span class="clast" id="cl-blood_prev_subj_physio"></span>
+          <button class="dl-btn" onclick="downloadFile('subj-physio.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="subj-pharma.html" onclick="markVisit('blood_prev_subj_pharma')">
@@ -292,6 +308,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_subj_pharma" onclick="cycleStatus('blood_prev_subj_pharma',event)">—</button>
           <span class="clast" id="cl-blood_prev_subj_pharma"></span>
+          <button class="dl-btn" onclick="downloadFile('subj-pharma.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="subj-histo.html" onclick="markVisit('blood_prev_subj_histo')">
@@ -308,6 +325,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_subj_histo" onclick="cycleStatus('blood_prev_subj_histo',event)">—</button>
           <span class="clast" id="cl-blood_prev_subj_histo"></span>
+          <button class="dl-btn" onclick="downloadFile('subj-histo.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="subj-patho.html" onclick="markVisit('blood_prev_subj_patho')">
@@ -324,6 +342,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_subj_patho" onclick="cycleStatus('blood_prev_subj_patho',event)">—</button>
           <span class="clast" id="cl-blood_prev_subj_patho"></span>
+          <button class="dl-btn" onclick="downloadFile('subj-patho.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="subj-bio.html" onclick="markVisit('blood_prev_subj_bio')">
@@ -340,6 +359,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_subj_bio" onclick="cycleStatus('blood_prev_subj_bio',event)">—</button>
           <span class="clast" id="cl-blood_prev_subj_bio"></span>
+          <button class="dl-btn" onclick="downloadFile('subj-bio.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="subj-para.html" onclick="markVisit('blood_prev_subj_para')">
@@ -356,6 +376,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_subj_para" onclick="cycleStatus('blood_prev_subj_para',event)">—</button>
           <span class="clast" id="cl-blood_prev_subj_para"></span>
+          <button class="dl-btn" onclick="downloadFile('subj-para.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="subj-anatomy.html" onclick="markVisit('blood_prev_subj_anatomy')">
@@ -372,6 +393,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_subj_anatomy" onclick="cycleStatus('blood_prev_subj_anatomy',event)">—</button>
           <span class="clast" id="cl-blood_prev_subj_anatomy"></span>
+          <button class="dl-btn" onclick="downloadFile('subj-anatomy.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
     </div>
@@ -393,6 +415,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_exam_exam_61" onclick="cycleStatus('blood_prev_exam_exam_61',event)">—</button>
           <span class="clast" id="cl-blood_prev_exam_exam_61"></span>
+          <button class="dl-btn" onclick="downloadFile('exam-61.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="exam-end-sem-60.html" onclick="markVisit('blood_prev_exam_end_sem_60')">
@@ -409,6 +432,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_exam_end_sem_60" onclick="cycleStatus('blood_prev_exam_end_sem_60',event)">—</button>
           <span class="clast" id="cl-blood_prev_exam_end_sem_60"></span>
+          <button class="dl-btn" onclick="downloadFile('exam-end-sem-60.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="exam-dor-tani-60.html" onclick="markVisit('blood_prev_exam_dor_tani_60')">
@@ -425,6 +449,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_exam_dor_tani_60" onclick="cycleStatus('blood_prev_exam_dor_tani_60',event)">—</button>
           <span class="clast" id="cl-blood_prev_exam_dor_tani_60"></span>
+          <button class="dl-btn" onclick="downloadFile('exam-dor-tani-60.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="exam-end-mod-60.html" onclick="markVisit('blood_prev_exam_end_mod_60')">
@@ -441,6 +466,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_exam_end_mod_60" onclick="cycleStatus('blood_prev_exam_end_mod_60',event)">—</button>
           <span class="clast" id="cl-blood_prev_exam_end_mod_60"></span>
+          <button class="dl-btn" onclick="downloadFile('exam-end-mod-60.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="exam-59.html" onclick="markVisit('blood_prev_exam_exam_59')">
@@ -457,6 +483,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_exam_exam_59" onclick="cycleStatus('blood_prev_exam_exam_59',event)">—</button>
           <span class="clast" id="cl-blood_prev_exam_exam_59"></span>
+          <button class="dl-btn" onclick="downloadFile('exam-59.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="exam-end-sem-58.html" onclick="markVisit('blood_prev_exam_end_sem_58')">
@@ -473,6 +500,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_exam_end_sem_58" onclick="cycleStatus('blood_prev_exam_end_sem_58',event)">—</button>
           <span class="clast" id="cl-blood_prev_exam_end_sem_58"></span>
+          <button class="dl-btn" onclick="downloadFile('exam-end-sem-58.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="exam-em-58.html" onclick="markVisit('blood_prev_exam_em_58')">
@@ -489,6 +517,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_exam_em_58" onclick="cycleStatus('blood_prev_exam_em_58',event)">—</button>
           <span class="clast" id="cl-blood_prev_exam_em_58"></span>
+          <button class="dl-btn" onclick="downloadFile('exam-em-58.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="exam-end-mod-58.html" onclick="markVisit('blood_prev_exam_end_mod_58')">
@@ -505,6 +534,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_exam_end_mod_58" onclick="cycleStatus('blood_prev_exam_end_mod_58',event)">—</button>
           <span class="clast" id="cl-blood_prev_exam_end_mod_58"></span>
+          <button class="dl-btn" onclick="downloadFile('exam-end-mod-58.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="exam-57.html" onclick="markVisit('blood_prev_exam_exam_57')">
@@ -521,6 +551,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_exam_exam_57" onclick="cycleStatus('blood_prev_exam_exam_57',event)">—</button>
           <span class="clast" id="cl-blood_prev_exam_exam_57"></span>
+          <button class="dl-btn" onclick="downloadFile('exam-57.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="exam-form-57.html" onclick="markVisit('blood_prev_exam_form_57')">
@@ -537,6 +568,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_exam_form_57" onclick="cycleStatus('blood_prev_exam_form_57',event)">—</button>
           <span class="clast" id="cl-blood_prev_exam_form_57"></span>
+          <button class="dl-btn" onclick="downloadFile('exam-form-57.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="exam-55.html" onclick="markVisit('blood_prev_exam_exam_55')">
@@ -553,6 +585,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_exam_exam_55" onclick="cycleStatus('blood_prev_exam_exam_55',event)">—</button>
           <span class="clast" id="cl-blood_prev_exam_exam_55"></span>
+          <button class="dl-btn" onclick="downloadFile('exam-55.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="exam-form1-55.html" onclick="markVisit('blood_prev_exam_form1_55')">
@@ -569,6 +602,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_exam_form1_55" onclick="cycleStatus('blood_prev_exam_form1_55',event)">—</button>
           <span class="clast" id="cl-blood_prev_exam_form1_55"></span>
+          <button class="dl-btn" onclick="downloadFile('exam-form1-55.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="exam-form2-55.html" onclick="markVisit('blood_prev_exam_form2_55')">
@@ -585,6 +619,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_prev_exam_form2_55" onclick="cycleStatus('blood_prev_exam_form2_55',event)">—</button>
           <span class="clast" id="cl-blood_prev_exam_form2_55"></span>
+          <button class="dl-btn" onclick="downloadFile('exam-form2-55.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
     </div>
@@ -606,6 +641,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_written_micro" onclick="cycleStatus('blood_written_micro',event)">—</button>
           <span class="clast" id="cl-blood_written_micro"></span>
+          <button class="dl-btn" onclick="downloadFile('written-micro.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="written-physio.html" onclick="markVisit('blood_written_physio')">
@@ -622,6 +658,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_written_physio" onclick="cycleStatus('blood_written_physio',event)">—</button>
           <span class="clast" id="cl-blood_written_physio"></span>
+          <button class="dl-btn" onclick="downloadFile('written-physio.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
       <a class="card" href="written-bio.html" onclick="markVisit('blood_written_bio')">
@@ -638,6 +675,7 @@ footer{text-align:center;color:#30363d;font-size:.72rem;padding:30px 0 20px}
         <div class="cstatus">
           <button class="sbtn" id="sb-blood_written_bio" onclick="cycleStatus('blood_written_bio',event)">—</button>
           <span class="clast" id="cl-blood_written_bio"></span>
+          <button class="dl-btn" onclick="downloadFile('written-bio.html',event)" title="تحميل أوفلاين">⬇</button>
         </div>
       </a>
     </div>
@@ -734,6 +772,31 @@ function resetAll(){
   if(!confirm('هتمسح كل الإجابات والنجوم لكل الملفات. متأكد؟'))return;
   CATALOG.forEach(({fid})=>localStorage.removeItem(LS_PFX+fid));
   hub.st={};saveHub();render();
+}
+
+async function downloadFile(filename, ev){
+  ev.preventDefault(); ev.stopPropagation();
+  const btn = ev.currentTarget;
+  btn.classList.add('loading');
+  btn.textContent = '...';
+  try {
+    const res = await fetch(filename);
+    if (!res.ok) throw new Error('fetch failed');
+    const blob = await res.blob();
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    btn.textContent = '✓';
+    setTimeout(()=>{ btn.textContent='⬇'; btn.classList.remove('loading'); }, 2000);
+  } catch(e) {
+    btn.textContent = '✗';
+    setTimeout(()=>{ btn.textContent='⬇'; btn.classList.remove('loading'); }, 2000);
+  }
 }
 
 loadHub(); restoreSections(); render();
